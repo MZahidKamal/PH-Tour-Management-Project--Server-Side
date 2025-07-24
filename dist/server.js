@@ -26,7 +26,7 @@ const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
             console.log('❌ Failed to connect to MongoDB!');
         // Starting the server to see the output in the browser.
         server = app_1.default.listen(envConfig_1.default.port, () => {
-            console.log(`✅ PH-TourManagementProject-Server-Side listening on port ${envConfig_1.default.port}`);
+            console.log(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig_1.default.port}`);
         });
     }
     catch (error) {

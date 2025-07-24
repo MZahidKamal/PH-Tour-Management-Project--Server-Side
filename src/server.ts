@@ -19,7 +19,7 @@ const startServer = async () => {
 
         // Starting the server to see the output in the browser.
         server = app.listen(envConfig.port, (): void => {
-            console.log(`✅ PH-TourManagementProject-Server-Side listening on port ${envConfig.port}`);
+            console.log(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig.port}`);
         })
 
     }
