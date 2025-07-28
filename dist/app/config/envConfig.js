@@ -12,7 +12,17 @@ dotenv_1.default.config();
  * Returns an object containing the loaded environment variables if all required variables are present.
  */
 const loadEnvVariables = () => {
-    const envVariables = ['NODE_ENVIRONMENT', 'PORT', 'MONGODB_URI'];
+    const envVariables = [
+        'NODE_ENVIRONMENT',
+        'PORT',
+        'MONGODB_URI',
+        'BCRYPT_SALT_ROUNDS',
+        'JWT_SECRET',
+        'JWT_EXPIRES_IN',
+        'SUPER_ADMIN_NAME',
+        'SUPER_ADMIN_EMAIL',
+        'SUPER_ADMIN_PASSWORD',
+    ];
     const missingEnvVariables = envVariables.filter(envVariable => !process.env[envVariable]);
     if (missingEnvVariables.length > 0) {
         throw new Error(`Missing environment variables: ${missingEnvVariables.join(', ')}`);
@@ -21,6 +31,12 @@ const loadEnvVariables = () => {
         node_environment: process.env.NODE_ENVIRONMENT, // It means it will either be DEVELOPMENT or be PRODUCTION.
         port: process.env.PORT,
         mongodb_uri: process.env.MONGODB_URI, // It means, it will neigher be NULL nor be UNDEFINED, rather be a STRING.
+        bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+        jwt_secret: process.env.JWT_SECRET,
+        jwt_expires_in: process.env.JWT_EXPIRES_IN,
+        super_admin_name: process.env.SUPER_ADMIN_NAME,
+        super_admin_email: process.env.SUPER_ADMIN_EMAIL,
+        super_admin_password: process.env.SUPER_ADMIN_PASSWORD,
     };
 };
 /**

@@ -37,19 +37,6 @@ const userSchema = new mongoose_1.Schema({
     address: {
         type: String
     },
-    isDeleted: {
-        type: Boolean,
-        default: false
-    },
-    isActive: {
-        type: String,
-        enum: Object.values(user_interface_1.IsActiveEnum),
-        default: user_interface_1.IsActiveEnum.ACTIVE,
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
     role: {
         type: String,
         enum: Object.values(user_interface_1.RoleEnum),
@@ -63,6 +50,19 @@ const userSchema = new mongoose_1.Schema({
     guides: {
         type: [mongoose_1.Schema.Types.ObjectId],
         default: []
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
+    isActive: {
+        type: String,
+        enum: Object.values(user_interface_1.IsActiveEnum),
+        default: user_interface_1.IsActiveEnum.ACTIVE,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,

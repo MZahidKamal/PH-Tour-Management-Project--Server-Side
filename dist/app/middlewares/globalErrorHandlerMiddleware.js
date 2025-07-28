@@ -44,11 +44,11 @@ const globalErrorHandlerMiddleware = (error, req, res, _next) => {
         stack: errorStack
     });
 };
-/*
-* The underscore prefix tells ESLint that we intentionally aren't using this parameter, but we need it in the function
-* signature for Express to recognize it as error handling middleware. This is a cleaner solution than using disable
-* comments.
-* We don't need to use the _next parameter in the global error handler because it's the last middleware in your chain.
-* The parameter is just required in the signature for Express to recognize it as error handling middleware.
-* */
 exports.default = globalErrorHandlerMiddleware;
+/*
+The underscore prefix tells ESLint that we intentionally aren't using this parameter, but we need it in the function
+signature for Express to recognize it as error handling middleware. This is a cleaner solution than using disable
+comments.
+We don't need to use the _next parameter in the global error handler because it's the last middleware in your chain.
+The parameter is just required in the signature for Express to recognize it as error handling middleware.
+*/

@@ -2,6 +2,7 @@ import {Server} from 'http';
 import mongoose from 'mongoose';
 import envConfig from './app/config/envConfig';
 import app from './app';
+import seedSuperAdminFunction from "./app/utils/seedSuperAdminFunction";
 
 
 
@@ -30,8 +31,16 @@ const startServer = async () => {
 
 
 
-startServer().then();
-
+(async ()=>{
+    await startServer();
+    await seedSuperAdminFunction();
+})()
+/* This is an IIFE (Immediately Invoked Function Expression) function to run the startServer function immediately
+and then run the seedSuperAdminFunction function immediately.
+Only after the server is completely started, the `seedSuperAdminFunction` is called.
+This is important because you want to make sure the server (and thus the database connection) is fully established
+before trying to create the super admin user, as the `seedSuperAdminFunction` requires a database connection to work
+with the `UserModel`. */
 
 
 

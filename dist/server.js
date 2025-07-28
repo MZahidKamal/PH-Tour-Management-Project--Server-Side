@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const envConfig_1 = __importDefault(require("./app/config/envConfig"));
 const app_1 = __importDefault(require("./app"));
+const seedSuperAdminFunction_1 = __importDefault(require("./app/utils/seedSuperAdminFunction"));
 let server;
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -33,7 +34,16 @@ const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
     }
 });
-startServer().then();
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield startServer();
+    yield (0, seedSuperAdminFunction_1.default)();
+}))();
+/* This is an IIFE (Immediately Invoked Function Expression) function to run the startServer function immediately
+and then run the seedSuperAdminFunction function immediately.
+Only after the server is completely started, the `seedSuperAdminFunction` is called.
+This is important because you want to make sure the server (and thus the database connection) is fully established
+before trying to create the super admin user, as the `seedSuperAdminFunction` requires a database connection to work
+with the `UserModel`. */
 // Unhandled Rejection Error Handling
 process.on('unhandledRejection', (error) => {
     if (error instanceof Error) {

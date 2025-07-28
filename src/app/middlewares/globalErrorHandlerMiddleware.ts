@@ -45,7 +45,8 @@ const globalErrorHandlerMiddleware = (error: unknown, req: Request, res: Respons
         success: false,
         message,
         error_G: err,
-        stack: errorStack });
+        stack: errorStack
+    });
 };
 
 
