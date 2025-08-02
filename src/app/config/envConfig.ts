@@ -14,9 +14,16 @@ interface EnvConfigInterface {
     bcrypt_salt_rounds: string
     jwt_secret: string
     jwt_expires_in: string | number
+    refresh_jwt_secret: string
+    refresh_jwt_expires_in: string | number
     super_admin_name: string
     super_admin_email: string
     super_admin_password: string
+    google_client_id: string
+    google_client_secret: string
+    google_callback_url: string
+    express_session_secret: string
+    frontend_url: string
 }
 
 
@@ -26,7 +33,7 @@ interface EnvConfigInterface {
  * in the `process.env` object. If any of the required variables are missing, an error is thrown.
  * Returns an object containing the loaded environment variables if all required variables are present.
  */
-const loadEnvVariables = (): EnvConfigInterface => {
+const loadEnvVariables: () => EnvConfigInterface = (): EnvConfigInterface => {
 
     const envVariables: string[] = [
         'NODE_ENVIRONMENT',
@@ -35,9 +42,16 @@ const loadEnvVariables = (): EnvConfigInterface => {
         'BCRYPT_SALT_ROUNDS',
         'JWT_SECRET',
         'JWT_EXPIRES_IN',
+        'REFRESH_JWT_SECRET',
+        'REFRESH_JWT_EXPIRES_IN',
         'SUPER_ADMIN_NAME',
         'SUPER_ADMIN_EMAIL',
         'SUPER_ADMIN_PASSWORD',
+        'GOOGLE_CLIENT_ID',
+        'GOOGLE_CLIENT_SECRET',
+        'GOOGLE_CALLBACK_URL',
+        'EXPRESS_SESSION_SECRET',
+        'FRONTEND_URL',
     ];
 
     const missingEnvVariables: string[] = envVariables.filter(envVariable => !process.env[envVariable]);
@@ -53,9 +67,16 @@ const loadEnvVariables = (): EnvConfigInterface => {
         bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS as string,
         jwt_secret: process.env.JWT_SECRET as string,
         jwt_expires_in: process.env.JWT_EXPIRES_IN as string | number,
+        refresh_jwt_secret: process.env.REFRESH_JWT_SECRET as string,
+        refresh_jwt_expires_in: process.env.REFRESH_JWT_EXPIRES_IN as string | number,
         super_admin_name: process.env.SUPER_ADMIN_NAME as string,
         super_admin_email: process.env.SUPER_ADMIN_EMAIL as string,
         super_admin_password: process.env.SUPER_ADMIN_PASSWORD as string,
+        google_client_id: process.env.GOOGLE_CLIENT_ID as string,
+        google_client_secret: process.env.GOOGLE_CLIENT_SECRET as string,
+        google_callback_url: process.env.GOOGLE_CALLBACK_URL as string,
+        express_session_secret: process.env.EXPRESS_SESSION_SECRET as string,
+        frontend_url: process.env.FRONTEND_URL as string
     }
 }
 

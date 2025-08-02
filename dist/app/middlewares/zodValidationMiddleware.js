@@ -19,6 +19,7 @@ const zodValidationMiddleware = (zodSchema) => (req, res, next) => __awaiter(voi
         next();
     }
     catch (error) {
+        /* eslint-disable-next-line no-console */
         console.log(error);
         next(error);
     }

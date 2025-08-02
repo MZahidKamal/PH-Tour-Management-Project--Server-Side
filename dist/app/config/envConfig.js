@@ -19,9 +19,16 @@ const loadEnvVariables = () => {
         'BCRYPT_SALT_ROUNDS',
         'JWT_SECRET',
         'JWT_EXPIRES_IN',
+        'REFRESH_JWT_SECRET',
+        'REFRESH_JWT_EXPIRES_IN',
         'SUPER_ADMIN_NAME',
         'SUPER_ADMIN_EMAIL',
         'SUPER_ADMIN_PASSWORD',
+        'GOOGLE_CLIENT_ID',
+        'GOOGLE_CLIENT_SECRET',
+        'GOOGLE_CALLBACK_URL',
+        'EXPRESS_SESSION_SECRET',
+        'FRONTEND_URL',
     ];
     const missingEnvVariables = envVariables.filter(envVariable => !process.env[envVariable]);
     if (missingEnvVariables.length > 0) {
@@ -34,9 +41,16 @@ const loadEnvVariables = () => {
         bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
         jwt_secret: process.env.JWT_SECRET,
         jwt_expires_in: process.env.JWT_EXPIRES_IN,
+        refresh_jwt_secret: process.env.REFRESH_JWT_SECRET,
+        refresh_jwt_expires_in: process.env.REFRESH_JWT_EXPIRES_IN,
         super_admin_name: process.env.SUPER_ADMIN_NAME,
         super_admin_email: process.env.SUPER_ADMIN_EMAIL,
         super_admin_password: process.env.SUPER_ADMIN_PASSWORD,
+        google_client_id: process.env.GOOGLE_CLIENT_ID,
+        google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        google_callback_url: process.env.GOOGLE_CALLBACK_URL,
+        express_session_secret: process.env.EXPRESS_SESSION_SECRET,
+        frontend_url: process.env.FRONTEND_URL
     };
 };
 /**

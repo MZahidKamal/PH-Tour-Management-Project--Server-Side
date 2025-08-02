@@ -21,7 +21,7 @@ exports.createUserZodSchema = zod_1.z.object({
         .optional(),
     phone: zod_1.z
         .string({ error: "Phone must be a string" })
-        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ \-]?\d{3,12})$/, { message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567" })
+        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ -]?\d{3,12})$/, { message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567" })
         .optional(),
     address: zod_1.z
         .string({ error: "Address must be a string" })
@@ -43,7 +43,7 @@ exports.updateUserZodSchema = zod_1.z.object({
         .optional(),
     phone: zod_1.z
         .string({ error: "Phone must be a string" })
-        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ \-]?\d{3,12})$/, { message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567" })
+        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ -]?\d{3,12})$/, { message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567" })
         .optional(),
     address: zod_1.z
         .string({ error: "Address must be a string" })

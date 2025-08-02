@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import {Server} from 'http';
 import mongoose from 'mongoose';
 import envConfig from './app/config/envConfig';

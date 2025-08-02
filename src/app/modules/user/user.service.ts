@@ -22,7 +22,7 @@ const createUserService = async (payload: Partial<UserInterface>) => {
     }
 
     // If the email does not exist, then hash the password
-    const hashedPassword = await bcrypt.hash(password as string, parseInt(envConfig.bcrypt_salt_rounds as string));
+    const hashedPassword = await bcrypt.hash(password as string, Number(envConfig.bcrypt_salt_rounds as string));
 
     // Then set up the auth provider, how the user is being authenticated
     const authProvider: AuthProviderInterface = {provider: 'credentials', providerId : email as string};
@@ -35,8 +35,14 @@ const createUserService = async (payload: Partial<UserInterface>) => {
         ...rest
     });
 
-    // And then return the user
-    return newUser;
+    // The newUser is a mongoose document, so we need to convert it to a plain JavaScript object.
+    // And then remove the password from the object
+    // And then we'll return only the newUserObject without the password field
+    const newUserObject = newUser.toObject();
+    delete newUserObject.password;
+
+    // Finally we'll return the newUserObject
+    return newUserObject;
 }
 
 
