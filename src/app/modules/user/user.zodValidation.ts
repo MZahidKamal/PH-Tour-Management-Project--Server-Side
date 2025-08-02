@@ -23,7 +23,7 @@ export const createUserZodSchema = z.object({
         .optional(),
     phone: z
         .string({error: "Phone must be a string"})
-        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ \-]?\d{3,12})$/, {message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567"})
+        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ -]?\d{3,12})$/, {message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567"})
         .optional(),
     address: z
         .string({error: "Address must be a string"})
@@ -50,7 +50,7 @@ export const updateUserZodSchema = z.object({
         .optional(),
     phone: z
         .string({error: "Phone must be a string"})
-        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ \-]?\d{3,12})$/, {message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567"})
+        .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ -]?\d{3,12})$/, {message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567"})
         .optional(),
     address: z
         .string({error: "Address must be a string"})

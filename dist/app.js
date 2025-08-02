@@ -9,11 +9,25 @@ const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const routesIndex_1 = __importDefault(require("./app/routes/routesIndex"));
 const globalErrorHandlerMiddleware_1 = __importDefault(require("./app/middlewares/globalErrorHandlerMiddleware"));
 const routeNotFoundMiddleware_1 = __importDefault(require("./app/middlewares/routeNotFoundMiddleware"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const passport_1 = __importDefault(require("passport"));
+const express_session_1 = __importDefault(require("express-session"));
+require("./app/config/passportConfig");
+const envConfig_1 = __importDefault(require("./app/config/envConfig"));
 const app = (0, express_1.default)();
 // Common Middlewares
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, cookie_parser_1.default)());
+// Passport Middlewares (***the order is important)
+app.use((0, express_session_1.default)({
+    secret: envConfig_1.default.express_session_secret,
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 // Routes Forwarding Middlewares
 app.use('/api/v1', routesIndex_1.default);
 // Default root route handler

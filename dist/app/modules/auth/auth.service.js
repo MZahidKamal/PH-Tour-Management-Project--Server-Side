@@ -8,17 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -28,8 +17,9 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const generateJWTAccessAndRefreshTokenFunction_1 = require("../../utils/generateJWTAccessAndRefreshTokenFunction");
 const envConfig_1 = __importDefault(require("../../config/envConfig"));
+const setCookieFunction_1 = require("../../utils/setCookieFunction");
 const loginWithCredentialsService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Destructuring the payload
     const { email, password } = payload;
@@ -43,25 +33,83 @@ const loginWithCredentialsService = (payload) => __awaiter(void 0, void 0, void 
     if (!isPasswordValid) {
         throw new AppError_1.default(http_status_codes_1.default.UNAUTHORIZED, "Invalid password!");
     }
-    // If the password is correct, then create a JWT token using some information about the user, ***not all of them***
-    const jwtPayload = {
-        userId: userFromDatabase._id,
-        email: userFromDatabase.email,
-        role: userFromDatabase.role,
-    };
-    const jwtSecret = envConfig_1.default.jwt_secret;
-    const jwtExpiration = "1d";
-    // const jwtExpiration: string | number = envConfig.jwt_expires_in;     // TODO: Find out why this is not working
-    const jwtToken = jsonwebtoken_1.default.sign(jwtPayload, jwtSecret, { expiresIn: jwtExpiration });
-    // after creating the JWT token, return some information about the user along with the JWT token
-    const { email: userEmail, role } = userFromDatabase, rest = __rest(userFromDatabase, ["email", "role"]);
+    // Now the userFromDatabase is a mongoose document, so we need to convert it to a plain JavaScript object.
+    // And then remove the password from the object
+    // And then we'll return only the userFromDatabaseObj without the password field
+    const userFromDatabaseObj = userFromDatabase.toObject();
+    delete userFromDatabaseObj.password;
+    // After that create both JWT access token and refresh token for this user
+    const thisUserTokens = (0, generateJWTAccessAndRefreshTokenFunction_1.generateJWTAccessAndRefreshTokenFunction)(userFromDatabase);
+    // Finally, returning the userFromDatabaseObj without the password field, and the JWT access token and refresh token
     return {
-        email: userEmail,
-        role,
-        accessToken: jwtToken
+        user: userFromDatabaseObj,
+        accessToken: thisUserTokens.accessToken,
+        refreshToken: thisUserTokens.refreshToken
     };
+});
+const getNewAccessTokenService = (refreshTokenFromCookies) => __awaiter(void 0, void 0, void 0, function* () {
+    // Create new JWT access token using the refresh token
+    const newAccessToken = yield (0, generateJWTAccessAndRefreshTokenFunction_1.generateNewAccessTokenFromRefreshTokenFunction)(refreshTokenFromCookies);
+    // Then returning the new JWT access token
+    return {
+        accessToken: newAccessToken
+    };
+});
+const logoutService = (res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+    });
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+    });
+    // Then returning only true, because we don't need to return anything at all
+    return true;
+});
+const resetPasswordService = (decodedToken, givenOldPassword, givenNewPassword) => __awaiter(void 0, void 0, void 0, function* () {
+    // First fetch the user from the database
+    const userFromDatabase = yield user_model_1.default.findOne({ email: decodedToken.email });
+    const oldPasswordFromDatabase = userFromDatabase.password;
+    // Then check if the old password provided is correct or not
+    const isPasswordValid = yield bcryptjs_1.default.compare(givenOldPassword, oldPasswordFromDatabase);
+    if (!isPasswordValid) {
+        throw new AppError_1.default(http_status_codes_1.default.UNAUTHORIZED, "old password does not match!");
+    }
+    // Then hash the new password
+    const hashedNewPassword = yield bcryptjs_1.default.hash(givenNewPassword, Number(envConfig_1.default.bcrypt_salt_rounds));
+    // Then save the new password in the database
+    yield user_model_1.default.findByIdAndUpdate({ _id: userFromDatabase._id }, { password: hashedNewPassword });
+    // Then returning only true, because we don't need to return confidential password information
+    return true;
+});
+const googleCallbackService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // First authenticate the user with Google OAuth Strategy
+    //passport.authenticate('google', { failureRedirect: '/auth/google' })(req, res, next);
+    let redirectToUrl = (req.query.state ? req.query.state : "");
+    if (redirectToUrl.startsWith('/')) {
+        redirectToUrl = redirectToUrl.slice(1);
+    }
+    // After that get the user from the request
+    const userFromGoogleStrategy = req.user;
+    if (!userFromGoogleStrategy) {
+        throw new AppError_1.default(http_status_codes_1.default.INTERNAL_SERVER_ERROR, "Google authentication failed! User not found!");
+    }
+    // After that create both JWT access token and refresh token for this user
+    const thisUserTokens = (0, generateJWTAccessAndRefreshTokenFunction_1.generateJWTAccessAndRefreshTokenFunction)(userFromGoogleStrategy);
+    // To set the JWT access token and refresh token in the cookies
+    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokenInCookies)(res, thisUserTokens);
+    // We don't need to send a response, we just need to redirect the user to the specified URL
+    res.redirect(`${envConfig_1.default.frontend_url}/${redirectToUrl}`);
+    return true;
 });
 // Named exports
 exports.AuthServices = {
-    loginWithCredentialsService
+    loginWithCredentialsService,
+    getNewAccessTokenService,
+    logoutService,
+    resetPasswordService,
+    googleCallbackService
 };
