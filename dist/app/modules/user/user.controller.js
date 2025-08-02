@@ -17,22 +17,10 @@ const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const user_service_1 = require("./user.service");
 const catchAsyncFunction_1 = __importDefault(require("../../utils/catchAsyncFunction"));
 const sendResponseFunction_1 = __importDefault(require("../../utils/sendResponseFunction"));
-/*const createUserController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const newUser = await UserServices.createUserService(req.body);
-
-        res.status(httpStatus.CREATED).json({
-            success: true,
-            message: "New user created successfully!",
-            data: newUser,
-        });
-    }
-    catch (error: unknown) {
-        next(error);
-    }
-}*/
-const createUserController = (0, catchAsyncFunction_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createUserController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    // To create a new user in the database now send the request body to the service layer
     const newUser = yield user_service_1.UserServices.createUserService(req.body);
+    // And then send the response with the new user data
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.CREATED,
         success: true,
@@ -40,22 +28,10 @@ const createUserController = (0, catchAsyncFunction_1.default)((req, res, next) 
         data: newUser
     });
 }));
-/*const getAllUsersController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const allUsers = await UserServices.getAllUsersService();
-
-        res.status(httpStatus.OK).json({
-            success: true,
-            message: "All users fetched successfully!",
-            data: allUsers,
-        });
-    }
-    catch (error: unknown) {
-        next(error);
-    }
-}*/
-const getAllUsersController = (0, catchAsyncFunction_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsersController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    // To get all the users from the database now go to the service layer and get all the users
     const allUsers = yield user_service_1.UserServices.getAllUsersService();
+    // And then send the response with all the users data
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.OK,
         success: true,
@@ -66,10 +42,30 @@ const getAllUsersController = (0, catchAsyncFunction_1.default)((req, res, next)
         }
     });
 }));
+const updateUserController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    // Get the userId from the params, the updated data from the request body, and the bearer token from the headers
+    const userId = req.params.userId;
+    const updatedData = req.body;
+    // Usually the bearer token can be found in the req.headers.authorization, but it's not yet verified.
+    // But we don't want to verify the token once again here, because it has already been verified in the previous jwtRoleVerificationMiddleware.
+    // So we simply saved the verified token in the modified request object req.userToken in the previous middleware.
+    // So now we can get the verified token from the modified request object
+    const verifiedToken = req.userToken;
+    // If the user is authorized, then send the necessary parameters to the service layer
+    const updatedUser = yield user_service_1.UserServices.updateUserService(userId, updatedData, verifiedToken);
+    // Finally, send the response with the updated user data
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "User updated successfully!",
+        data: updatedUser
+    });
+}));
 // Named exports
 exports.UserControllers = {
     createUserController,
-    getAllUsersController
+    getAllUsersController,
+    updateUserController
 };
 /*
 1. ** Problem: **

@@ -8,22 +8,10 @@ import {UserInterface} from "./user.interface";
 
 
 
-/*const createUserController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const newUser = await UserServices.createUserService(req.body);
 
-        res.status(httpStatus.CREATED).json({
-            success: true,
-            message: "New user created successfully!",
-            data: newUser,
-        });
-    }
-    catch (error: unknown) {
-        next(error);
-    }
-}*/
+
 const createUserController = catchAsyncFunction(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
 
         // To create a new user in the database now send the request body to the service layer
         const newUser = await UserServices.createUserService(req.body);
@@ -40,22 +28,10 @@ const createUserController = catchAsyncFunction(
 
 
 
-/*const getAllUsersController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const allUsers = await UserServices.getAllUsersService();
 
-        res.status(httpStatus.OK).json({
-            success: true,
-            message: "All users fetched successfully!",
-            data: allUsers,
-        });
-    }
-    catch (error: unknown) {
-        next(error);
-    }
-}*/
+
 const getAllUsersController = catchAsyncFunction(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
 
         // To get all the users from the database now go to the service layer and get all the users
         const allUsers = await UserServices.getAllUsersService();
@@ -75,15 +51,17 @@ const getAllUsersController = catchAsyncFunction(
 
 
 
+
+
 const updateUserController = catchAsyncFunction(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
 
         // Get the userId from the params, the updated data from the request body, and the bearer token from the headers
         const userId = req.params.userId as string;
         const updatedData = req.body as Partial<UserInterface>;
 
         // Usually the bearer token can be found in the req.headers.authorization, but it's not yet verified.
-        // But we don't want to verify the token once again here, because it has already been verified in the previous jwtRoleVerificationmiddleware.
+        // But we don't want to verify the token once again here, because it has already been verified in the previous jwtRoleVerificationMiddleware.
         // So we simply saved the verified token in the modified request object req.userToken in the previous middleware.
         // So now we can get the verified token from the modified request object
         const verifiedToken = req.userToken as JwtPayload;
@@ -100,6 +78,8 @@ const updateUserController = catchAsyncFunction(
         })
     }
 )
+
+
 
 
 

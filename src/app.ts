@@ -4,6 +4,11 @@ import httpStatus from "http-status-codes";
 import router from "./app/routes/routesIndex";
 import globalErrorHandlerMiddleware from "./app/middlewares/globalErrorHandlerMiddleware";
 import routeNotFoundMiddleware from "./app/middlewares/routeNotFoundMiddleware";
+import cookieParser from "cookie-parser";
+import passport from "passport";
+import expressSession from "express-session";
+import "./app/config/passportConfig";
+import envConfig from "./app/config/envConfig";
 
 
 
@@ -15,6 +20,19 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+
+
+
+// Passport Middlewares (***the order is important)
+app.use(expressSession({
+    secret: envConfig.express_session_secret as string,
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 
