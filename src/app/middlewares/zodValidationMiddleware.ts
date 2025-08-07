@@ -22,7 +22,7 @@ const zodValidationMiddleware = (zodSchema: ZodObject) => async (req: Request, r
     }
     catch (error) {
         /* eslint-disable-next-line no-console */
-        console.log(error);
+        console.log('Zod Validation Error: ', error);
         next(error);
     }
 

@@ -4,6 +4,62 @@ import envConfig from "./envConfig";
 import UserModel from "../modules/user/user.model";
 import {RoleEnum, UserInterface} from "../modules/user/user.interface";
 import {Types} from "mongoose";
+import {Strategy as CredentialsStrategy} from "passport-local";
+import bcrypt from "bcryptjs";
+
+
+
+
+
+passport.use(new CredentialsStrategy({
+        usernameField: 'email',
+        passwordField: 'password'
+    },
+    async (email: string, password: string, doneFunction) => {
+        try {
+            // First try find and fetch the user from the database
+            const userFromDatabase = await UserModel.findOne({email: email}) as Partial<UserInterface>;
+
+            if (!userFromDatabase) {
+                // If the user is not found in the database, then return null and redirect to sign up
+                return doneFunction(null, false, {message: 'User not found! Please sign up.'});
+            }
+
+            // The user is found in the database, so check if the user is authenticated by credentials or not
+            const isUserCredentialsAuthenticated = userFromDatabase.auths?.some(authObj => authObj.provider === 'credentials') as boolean;
+
+            if (!isUserCredentialsAuthenticated && !userFromDatabase.password) {
+
+                // If the user is not authenticated by credentials, then check if the user is authenticated by google or not
+                const isUserGoogleAuthenticated = userFromDatabase.auths?.some(authObj => authObj.provider === 'google') as boolean;
+
+                if (isUserGoogleAuthenticated) {
+                    // If the user is authenticated by google, then return null and redirect to sign in by google
+                    return doneFunction(null, false, {message: 'User is authenticated by Google! Please sign in by Google and then set your password.'});
+                }
+
+                // If the user is not authenticated by google, then return null and redirect to sign in
+                return doneFunction(null, false, {message: 'User is not yet registered! Please sign up first.'});
+            }
+
+            // If the user is found in the database, then check if the password provided is correct or not
+            const isPasswordValid = await bcrypt.compare(password, userFromDatabase.password as string) as boolean;
+            if (!isPasswordValid) {
+                // If the password is not valid, then return null and redirect to sign in
+                return doneFunction(null, false, {message: 'Password does not match! Please try again.'});
+            }
+
+            // If the password is valid, then return the user
+            return doneFunction(null, userFromDatabase, {message: 'User logged in successfully!'});
+
+        } catch (error) {
+            /* eslint-disable-next-line no-console */
+            console.log('CredentialsStrategy Error: ', error);
+            return doneFunction(error);
+        }
+    })
+)
+
 
 
 
@@ -48,12 +104,10 @@ passport.use(new GoogleStrategy({
         }
     }
 ));
-/*
-// frontend localhost:5173/login?redirect=/booking -> localhost:5000/api/v1/auth/google?redirect=/booking -> passport -> Google OAuth Consent -> gmail login -> successful -> callback url localhost:5000/api/v1/auth/google/callback -> db store -> token
-// Bridge == Google -> user db store -> token
-// Custom -> email , password, role : USER, name... -> registration -> DB -> 1 User create
-// Google -> req -> google -> successful : Jwt Token : Role , email -> DB - Store -> token - api access
-*/
+/* frontend localhost:5173/login?redirect=/booking -> localhost:5000/api/v1/auth/google?redirect=/booking -> passport -> Google OAuth Consent -> gmail login -> successful -> callback url localhost:5000/api/v1/auth/google/callback -> db store -> token
+Bridge == Google -> user db store -> token
+Custom -> email , password, role : USER, name... -> registration -> DB -> 1 User create
+Google -> req -> google -> successful : Jwt Token : Role , email -> DB - Store -> token - api access */
 
 
 

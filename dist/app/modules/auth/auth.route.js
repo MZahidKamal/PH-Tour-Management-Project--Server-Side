@@ -19,7 +19,9 @@ const jwtRoleVerificationMiddleware_1 = __importDefault(require("../../middlewar
 const user_interface_1 = require("../user/user.interface");
 const passport_1 = __importDefault(require("passport"));
 const router = (0, express_1.Router)();
-router.post("/login", auth_controller_1.AuthControllers.loginWithCredentialsController);
+router.post("/login", 
+// AuthControllers.loginWithCredentialsController,                  // Without passport package
+auth_controller_1.AuthControllers.loginWithPassportCredentialsController);
 router.post("/refresh-token", auth_controller_1.AuthControllers.getNewAccessTokenController);
 router.post("/logout", auth_controller_1.AuthControllers.logoutController);
 router.post("/reset-password", (0, jwtRoleVerificationMiddleware_1.default)(...Object.values(user_interface_1.RoleEnum)), auth_controller_1.AuthControllers.resetPasswordController);

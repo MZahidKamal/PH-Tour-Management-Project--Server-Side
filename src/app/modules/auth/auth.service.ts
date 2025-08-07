@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import {generateJWTAccessAndRefreshTokenFunction, generateNewAccessTokenFromRefreshTokenFunction} from "../../utils/generateJWTAccessAndRefreshTokenFunction";
 import {JwtPayload} from "jsonwebtoken";
 import envConfig from "../../config/envConfig";
-import {storeJwtAccessAndRefreshTokenInCookies} from "../../utils/setCookieFunction";
+import {storeJwtAccessAndRefreshTokensInCookie} from "../../utils/setCookieFunction";
 import {Request, Response} from "express";
 
 
@@ -136,7 +136,7 @@ const googleCallbackService = async (req: Request, res: Response) => {
     const thisUserTokens: { accessToken: string, refreshToken: string } = generateJWTAccessAndRefreshTokenFunction(userFromGoogleStrategy);
 
     // To set the JWT access token and refresh token in the cookies
-    storeJwtAccessAndRefreshTokenInCookies(res, thisUserTokens);
+    storeJwtAccessAndRefreshTokensInCookie(res, thisUserTokens);
 
     // We don't need to send a response, we just need to redirect the user to the specified URL
     res.redirect(`${envConfig.frontend_url as string}/${redirectToUrl}`);

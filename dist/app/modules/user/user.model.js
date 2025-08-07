@@ -68,6 +68,6 @@ const userSchema = new mongoose_1.Schema({
     timestamps: true,
     versionKey: false
 });
-const UserModel = (0, mongoose_1.model)('User', userSchema);
+const UserModel = (0, mongoose_1.model)('UserModel', userSchema);
 exports.default = UserModel;
 // TODO: booking and guides in the userSchema is not fixed yet, so we'll redo it again.
