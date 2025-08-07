@@ -2,52 +2,75 @@ import {NextFunction, Request, Response} from "express";
 import envConfig from "../config/envConfig";
 import httpStatus from "http-status-codes";
 import AppError from "../errorHelpers/AppError";
+import {zodValidationErrorHandlerFunction} from "../errorHelpers/zodValidationErrorHandlerFunction";
+import {mongooseDuplicateErrorHandlerFunction} from "../errorHelpers/mongooseDuplicateErrorHandlerFunction";
+import {mongooseCastErrorHandlerFunction} from "../errorHelpers/mongooseCastErrorHandlerFunction";
+import {mongooseValidationErrorHandlerFunction} from "../errorHelpers/mongooseValidationErrorHandlerFunction";
+import {consolePrint} from "../utils/consolePrintFunction";
 
 
 
-/*const globalErrorHandlerMiddleware = (error: any, req: Request, res: Response, _next: NextFunction) => {
 
-    let statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-    let message = `Something went wrong! Error: ${error.message}`;
-    let errorStack = envConfig.node_environment === 'development' ? error.stack : '🔒 Not disclosed for security reasons';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const globalErrorHandlerMiddleware = (error: any, req: Request, res: Response, _next: NextFunction) => {
 
-    if (error instanceof AppError) {
+    consolePrint('Researching Error: ', error)
+
+    let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
+    let message = `Something went wrong!`;
+
+    // Zod validation error from Zod handled properly
+    if(error?.name === 'ZodError'){
+        const errorHandled = zodValidationErrorHandlerFunction(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+
+    // Duplicated key error from MongoDB handled properly
+    else if (error?.code === 11000){
+        const errorHandled = mongooseDuplicateErrorHandlerFunction(error);
+        message = errorHandled.message;
+        statusCode = errorHandled.statusCode;
+    }
+
+    // Cast error from MongoDB handled properly
+    else if (error?.name === 'CastError'){
+        const errorHandled = mongooseCastErrorHandlerFunction(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+
+    // Mongoose validation error from MongoDB handled properly
+    else if (error?.name === 'ValidationError') {
+        const errorHandled = mongooseValidationErrorHandlerFunction(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+
+    // Custom error from our AppError handled properly
+    else if (error instanceof AppError) {
         statusCode = error.statusCode;
         message = error.message;
-        errorStack = error.stack;
     }
 
-    if (error instanceof Error) {
+    // Generic error from our Error handled properly
+    else if (error instanceof Error) {
         statusCode = httpStatus.INTERNAL_SERVER_ERROR;
         message = error.message;
-        errorStack = error.stack;
     }
 
-    res.status(statusCode).json({
-        success: false,
-        message,
-        error,
-        stack: errorStack
-    });
-}*/
-
-
-
-const globalErrorHandlerMiddleware = (error: unknown, req: Request, res: Response, _next: NextFunction) => {
-
-    // type-guard
-    const err = error instanceof Error ? error : new Error('Unknown error');
-    const statusCode = err instanceof AppError ? err.statusCode : httpStatus.INTERNAL_SERVER_ERROR;
-    const message = err.message;
-    const errorStack = envConfig.node_environment === 'development' ? err.stack : '🔒 Not disclosed';
+    const error_G = envConfig.node_environment === 'development' ? error : '🔒 Only disclosed in development mode';
+    const errorStack = envConfig.node_environment === 'development' ? error?.stack : '🔒 Only disclosed in development mode';
 
     res.status(statusCode).json({
         success: false,
         message,
-        error_G: err,
+        error_G,
         stack: errorStack
     });
 };
+
+
 
 
 

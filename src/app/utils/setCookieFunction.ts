@@ -13,22 +13,22 @@ interface AuthCookieInterface {
 
 
 
-export const storeJwtAccessAndRefreshTokenInCookies = (res: Response, authToken: AuthCookieInterface) => {
+export const storeJwtAccessAndRefreshTokensInCookie = (res: Response, authTokens: AuthCookieInterface) => {
 
-    if (authToken.accessToken) {
+    if (authTokens.accessToken) {
 
         // To set the JWT access token in the cookies
-        const accessToken = authToken.accessToken as string;
+        const accessToken = authTokens.accessToken as string;
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: false,
         });
     }
 
-    if (authToken.refreshToken) {
+    if (authTokens.refreshToken) {
 
         // To set the JWT refresh token in the cookies
-        const refreshToken = authToken.refreshToken as string;
+        const refreshToken = authTokens.refreshToken as string;
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,

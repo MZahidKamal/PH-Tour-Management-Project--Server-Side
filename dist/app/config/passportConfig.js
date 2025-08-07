@@ -17,6 +17,47 @@ const passport_google_oauth20_1 = require("passport-google-oauth20");
 const envConfig_1 = __importDefault(require("./envConfig"));
 const user_model_1 = __importDefault(require("../modules/user/user.model"));
 const user_interface_1 = require("../modules/user/user.interface");
+const passport_local_1 = require("passport-local");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+passport_1.default.use(new passport_local_1.Strategy({
+    usernameField: 'email',
+    passwordField: 'password'
+}, (email, password, doneFunction) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    try {
+        // First try find and fetch the user from the database
+        const userFromDatabase = yield user_model_1.default.findOne({ email: email });
+        if (!userFromDatabase) {
+            // If the user is not found in the database, then return null and redirect to sign up
+            return doneFunction(null, false, { message: 'User not found! Please sign up.' });
+        }
+        // The user is found in the database, so check if the user is authenticated by credentials or not
+        const isUserCredentialsAuthenticated = (_a = userFromDatabase.auths) === null || _a === void 0 ? void 0 : _a.some(authObj => authObj.provider === 'credentials');
+        if (!isUserCredentialsAuthenticated && !userFromDatabase.password) {
+            // If the user is not authenticated by credentials, then check if the user is authenticated by google or not
+            const isUserGoogleAuthenticated = (_b = userFromDatabase.auths) === null || _b === void 0 ? void 0 : _b.some(authObj => authObj.provider === 'google');
+            if (isUserGoogleAuthenticated) {
+                // If the user is authenticated by google, then return null and redirect to sign in by google
+                return doneFunction(null, false, { message: 'User is authenticated by Google! Please sign in by Google and then set your password.' });
+            }
+            // If the user is not authenticated by google, then return null and redirect to sign in
+            return doneFunction(null, false, { message: 'User is not yet registered! Please sign up first.' });
+        }
+        // If the user is found in the database, then check if the password provided is correct or not
+        const isPasswordValid = yield bcryptjs_1.default.compare(password, userFromDatabase.password);
+        if (!isPasswordValid) {
+            // If the password is not valid, then return null and redirect to sign in
+            return doneFunction(null, false, { message: 'Password does not match! Please try again.' });
+        }
+        // If the password is valid, then return the user
+        return doneFunction(null, userFromDatabase, { message: 'User logged in successfully!' });
+    }
+    catch (error) {
+        /* eslint-disable-next-line no-console */
+        console.log('CredentialsStrategy Error: ', error);
+        return doneFunction(error);
+    }
+})));
 passport_1.default.use(new passport_google_oauth20_1.Strategy({
     clientID: envConfig_1.default.google_client_id,
     clientSecret: envConfig_1.default.google_client_secret,
@@ -53,12 +94,10 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
         return doneFunction(error);
     }
 })));
-/*
-// frontend localhost:5173/login?redirect=/booking -> localhost:5000/api/v1/auth/google?redirect=/booking -> passport -> Google OAuth Consent -> gmail login -> successful -> callback url localhost:5000/api/v1/auth/google/callback -> db store -> token
-// Bridge == Google -> user db store -> token
-// Custom -> email , password, role : USER, name... -> registration -> DB -> 1 User create
-// Google -> req -> google -> successful : Jwt Token : Role , email -> DB - Store -> token - api access
-*/
+/* frontend localhost:5173/login?redirect=/booking -> localhost:5000/api/v1/auth/google?redirect=/booking -> passport -> Google OAuth Consent -> gmail login -> successful -> callback url localhost:5000/api/v1/auth/google/callback -> db store -> token
+Bridge == Google -> user db store -> token
+Custom -> email , password, role : USER, name... -> registration -> DB -> 1 User create
+Google -> req -> google -> successful : Jwt Token : Role , email -> DB - Store -> token - api access */
 passport_1.default.serializeUser((userFromGoogleStrategy, done) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log('userFromGoogleStrategy from serializeUser: ', userFromGoogleStrategy);
     const userId = userFromGoogleStrategy._id;

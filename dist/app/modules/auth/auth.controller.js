@@ -13,16 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthControllers = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const sendResponseFunction_1 = __importDefault(require("../../utils/sendResponseFunction"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const catchAsyncFunction_1 = __importDefault(require("../../utils/catchAsyncFunction"));
 const auth_service_1 = require("./auth.service");
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const setCookieFunction_1 = require("../../utils/setCookieFunction");
+const passport_1 = __importDefault(require("passport"));
+const generateJWTAccessAndRefreshTokenFunction_1 = require("../../utils/generateJWTAccessAndRefreshTokenFunction");
 const loginWithCredentialsController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     const loggedInUser = yield auth_service_1.AuthServices.loginWithCredentialsService(req.body);
     // To set the JWT access token and refresh token in the cookies
-    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokenInCookies)(res, loggedInUser);
+    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokensInCookie)(res, loggedInUser);
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.OK,
         success: true,
@@ -30,6 +33,45 @@ const loginWithCredentialsController = (0, catchAsyncFunction_1.default)((req, r
         data: loggedInUser
     });
 }));
+const loginWithPassportCredentialsController = (0, catchAsyncFunction_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    passport_1.default.authenticate("local", (error, loggedInUser, info) => __awaiter(void 0, void 0, void 0, function* () {
+        // First check if there is an error
+        if (error) {
+            // throw new AppError(httpStatus.UNAUTHORIZED, "User logged in failed due to " + info.message);     // ❌❌❌ Don't do this
+            // return new AppError(httpStatus.UNAUTHORIZED, "User logged in failed due to " + info.message);    // ❌❌❌ Don't do this
+            // next(error);                                                                                     // ❌❌❌ Don't do this
+            // return next(error);                                                                              // ✔️✔️✔️ Rather do this
+            return next(new AppError_1.default(http_status_codes_1.default.UNAUTHORIZED, "User logged in failed! " + info.message)); // ✔️✔️✔️ Rather do this                                                       // ✔️✔️✔️ Rather do this
+        }
+        // Then check if the user is logged in or not
+        if (!loggedInUser) {
+            return next(new AppError_1.default(http_status_codes_1.default.UNAUTHORIZED, "User login failed! " + info.message));
+        }
+        // console.log('Logged In User:- ', loggedInUser);
+        // Now the userFromDatabase is a mongoose document, so we need to convert it to a plain JavaScript object.
+        // And then remove the password from the object
+        // And then we'll return only the userFromDatabaseObj without the password field
+        const loggedInUserObj = loggedInUser.toObject();
+        delete loggedInUserObj.password;
+        // If the user is logged in, then create both JWT access token and refresh token for this user
+        const thisUserTokens = (0, generateJWTAccessAndRefreshTokenFunction_1.generateJWTAccessAndRefreshTokenFunction)(loggedInUserObj);
+        // To set the JWT access token and refresh token in the cookies
+        (0, setCookieFunction_1.storeJwtAccessAndRefreshTokensInCookie)(res, thisUserTokens);
+        // Finally send the response
+        (0, sendResponseFunction_1.default)(res, {
+            statusCode: http_status_codes_1.default.OK,
+            success: true,
+            message: "User logged in successfully!",
+            data: {
+                user: loggedInUserObj,
+                accessToken: thisUserTokens.accessToken,
+                refreshToken: thisUserTokens.refreshToken
+            }
+        });
+    }))(req, res, next);
+}));
+/* As we are using passport for authentication, the service layer will not be used here. Rather things will be handled in
+the controller layer. */
 const getNewAccessTokenController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshTokenFromCookies = req.cookies.refreshToken;
     if (!refreshTokenFromCookies) {
@@ -37,7 +79,7 @@ const getNewAccessTokenController = (0, catchAsyncFunction_1.default)((req, res,
     }
     const newAccessToken = yield auth_service_1.AuthServices.getNewAccessTokenService(refreshTokenFromCookies);
     // To set the new JWT access token in the cookies
-    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokenInCookies)(res, newAccessToken);
+    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokensInCookie)(res, newAccessToken);
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.OK,
         success: true,
@@ -83,6 +125,7 @@ const googleCallbackController = (0, catchAsyncFunction_1.default)((req, res, _n
 // Named exports
 exports.AuthControllers = {
     loginWithCredentialsController,
+    loginWithPassportCredentialsController,
     getNewAccessTokenController,
     logoutController,
     resetPasswordController,

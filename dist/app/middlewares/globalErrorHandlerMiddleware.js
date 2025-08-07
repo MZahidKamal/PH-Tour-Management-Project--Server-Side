@@ -6,41 +6,56 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const envConfig_1 = __importDefault(require("../config/envConfig"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const AppError_1 = __importDefault(require("../errorHelpers/AppError"));
-/*const globalErrorHandlerMiddleware = (error: any, req: Request, res: Response, _next: NextFunction) => {
-
-    let statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-    let message = `Something went wrong! Error: ${error.message}`;
-    let errorStack = envConfig.node_environment === 'development' ? error.stack : '🔒 Not disclosed for security reasons';
-
-    if (error instanceof AppError) {
+const zodValidationErrorHandlerFunction_1 = require("../errorHelpers/zodValidationErrorHandlerFunction");
+const mongooseDuplicateErrorHandlerFunction_1 = require("../errorHelpers/mongooseDuplicateErrorHandlerFunction");
+const mongooseCastErrorHandlerFunction_1 = require("../errorHelpers/mongooseCastErrorHandlerFunction");
+const mongooseValidationErrorHandlerFunction_1 = require("../errorHelpers/mongooseValidationErrorHandlerFunction");
+const consolePrintFunction_1 = require("../utils/consolePrintFunction");
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const globalErrorHandlerMiddleware = (error, req, res, _next) => {
+    (0, consolePrintFunction_1.consolePrint)('Researching Error: ', error);
+    let statusCode = http_status_codes_1.default.INTERNAL_SERVER_ERROR;
+    let message = `Something went wrong!`;
+    // Zod validation error from Zod handled properly
+    if ((error === null || error === void 0 ? void 0 : error.name) === 'ZodError') {
+        const errorHandled = (0, zodValidationErrorHandlerFunction_1.zodValidationErrorHandlerFunction)(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+    // Duplicated key error from MongoDB handled properly
+    else if ((error === null || error === void 0 ? void 0 : error.code) === 11000) {
+        const errorHandled = (0, mongooseDuplicateErrorHandlerFunction_1.mongooseDuplicateErrorHandlerFunction)(error);
+        message = errorHandled.message;
+        statusCode = errorHandled.statusCode;
+    }
+    // Cast error from MongoDB handled properly
+    else if ((error === null || error === void 0 ? void 0 : error.name) === 'CastError') {
+        const errorHandled = (0, mongooseCastErrorHandlerFunction_1.mongooseCastErrorHandlerFunction)(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+    // Mongoose validation error from MongoDB handled properly
+    else if ((error === null || error === void 0 ? void 0 : error.name) === 'ValidationError') {
+        const errorHandled = (0, mongooseValidationErrorHandlerFunction_1.mongooseValidationErrorHandlerFunction)(error);
+        statusCode = errorHandled.statusCode;
+        message = errorHandled.message;
+    }
+    // Custom error from our AppError handled properly
+    else if (error instanceof AppError_1.default) {
         statusCode = error.statusCode;
         message = error.message;
-        errorStack = error.stack;
     }
-
-    if (error instanceof Error) {
-        statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+    // Generic error from our Error handled properly
+    else if (error instanceof Error) {
+        statusCode = http_status_codes_1.default.INTERNAL_SERVER_ERROR;
         message = error.message;
-        errorStack = error.stack;
     }
-
+    const error_G = envConfig_1.default.node_environment === 'development' ? error : '🔒 Only disclosed in development mode';
+    const errorStack = envConfig_1.default.node_environment === 'development' ? error === null || error === void 0 ? void 0 : error.stack : '🔒 Only disclosed in development mode';
     res.status(statusCode).json({
         success: false,
         message,
-        error,
-        stack: errorStack
-    });
-}*/
-const globalErrorHandlerMiddleware = (error, req, res, _next) => {
-    // type-guard
-    const err = error instanceof Error ? error : new Error('Unknown error');
-    const statusCode = err instanceof AppError_1.default ? err.statusCode : http_status_codes_1.default.INTERNAL_SERVER_ERROR;
-    const message = err.message;
-    const errorStack = envConfig_1.default.node_environment === 'development' ? err.stack : '🔒 Not disclosed';
-    res.status(statusCode).json({
-        success: false,
-        message,
-        error_G: err,
+        error_G,
         stack: errorStack
     });
 };

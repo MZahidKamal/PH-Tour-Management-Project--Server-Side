@@ -100,7 +100,7 @@ const googleCallbackService = (req, res) => __awaiter(void 0, void 0, void 0, fu
     // After that create both JWT access token and refresh token for this user
     const thisUserTokens = (0, generateJWTAccessAndRefreshTokenFunction_1.generateJWTAccessAndRefreshTokenFunction)(userFromGoogleStrategy);
     // To set the JWT access token and refresh token in the cookies
-    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokenInCookies)(res, thisUserTokens);
+    (0, setCookieFunction_1.storeJwtAccessAndRefreshTokensInCookie)(res, thisUserTokens);
     // We don't need to send a response, we just need to redirect the user to the specified URL
     res.redirect(`${envConfig_1.default.frontend_url}/${redirectToUrl}`);
     return true;

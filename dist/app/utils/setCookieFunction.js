@@ -1,22 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.storeJwtAccessAndRefreshTokenInCookies = void 0;
-const storeJwtAccessAndRefreshTokenInCookies = (res, authToken) => {
-    if (authToken.accessToken) {
+exports.storeJwtAccessAndRefreshTokensInCookie = void 0;
+const storeJwtAccessAndRefreshTokensInCookie = (res, authTokens) => {
+    if (authTokens.accessToken) {
         // To set the JWT access token in the cookies
-        const accessToken = authToken.accessToken;
+        const accessToken = authTokens.accessToken;
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: false,
         });
     }
-    if (authToken.refreshToken) {
+    if (authTokens.refreshToken) {
         // To set the JWT refresh token in the cookies
-        const refreshToken = authToken.refreshToken;
+        const refreshToken = authTokens.refreshToken;
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
         });
     }
 };
-exports.storeJwtAccessAndRefreshTokenInCookies = storeJwtAccessAndRefreshTokenInCookies;
+exports.storeJwtAccessAndRefreshTokensInCookie = storeJwtAccessAndRefreshTokensInCookie;

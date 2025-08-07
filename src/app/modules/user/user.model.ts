@@ -84,7 +84,7 @@ const userSchema = new Schema<UserInterface>({
 
 
 
-const UserModel = model<UserInterface>('User', userSchema);
+const UserModel = model<UserInterface>('UserModel', userSchema);
 
 
 

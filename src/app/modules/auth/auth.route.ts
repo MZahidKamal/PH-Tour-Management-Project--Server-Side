@@ -11,7 +11,8 @@ const router = Router();
 
 
 router.post("/login",
-    AuthControllers.loginWithCredentialsController
+    // AuthControllers.loginWithCredentialsController,                  // Without passport package
+    AuthControllers.loginWithPassportCredentialsController,             // With passport package
 );
 
 
