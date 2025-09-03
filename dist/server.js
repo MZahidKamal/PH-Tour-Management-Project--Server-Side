@@ -1,5 +1,4 @@
 "use strict";
-/* eslint-disable no-console */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,22 +16,23 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const envConfig_1 = __importDefault(require("./app/config/envConfig"));
 const app_1 = __importDefault(require("./app"));
 const seedSuperAdminFunction_1 = __importDefault(require("./app/utils/seedSuperAdminFunction"));
+const consolePrintFunction_1 = require("./app/utils/consolePrintFunction");
 let server;
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Connecting to MongoDB, using the Mongoose package.
         const database = yield mongoose_1.default.connect(envConfig_1.default.mongodb_uri);
         if (database)
-            console.log('✅ Connected to MongoDB successfully!');
+            (0, consolePrintFunction_1.consolePrint)('✅ Connected to MongoDB successfully!');
         else
-            console.log('❌ Failed to connect to MongoDB!');
+            (0, consolePrintFunction_1.consolePrint)('❌ Failed to connect to MongoDB!');
         // Starting the server to see the output in the browser.
         server = app_1.default.listen(envConfig_1.default.port, () => {
-            console.log(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig_1.default.port}`);
+            (0, consolePrintFunction_1.consolePrint)(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig_1.default.port}`);
         });
     }
     catch (error) {
-        console.log(error);
+        (0, consolePrintFunction_1.consolePrint)(error);
     }
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,18 +48,18 @@ with the `UserModel`. */
 // Unhandled Rejection Error Handling
 process.on('unhandledRejection', (error) => {
     if (error instanceof Error) {
-        console.log('Unhandled Rejection detected! Error: ', error.message);
+        (0, consolePrintFunction_1.consolePrint)('Unhandled Rejection detected! Error: ', error.message);
     }
     else {
-        console.log('Unhandled Rejection detected! Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('Unhandled Rejection detected! Error: ', error);
     }
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     }
     else {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 });
@@ -68,18 +68,18 @@ process.on('unhandledRejection', (error) => {
 // Uncaught Exception Error Handling
 process.on('uncaughtException', (error) => {
     if (error instanceof Error) {
-        console.log('Uncaught Exception detected! Error: ', error.message);
+        (0, consolePrintFunction_1.consolePrint)('Uncaught Exception detected! Error: ', error.message);
     }
     else {
-        console.log('Uncaught Exception detected! Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('Uncaught Exception detected! Error: ', error);
     }
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     }
     else {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 });
@@ -87,14 +87,14 @@ process.on('uncaughtException', (error) => {
 // throw new Error('Uncaught exception error');
 // SIGTERM Signal Error Handling
 process.on('SIGTERM', () => {
-    console.log('SIGTERM Signal detected!');
+    (0, consolePrintFunction_1.consolePrint)('SIGTERM Signal detected!');
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     }
     else {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 });
@@ -102,18 +102,18 @@ process.on('SIGTERM', () => {
 // SIGINT Signal Error Handling
 process.on('SIGINT', (error) => {
     if (error instanceof Error) {
-        console.log('SIGINT Signal detected! Error: ', error.message);
+        (0, consolePrintFunction_1.consolePrint)('SIGINT Signal detected! Error: ', error.message);
     }
     else {
-        console.log('SIGINT Signal detected! Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('SIGINT Signal detected! Error: ', error);
     }
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     }
     else {
-        console.log('⚠️ Server closed gracefully!');
+        (0, consolePrintFunction_1.consolePrint)('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 });

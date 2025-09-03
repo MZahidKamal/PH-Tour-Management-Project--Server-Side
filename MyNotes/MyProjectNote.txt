@@ -1,0 +1,303 @@
+PH-TourManagementProject-Server-Side
+☑️--------------------------------------------------
+
+Go to the directory where the project's root folder will be created.
+Create the projec't root folder manually, and open it using JetBrain IntelliJ IDEA.
+
+☑️--------------------------------------------------
+
+Run the command [npm init] into the Terminal, to initialize the project,
+then provide a package name,
+then provide a description,
+then provide a author name,
+then answer other questions as default, and the project initializatio is done.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i express] in the Terminal to install ExpressJS as main dependencies,
+then install this package [npm i -D @types/express] as DevDependencies to support TypeScript.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i node] in the Terminal to install NodeJS as main dependencies,
+then install this package [npm i -D @types/node] as DevDependencies to support TypeScript.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i -D typescript] in the Terminal to install TypeScript as DevDependencies,
+then close and reopen the IDE and then run this command [tsc --init] to initialize TypeScript and generate tsconfig.json file.
+
+Create two folders in the root directory, 'dist' and 'src'.
+Create another folder 'app' inside the 'src' folder.
+Create two TypeScript files, 'app.ts' and 'server.ts' inside the 'src' folder.
+
+Open the tsconfig.json file,
+Find out [ // "rootDir": "./", ], uncomment it, and set the root directory to [ "rootDir": "./src/", ].
+Find out [ // "outDir": "./", ], uncomment it, and set the output directory to [ "outDir": "./dist/", ].
+
+Now go to the Terminal, run the [ tsc ] command.
+It will compile .ts files from the src folder and will create respective converted .js files in the dist folder.
+
+If everything works fine, then run the command [tsc -w] in the Terminal.
+It will watch all .ts files for any changes and will immediately create respective converted .js files in the dist folder.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i -D ts-node-dev] in the Termina, to install the package ts-node-dev,
+then open the package.json file and add [ "dev": "ts-node-dev --respawn --transpile-only src/server.ts" ] in the 'scripts' array,
+then also add [ "build": "tsc" ] in the 'scripts' array.
+
+☑️--------------------------------------------------
+
+Then add a run configuration in the IntelliJ IDEA targeting 'npm run dev' command. Add 'Compile TypeScript' in the 'Before launch' section.
+From now on, we don't need to run 'tsc -w' and nodemon anymore.
+This 'ts-node-dev' package will do all necessary compilation and will run the project directly from './src/server.ts' file.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i zod] in the Termina, to install the package zod.
+
+Now run the command [npm i jsonwebtoken] in the Termina, to install the package jsonwebtoken,
+and then run the command [npm i -D @types/jsonwebtoken] in the Termina, to install the typescript support package jsonwebtoken.
+
+Now run the command [npm i cors] in the Termina, to install the package cors,
+and then run the command [npm i -D @types/cors] in the Termina, to install the typescript support package cors.
+
+☑️--------------------------------------------------
+
+Now run the command [npm i dotenv] in the Termina, to install the package dotenv,
+and then run the command [npm i -D @types/dotenv] in the Termina, to install the typescript support package dotenv.
+Create a file named '.env' in the root directory.
+It's a module that loads environment variables from a .env file into process.env.
+Create app/config/envConfig.ts,
+Import [ import dotenv from 'dotenv'; ] in the config.ts file,
+then write [ dotenv.config(); ],
+then get the code from previous project and use it accordingly.
+Watch module video again: 25-12.
+
+☑️--------------------------------------------------
+
+Install the MongoDB using the command [ npm i mongodb ] in the Terminal.
+Install the Mongoose using the command [ npm i mongoose ] in the Terminal.
+Import [ import * as mongoose from "mongoose" ] in the server.ts file.
+Login to MongoDB Atlas, and get the connection string.
+Now configure the connection with MongoDB using the given connection string and Mongoose code snippet.
+
+☑️--------------------------------------------------
+
+Handle Unhandled Rejections,
+then handle Uncaught Exceptions,
+and then handle SIGTERM Signals, all in the server.ts file.
+
+☑️--------------------------------------------------
+
+Install and configure TypeScript-ESLint:
+Visit the Url [ https://typescript-eslint.io/getting-started ].
+Run the command [ npm install --save-dev eslint @eslint/js typescript typescript-eslint ] in the Terminal to install TypeScript, ESLint and other associated tools.
+Create a file named 'eslint.config.mjs' in the root directory and copy-paste Configuration and Additional Configs from the above Url.
+Now run the command [ npx eslint . ] in the Terminal and it will show all the warnings and errors detected by ESLint.
+Now add two more script code ["lint": "npx eslint ./src",] and ["lint:fix": "eslint . --ext .ts,.tsx,.mjs --fix",] in the scripts array in the package.json file.
+Then add a run configuration in the IntelliJ IDEA targeting 'npm run lint' command. Add 'Compile TypeScript' in the 'Before launch' section.
+Watch module video again: 25-11 Setting Up ES Lint And Fix Errors Using Commands.
+
+☑️--------------------------------------------------
+
+Before sleep: 25.12 @ 17:49
+
+☑️--------------------------------------------------
+
+Run the command [npm i http-status-codes] in the Terminal to install the package called 'http-status-codes'.
+Then import [import httpStatus from "http-status-codes"] into any file and use it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+☑️--------------------------------------------------
+
+MVC Pattern === Models + Views + Controllers
+Nowadays 'Views' are mostly generated in front-end using React or something similar. So we'll do only 'Models' and 'Controllers'.
+
+
+project-root/
+├── src/                                 # প্রোজেক্টের সমস্ত সোর্স কোড
+│   ├── app/                             # Express অ্যাপ্লিকেশনের মূল লজিক
+│   │   ├── config/                      # কনফিগারেশন ফাইল
+│   │   │   └── config.ts                # এনভায়রনমেন্ট ভেরিয়েবল, ডেটাবেস কনফিগারেশন
+│   │   ├── middlewares/                 # কাস্টম Express মিডলওয়্যার ফাংশন
+│   │   │   ├── auth.middleware.ts       # অথেন্টিকেশন সংক্রান্ত মিডলওয়্যার
+│   │   │   └── error.middleware.ts      # এরর হ্যান্ডলিং মিডলওয়্যার
+│   │   ├── models/                      # ডেটাবেস স্কিমা এবং মডেল
+│   │   │   ├── User.model.ts            # ইউজার মডেল (ডাটাবেস স্কিমা)
+│   │   │   └── Product.model.ts         # প্রোডাক্ট মডেল
+│   │   ├── controllers/                 # রিকোয়েস্ট হ্যান্ডলিং লজিক
+│   │   │   ├── user.controller.ts       # ইউজার সম্পর্কিত লজিক
+│   │   │   └── product.controller.ts    # প্রোডাক্ট সম্পর্কিত লজিক
+│   │   ├── routes/                      # API এন্ডপয়েন্ট রুট
+│   │   │   ├── user.routes.ts           # ইউজার সম্পর্কিত API রুট
+│   │   │   └── product.routes.ts        # প্রোডাক্ট সম্পর্কিত API রুট
+│   │   ├── services/                    # বিজনেস লজিক এবং ডেটা প্রসেসিং
+│   │   │   ├── auth.service.ts          # অথেন্টিকেশন সার্ভিস
+│   │   │   └── product.service.ts       # প্রোডাক্ট সার্ভিস
+│   │   ├── interfaces/                  # TypeScript ইন্টারফেস এবং কাস্টম টাইপস
+│   │   │   ├── express.d.ts             # Express এর জন্য কাস্টম টাইপ ডিক্লারেশন (যদি লাগে)
+│   │   │   ├── user.interface.ts        # ইউজার সম্পর্কিত ইন্টারফেস
+│   │   │   └── product.interface.ts     # প্রোডাক্ট সম্পর্কিত ইন্টারফেস
+│   │   └── utils/                       # সাধারণ ইউটিলিটি ফাংশন
+│   │       ├── jwt.utils.ts             # JWT হেল্পার ফাংশন
+│   │       └── validators.ts            # ভ্যালিডেশন ফাংশন
+│   ├── app.ts                           # Express অ্যাপ ইনিশিয়ালাইজেশন
+│   └── server.ts                        # অ্যাপ স্টার্টআপ ফাইল
+├── .env                                 # এনভায়রনমেন্ট ভেরিয়েবল
+├── .gitignore                           # গিট রিপোজিটরি থেকে বাদ দিতে চান এমন ফাইল
+├── package.json                         # প্রোজেক্ট মেটাডেটা এবং ডিপেন্ডেন্সি
+└── tsconfig.json                        # TypeScript কম্পাইলার কনফিগারেশন
+
+☑️--------------------------------------------------
+
+Database table creation steps:
+1. Inside the app > interfaces > NAMES.interface.ts file, create the TypeScript Interface of this entity and then export it.
+2. Inside the app > models > NAMES.model.ts file, create the Schema using the imported interface, then create the Model using the imported interface, and then export the Model.
+2. Inside the app > controllers > NAMES.controller.ts file, create all necessary routes for this model.
+
+☑️--------------------------------------------------
+
+
+
+Setting up Environment Variables:
+Watch module video again: 25-12 Setting Up Environment Variables
+
+☑️--------------------------------------------------
+
+Pino:
+Run the command [ npm install pino @types/pino ] in the Terminal to install Pino with TypeScript support.
+Create a new file name 'pinoConfig.ts' in the directory src/config/pinoConfig.ts and write configuration code, and export it.
+Run the command [ npm install pino-pretty --save-dev ] in the Terminal to install pino-pretty, which will make human-readable logs in development.
+In the package.json file, in the scripts array, include [ | npx pino-pretty] at the end of the "dev" command.
+Run the command [ npm install pino-http @types/pino-http ] in the Terminal to install pino-http, for request loggin while using ExpressJS.
+Now in the pinoConfig.ts file import [ import pinoHttp from 'pino-http'; ], export it too.
+Now in the app.ts file, import [ import {logger, pinoHttp} from './config/pinoConfig'; ] and include [ app.use(pinoHttp({logger})); ].
+Now req can be logged like [ req.log.info('Logging GET request using PINO.'); ]
+
+☑️--------------------------------------------------
+
+Create a file named 'vercel.json', and write predefined configuration code in it. And don't use ./ before dist.
+Install the vercel package globally using the command [npm i -g vercel].
+Check vercel installation using the command [vercel -v].
+To login to vercel account run the command [vercel login], and then select respective options according to wish.
+-> Continue with Email
+-> kamal.md.zahid@gmail.com (check email, copy code, click verification link, paste code)
+After verification, vercel account login, from CLI, is done successfully.
+Now to start production level deployment, run the command [vercel --prod], and then select respective options according to wish (don't enter any changed file path).
+Now go to the Vercel account from the browser, open the newly deployed project and visit the given 'Domains' url.
+Now see that the project is deployed and running properly.
+From now on, after every code update, run [npm run build] and then [vercel --prod] commands.
+
+☑️--------------------------------------------------
+
+"name": "Zahid",
+"email": "zahid@email.com",
+"password": "1234qweasy&dwDE"
+
+
+"email": "super_admin@email.com",
+"password": "SuperAdmin@123"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Stück | Bezeichnung
+
+--- Für das Mäppchen -------------------------------------------
+2 dicke Dreikantbleistifte (HB) ✅
+1 Radiergummi ✅
+1 kleines Lineal ✅
+1 Spitzer mit Gehäuse ✅
+12 dicke Dreikantbuntstifte ✅
+1 Folienstift (non-permanent) ✅
+
+--- Deutsch ----------------------------------------------------
+1 roter Schnellhefter (Pappe) ✅
+1 Geschichtenheft 4G (DIN A4) ✅
+1 Schreibheft Lineatur 0 (Din A 5, Querformat, mit Häuschen) ✅
+
+-- Mathe -------------------------------------------------------
+1 blauer Schnellhefter (Pappe) ✅
+1 Heft (DIN A4), Lineatur Nr. 7 ✅
+1 Heft (DIN A5), Lineatur Nr. 7 ✅
+
+--- Kunst ------------------------------------------------------
+1 Leerer Schuhkarton (passend für die Kunstmaterialien)
+1 DIN A3 Zeichenblock, perforiert ✅
+1 Deckfarbkasten (Markenware) mit 12 Farben, einzeln nachkaufbar ✅
+1 Wasserbecher ✅
+1 Tube Deckweiß ✅
+4 Borstenpinsel (Nr. 4, Nr. 8, Nr. 12, Nr. 16) ✅
+1 DIN A3 Sammelmappe für Bilder ✅
+1 Packung Filzstifte ✅
+
+--- Sonstiges -------------------------------------------------
+8 Wachsmalstifte ✅
+2 Kinderscheren ☑️
+2 Klebestifte farblos ✅
+1 Dokumentenmappe (A4), mit Druckknopf verschließbar ✅
+1 gelber Schnellhefter (Pappe) als Hausaufgabenordner ✅
+1 grüner Schnellhefter (Pappe) für Sachunterricht ✅
+1 weißer Schnellhefter (Pappe) für Musik ✅
+1 lila Schnellhefter (Pappe) für Religion / Ethik ✅
+1 Postmappe gelb Eckspannmappe DIN A4 ✅
+1 Brotdose ☑️
+1 Trinkflasche (kein Glas) ☑️
+1 Sportbeutel mit Sportsachen (Turnhose, T-Shirt, Schuhe mit fester, heller Sohle), Haargummi bei Bedarf ☑️
+1 Mäppchen ☑️

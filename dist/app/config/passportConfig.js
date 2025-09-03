@@ -19,6 +19,7 @@ const user_model_1 = __importDefault(require("../modules/user/user.model"));
 const user_interface_1 = require("../modules/user/user.interface");
 const passport_local_1 = require("passport-local");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const consolePrintFunction_1 = require("../utils/consolePrintFunction");
 passport_1.default.use(new passport_local_1.Strategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -53,8 +54,7 @@ passport_1.default.use(new passport_local_1.Strategy({
         return doneFunction(null, userFromDatabase, { message: 'User logged in successfully!' });
     }
     catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('CredentialsStrategy Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('CredentialsStrategy Error: ', error);
         return doneFunction(error);
     }
 })));
@@ -89,8 +89,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
         }
     }
     catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('Google OAuth Strategy Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('Google OAuth Strategy Error: ', error);
         return doneFunction(error);
     }
 })));
@@ -118,8 +117,7 @@ passport_1.default.deserializeUser((userId, done) => __awaiter(void 0, void 0, v
         done(null, userFromDatabase);
     }
     catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('Error in Deserializing the User: ', error);
+        (0, consolePrintFunction_1.consolePrint)('Error in Deserializing the User: ', error);
         done(error);
     }
 }));
