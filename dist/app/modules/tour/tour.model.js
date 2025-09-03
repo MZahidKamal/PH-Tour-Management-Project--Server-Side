@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TourTypeModel = void 0;
+exports.TourModel = exports.TourTypeModel = void 0;
 const mongoose_1 = require("mongoose");
 const tourTypeSchema = new mongoose_1.Schema({
     name: {
@@ -8,13 +8,12 @@ const tourTypeSchema = new mongoose_1.Schema({
         required: [true, "Tour type name is required!"],
         unique: [true, "Tour type name already exists!"],
         minlength: [3, "Tour type name must be at least 3 characters long!"],
-        maxlength: [20, "Tour type name must be at most 100 characters long!"],
+        maxlength: [50, "Tour type name must be at most 50 characters long!"],
         trim: true,
     }
 }, {
     timestamps: true,
     versionKey: false,
-    _id: false
 });
 exports.TourTypeModel = (0, mongoose_1.model)('TourTypeModel', tourTypeSchema);
 const tourSchema = new mongoose_1.Schema({
@@ -33,7 +32,7 @@ const tourSchema = new mongoose_1.Schema({
     description: {
         type: String,
         minlength: [10, "Description must be at least 10 characters long!"],
-        maxlength: [100, "Description must be at most 100 characters long!"],
+        maxlength: [1000, "Description must be at most 100 characters long!"],
         trim: true,
         default: ''
     },
@@ -50,6 +49,12 @@ const tourSchema = new mongoose_1.Schema({
     costFrom: {
         type: Number,
         min: [0, "Cost from must be at least 0!"],
+    },
+    departureLocation: {
+        type: Object,
+    },
+    arrivalLocation: {
+        type: Object,
     },
     startDate: {
         type: Date,
@@ -95,5 +100,4 @@ const tourSchema = new mongoose_1.Schema({
     timestamps: true,
     versionKey: false,
 });
-const TourModel = (0, mongoose_1.model)('TourModel', tourSchema);
-exports.default = TourModel;
+exports.TourModel = (0, mongoose_1.model)('TourModel', tourSchema);

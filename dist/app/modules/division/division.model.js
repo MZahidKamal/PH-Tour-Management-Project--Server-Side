@@ -13,7 +13,7 @@ const divisionSchema = new mongoose_1.Schema({
     },
     slug: {
         type: String,
-        unique: [true, "Division slug already exists!"]
+        unique: [true, "Division slug already exists!"],
     },
     thumbnail: {
         type: String,
@@ -21,7 +21,7 @@ const divisionSchema = new mongoose_1.Schema({
     description: {
         type: String,
         minlength: [10, "Description must be at least 10 characters long!"],
-        maxlength: [100, "Description must be at most 100 characters long!"],
+        maxlength: [1000, "Description must be at most 100 characters long!"],
         trim: true,
     }
 }, {

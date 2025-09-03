@@ -11,17 +11,14 @@ const tourTypeSchema = new Schema<TourTypeInterface>({
             required: [true, "Tour type name is required!"],
             unique: [true, "Tour type name already exists!"],
             minlength: [3, "Tour type name must be at least 3 characters long!"],
-            maxlength: [20, "Tour type name must be at most 100 characters long!"],
+            maxlength: [50, "Tour type name must be at most 50 characters long!"],
             trim: true,
         }
     },
     {
         timestamps: true,
         versionKey: false,
-        _id: false
     })
-
-
 
 
 
@@ -47,7 +44,7 @@ const tourSchema = new Schema<TourInterface>({
         description: {
             type: String,
             minlength: [10, "Description must be at least 10 characters long!"],
-            maxlength: [100, "Description must be at most 100 characters long!"],
+            maxlength: [1000, "Description must be at most 100 characters long!"],
             trim: true,
             default: ''
         },
@@ -64,6 +61,12 @@ const tourSchema = new Schema<TourInterface>({
         costFrom: {
             type: Number,
             min: [0, "Cost from must be at least 0!"],
+        },
+        departureLocation: {
+            type: Object,
+        },
+        arrivalLocation: {
+            type: Object,
         },
         startDate: {
             type: Date,
@@ -113,12 +116,4 @@ const tourSchema = new Schema<TourInterface>({
 
 
 
-
-
-const TourModel = model<TourInterface>('TourModel', tourSchema);
-
-
-
-
-
-export default TourModel;
+export const TourModel = model<TourInterface>('TourModel', tourSchema);

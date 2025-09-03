@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-
 import UserModel from "../modules/user/user.model";
 import bcrypt from "bcryptjs";
 import envConfig from "../config/envConfig";
 import {RoleEnum, UserInterface} from "../modules/user/user.interface";
+import {consolePrint} from "./consolePrintFunction";
 
 
 
@@ -12,7 +11,7 @@ const seedSuperAdminFunction = async () => {
     const isSuperAdminExists = await UserModel.findOne({ role: 'SUPER_ADMIN' });
 
     if (isSuperAdminExists) {
-        console.log('Super admin already exists.');
+        consolePrint('Super admin already exists.');
         return;
     }
 
@@ -25,7 +24,7 @@ const seedSuperAdminFunction = async () => {
             auths: [{ provider: 'credentials', providerId: envConfig.super_admin_email as string }],
         });
         const {name, email, role} = superAdmin;
-        console.log('New Super Admin created successfully:', {name, email, role});
+        consolePrint('New Super Admin created successfully:', {name, email, role});
         return;
     }
 };

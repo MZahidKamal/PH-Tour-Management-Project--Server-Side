@@ -1,1 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DivisionRoutes = void 0;
+const express_1 = require("express");
+const zodValidationMiddleware_1 = __importDefault(require("../../middlewares/zodValidationMiddleware"));
+const division_zodValidation_1 = require("./division.zodValidation");
+const division_controller_1 = require("./division.controller");
+const jwtRoleVerificationMiddleware_1 = __importDefault(require("../../middlewares/jwtRoleVerificationMiddleware"));
+const user_interface_1 = require("../user/user.interface");
+const router = (0, express_1.Router)();
+router.post("/create", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.ADMIN, user_interface_1.RoleEnum.SUPER_ADMIN), (0, zodValidationMiddleware_1.default)(division_zodValidation_1.createADivisionValidationZodSchema), division_controller_1.DivisionControllers.createADivisionController);
+router.get("/", (0, jwtRoleVerificationMiddleware_1.default)(...Object.values(user_interface_1.RoleEnum)), division_controller_1.DivisionControllers.getAllDivisionsController);
+router.get("/:slug", (0, jwtRoleVerificationMiddleware_1.default)(...Object.values(user_interface_1.RoleEnum)), division_controller_1.DivisionControllers.getSingleDivisionController);
+router.patch("/:divisionId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.ADMIN, user_interface_1.RoleEnum.SUPER_ADMIN), (0, zodValidationMiddleware_1.default)(division_zodValidation_1.updateADivisionValidationZodSchema), division_controller_1.DivisionControllers.updateADivisionController);
+router.delete("/:divisionId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.ADMIN, user_interface_1.RoleEnum.SUPER_ADMIN), division_controller_1.DivisionControllers.deleteADivisionController);
+exports.DivisionRoutes = router;

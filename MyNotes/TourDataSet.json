@@ -1,0 +1,1107 @@
+[
+  {
+    "title": "Old Dhaka Heritage Walk",
+    "description": "Explore Lalbagh Fort, Ahsan Manzil, Shankhari Bazar and the riverfront in a compact heritage circuit.",
+    "location": "Dhaka",
+    "costFrom": 5500,
+    "startDate": "2025-11-05",
+    "endDate": "2025-11-05",
+    "included": [
+      "Guide",
+      "Entrance fees",
+      "Local transport"
+    ],
+    "excluded": [
+      "Meals",
+      "Personal expenses"
+    ],
+    "amenities": [
+      "AC transport",
+      "Bottled water"
+    ],
+    "tourPlan": [
+      "Morning pickup",
+      "Heritage sites",
+      "Riverfront sunset"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a81738f53370c180a044"
+  },
+  {
+    "title": "Sonargaon & Panam City Cultural Day Trip",
+    "description": "Discover the lost city of Panam and the Folk & Craft Museum at Sonargaon.",
+    "location": "Sonargaon, Narayanganj",
+    "costFrom": 6800,
+    "startDate": "2025-11-08",
+    "endDate": "2025-11-08",
+    "included": [
+      "Transport",
+      "Guide",
+      "Museum ticket"
+    ],
+    "excluded": [
+      "Lunch",
+      "Tips"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Depart Dhaka",
+      "Panam City walk",
+      "Folk Museum",
+      "Return"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a64535903155c225daa8"
+  },
+  {
+    "title": "Dhaka Street Food Crawl",
+    "description": "Taste famed Old Dhaka snacks and sweets with a local expert.",
+    "location": "Dhaka",
+    "costFrom": 4200,
+    "startDate": "2025-11-12",
+    "endDate": "2025-11-12",
+    "included": [
+      "Tastings",
+      "Guide"
+    ],
+    "excluded": [
+      "Hotel transfers"
+    ],
+    "amenities": [
+      "Hygiene kit"
+    ],
+    "tourPlan": [
+      "Meet point",
+      "Food stalls",
+      "Dessert stop"
+    ],
+    "maxGuests": 15,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a7bc35903155c225dabb"
+  },
+  {
+    "title": "Buriganga River Sunset Cruise",
+    "description": "Evening boat ride on the Buriganga with views of Sadarghat and old river life.",
+    "location": "Dhaka",
+    "costFrom": 3500,
+    "startDate": "2025-11-14",
+    "endDate": "2025-11-14",
+    "included": [
+      "Boat fare",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Boarding",
+      "Cruise",
+      "Disembark"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a63b35903155c225daa4"
+  },
+  {
+    "title": "Cox's Bazar Beach Escape",
+    "description": "Relax on the world’s longest sea beach, visit Himchari & Inani.",
+    "location": "Cox's Bazar",
+    "costFrom": 14500,
+    "startDate": "2025-12-02",
+    "endDate": "2025-12-05",
+    "included": [
+      "Hotel (3 nights)",
+      "Breakfast",
+      "Sightseeing transport"
+    ],
+    "excluded": [
+      "Lunch & dinner",
+      "Flights"
+    ],
+    "amenities": [
+      "Wi-Fi",
+      "AC transport"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Inani & Himchari",
+      "Free day",
+      "Departure"
+    ],
+    "maxGuests": 24,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a5f935903155c225da94"
+  },
+  {
+    "title": "Saint Martin Island Hopping",
+    "description": "Blue waters, coral edges, and cycling around Bangladesh’s only coral island.",
+    "location": "Saint Martin’s Island",
+    "costFrom": 16500,
+    "startDate": "2025-12-10",
+    "endDate": "2025-12-12",
+    "included": [
+      "Boat tickets",
+      "Hotel",
+      "Breakfast"
+    ],
+    "excluded": [
+      "Lunch & dinner",
+      "Personal expenses"
+    ],
+    "amenities": [
+      "Life jackets",
+      "Support crew"
+    ],
+    "tourPlan": [
+      "Teknaf crossing",
+      "Island tour",
+      "Return"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a7ae35903155c225dab7"
+  },
+  {
+    "title": "Bandarban Mountain Expedition",
+    "description": "Trek remote hill trails and visit tribal villages around Ruma/Keokradong area.",
+    "location": "Bandarban",
+    "costFrom": 19500,
+    "startDate": "2025-12-18",
+    "endDate": "2025-12-21",
+    "included": [
+      "Local guide",
+      "Permits",
+      "Camp gear"
+    ],
+    "excluded": [
+      "Meals (as per plan)",
+      "Porters"
+    ],
+    "amenities": [
+      "First-aid",
+      "Trekking poles"
+    ],
+    "tourPlan": [
+      "Base arrival",
+      "High trail",
+      "Summit/return"
+    ],
+    "maxGuests": 12,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a61535903155c225da98"
+  },
+  {
+    "title": "Nijhum Dwip Island Hopping",
+    "description": "Quiet beaches, mangroves and birdlife of Nijhum Dwip.",
+    "location": "Nijhum Dwip",
+    "costFrom": 15500,
+    "startDate": "2026-01-06",
+    "endDate": "2026-01-08",
+    "included": [
+      "Boat",
+      "Hotel",
+      "Breakfast"
+    ],
+    "excluded": [
+      "Lunch & dinner"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Boat transfer",
+      "Island exploration",
+      "Return"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a7ae35903155c225dab7"
+  },
+  {
+    "title": "Sajek Mountain Expedition",
+    "description": "Journey to the cloud-kissed valleys and viewpoints of Sajek.",
+    "location": "Sajek, Rangamati",
+    "costFrom": 17500,
+    "startDate": "2026-01-12",
+    "endDate": "2026-01-14",
+    "included": [
+      "Transport",
+      "Resort",
+      "Breakfast"
+    ],
+    "excluded": [
+      "Lunch & dinner"
+    ],
+    "amenities": [
+      "4x4 support"
+    ],
+    "tourPlan": [
+      "Drive to Sajek",
+      "Viewpoints & trails",
+      "Return"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a61535903155c225da98"
+  },
+  {
+    "title": "Srimangal Tea Garden Wellness Retreat",
+    "description": "Unplug amid tea gardens with yoga and forest walks.",
+    "location": "Srimangal",
+    "costFrom": 12800,
+    "startDate": "2025-11-22",
+    "endDate": "2025-11-24",
+    "included": [
+      "Resort (2 nights)",
+      "Breakfast",
+      "Yoga sessions"
+    ],
+    "excluded": [
+      "Lunch & dinner"
+    ],
+    "amenities": [
+      "Spa access",
+      "Wi-Fi"
+    ],
+    "tourPlan": [
+      "Check-in",
+      "Tea estate walk",
+      "Yoga & leisure"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78878f9a3a286cec02f1",
+    "tourType": "6898a85238f53370c180a054"
+  },
+  {
+    "title": "Ratargul Swamp Wildlife Kayak",
+    "description": "Paddle through freshwater swamp forest spotting birds and flora.",
+    "location": "Ratargul, Sylhet",
+    "costFrom": 9200,
+    "startDate": "2025-11-28",
+    "endDate": "2025-11-28",
+    "included": [
+      "Kayak/boat",
+      "Guide",
+      "Safety gear"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Briefing",
+      "Kayak loops",
+      "Return"
+    ],
+    "maxGuests": 14,
+    "minAge": 18,
+    "division": "689a78878f9a3a286cec02f1",
+    "tourType": "6898a65335903155c225daac"
+  },
+  {
+    "title": "Sylhet City & Shrine Tour",
+    "description": "City highlights with Hazrat Shah Jalal & Shah Paran shrines.",
+    "location": "Sylhet",
+    "costFrom": 5800,
+    "startDate": "2025-12-03",
+    "endDate": "2025-12-03",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Shrines",
+      "Keane bridge",
+      "Zinda bazar"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78878f9a3a286cec02f1",
+    "tourType": "6898a62035903155c225da9c"
+  },
+  {
+    "title": "Jaflong & Tea Gardens Road Trip",
+    "description": "Stone beds of Jaflong, Dawki view and rolling tea estates.",
+    "location": "Jaflong",
+    "costFrom": 9900,
+    "startDate": "2025-12-07",
+    "endDate": "2025-12-07",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Drive",
+      "Jaflong view",
+      "Tea garden stop"
+    ],
+    "maxGuests": 22,
+    "minAge": 18,
+    "division": "689a78878f9a3a286cec02f1",
+    "tourType": "6898a84538f53370c180a050"
+  },
+  {
+    "title": "Paharpur & Mahasthangarh Heritage Trail",
+    "description": "Full-day archaeology tour to two UNESCO-grade sites.",
+    "location": "Naogaon & Bogura",
+    "costFrom": 14900,
+    "startDate": "2025-12-15",
+    "endDate": "2025-12-15",
+    "included": [
+      "Transport",
+      "Guide",
+      "Tickets"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Drive to Paharpur",
+      "Mahasthangarh",
+      "Return"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78938f9a3a286cec02f5",
+    "tourType": "6898a81738f53370c180a044"
+  },
+  {
+    "title": "Rajshahi Mango Road Trip",
+    "description": "Seasonal orchard hopping and riverside sunset on the Padma.",
+    "location": "Rajshahi",
+    "costFrom": 8800,
+    "startDate": "2026-06-05",
+    "endDate": "2026-06-05",
+    "included": [
+      "Transport",
+      "Tastings",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Orchards",
+      "Ghat sunset",
+      "Local bazar"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78938f9a3a286cec02f5",
+    "tourType": "6898a84538f53370c180a050"
+  },
+  {
+    "title": "Padma Riverside City Tour",
+    "description": "City highlights with river promenade and local craft markets.",
+    "location": "Rajshahi",
+    "costFrom": 6200,
+    "startDate": "2025-11-19",
+    "endDate": "2025-11-19",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Museum",
+      "Riverfront",
+      "Crafts bazar"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78938f9a3a286cec02f5",
+    "tourType": "6898a62035903155c225da9c"
+  },
+  {
+    "title": "Varendra Museum & Silk Culture",
+    "description": "Rajshahi silk workshops and the famed Varendra Museum.",
+    "location": "Rajshahi",
+    "costFrom": 7600,
+    "startDate": "2025-11-21",
+    "endDate": "2025-11-21",
+    "included": [
+      "Transport",
+      "Guide",
+      "Tickets"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Museum",
+      "Silk weaving",
+      "Local market"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78938f9a3a286cec02f5",
+    "tourType": "6898a64535903155c225daa8"
+  },
+  {
+    "title": "Sundarbans Wildlife Safari",
+    "description": "Mangrove creeks, watchtowers and dolphin spotting in the Sundarbans.",
+    "location": "Sundarbans",
+    "costFrom": 24500,
+    "startDate": "2025-12-20",
+    "endDate": "2025-12-23",
+    "included": [
+      "Boat cabin",
+      "Meals",
+      "Permits",
+      "Guide"
+    ],
+    "excluded": [
+      "Transfers to Mongla"
+    ],
+    "amenities": [
+      "Life jackets",
+      "First-aid"
+    ],
+    "tourPlan": [
+      "Embark Mongla",
+      "Creek safari",
+      "Karamjal",
+      "Disembark"
+    ],
+    "maxGuests": 24,
+    "minAge": 18,
+    "division": "689a78a38f9a3a286cec02f9",
+    "tourType": "6898a65335903155c225daac"
+  },
+  {
+    "title": "Bagerhat Sixty Dome Heritage",
+    "description": "Historic mosque city of Bagerhat and nearby sites.",
+    "location": "Bagerhat",
+    "costFrom": 9800,
+    "startDate": "2025-11-30",
+    "endDate": "2025-11-30",
+    "included": [
+      "Transport",
+      "Guide",
+      "Tickets"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Sixty Dome",
+      "Khan Jahan Ali shrine",
+      "Museum"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78a38f9a3a286cec02f9",
+    "tourType": "6898a81738f53370c180a044"
+  },
+  {
+    "title": "Karamjal Jungle Adventure Trek",
+    "description": "Short guided jungle walk and wildlife interpretation at Karamjal.",
+    "location": "Sundarbans (Karamjal)",
+    "costFrom": 7400,
+    "startDate": "2025-12-01",
+    "endDate": "2025-12-01",
+    "included": [
+      "Boat/entry",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "Safety gear"
+    ],
+    "tourPlan": [
+      "Boat ride",
+      "Jungle trail",
+      "Return"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78a38f9a3a286cec02f9",
+    "tourType": "6898a62d35903155c225daa0"
+  },
+  {
+    "title": "Khulna River & Cuisine Experience",
+    "description": "Taste Khulna’s regional dishes with a short river ride.",
+    "location": "Khulna",
+    "costFrom": 6200,
+    "startDate": "2025-12-04",
+    "endDate": "2025-12-04",
+    "included": [
+      "Tastings",
+      "Guide",
+      "Boat fare"
+    ],
+    "excluded": [
+      "Hotel transfers"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Food trail",
+      "Short cruise",
+      "Dessert stop"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78a38f9a3a286cec02f9",
+    "tourType": "6898a7bc35903155c225dabb"
+  },
+  {
+    "title": "Kuakata Sea Beach Weekend",
+    "description": "See sunrise and sunset on the same beach at Kuakata.",
+    "location": "Kuakata",
+    "costFrom": 13800,
+    "startDate": "2025-12-11",
+    "endDate": "2025-12-13",
+    "included": [
+      "Hotel",
+      "Breakfast",
+      "Sightseeing"
+    ],
+    "excluded": [
+      "Lunch & dinner"
+    ],
+    "amenities": [
+      "Wi-Fi"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Beach day",
+      "Return"
+    ],
+    "maxGuests": 22,
+    "minAge": 18,
+    "division": "689a78af8f9a3a286cec02fd",
+    "tourType": "6898a5f935903155c225da94"
+  },
+  {
+    "title": "Barishal Backwater Cruise & Floating Guava Market",
+    "description": "Tranquil canals and the famous floating guava market experience.",
+    "location": "Banaripara",
+    "costFrom": 9900,
+    "startDate": "2026-08-10",
+    "endDate": "2026-08-10",
+    "included": [
+      "Boat",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Canal cruise",
+      "Guava market",
+      "Local village"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78af8f9a3a286cec02fd",
+    "tourType": "6898a63b35903155c225daa4"
+  },
+  {
+    "title": "Guthia Mosque & Durga Sagar Culture Tour",
+    "description": "Architectural gems and serene waterbody of Durga Sagar.",
+    "location": "Barishal",
+    "costFrom": 7200,
+    "startDate": "2025-11-25",
+    "endDate": "2025-11-25",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Guthia mosque",
+      "Durga Sagar",
+      "Local snacks"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78af8f9a3a286cec02fd",
+    "tourType": "6898a64535903155c225daa8"
+  },
+  {
+    "title": "Tajhat Palace & Teesta Barrage Heritage",
+    "description": "Colonial palace and mighty Teesta river engineering marvel.",
+    "location": "Rangpur",
+    "costFrom": 8400,
+    "startDate": "2025-11-27",
+    "endDate": "2025-11-27",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Tajhat palace",
+      "Teesta barrage",
+      "Return"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78c08f9a3a286cec0301",
+    "tourType": "6898a81738f53370c180a044"
+  },
+  {
+    "title": "Kantajew Temple Heritage Walk",
+    "description": "Terracotta masterpiece of Kantajew and nearby sites.",
+    "location": "Dinajpur",
+    "costFrom": 9300,
+    "startDate": "2025-12-06",
+    "endDate": "2025-12-06",
+    "included": [
+      "Transport",
+      "Guide",
+      "Tickets"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Temple tour",
+      "Local bazar",
+      "Return"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78c08f9a3a286cec0301",
+    "tourType": "6898a81738f53370c180a044"
+  },
+  {
+    "title": "Tetulia Tea & River Road Trip",
+    "description": "Northern tea gardens and river views at Bangladesh’s northern tip.",
+    "location": "Panchagarh",
+    "costFrom": 8800,
+    "startDate": "2025-12-09",
+    "endDate": "2025-12-09",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Drive",
+      "Tea garden stop",
+      "River viewpoint"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78c08f9a3a286cec0301",
+    "tourType": "6898a84538f53370c180a050"
+  },
+  {
+    "title": "Rangpur City Highlights",
+    "description": "City tour with parks, museums and local markets.",
+    "location": "Rangpur",
+    "costFrom": 5200,
+    "startDate": "2025-11-18",
+    "endDate": "2025-11-18",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Museum",
+      "Park",
+      "Market"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78c08f9a3a286cec0301",
+    "tourType": "6898a62035903155c225da9c"
+  },
+  {
+    "title": "Birishiri China Clay Hills Trek",
+    "description": "Colorful clay hills, turquoise quarry lakes and tribal culture.",
+    "location": "Birishiri, Netrokona",
+    "costFrom": 8900,
+    "startDate": "2025-11-23",
+    "endDate": "2025-11-23",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "First-aid"
+    ],
+    "tourPlan": [
+      "Hike",
+      "Viewpoints",
+      "Cultural stop"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78d58f9a3a286cec0305",
+    "tourType": "6898a62d35903155c225daa0"
+  },
+  {
+    "title": "Garo Hills Wellness & Spa Retreat",
+    "description": "Quiet forest edges and wellness sessions near the Garo hills.",
+    "location": "Mymensingh",
+    "costFrom": 11800,
+    "startDate": "2025-12-02",
+    "endDate": "2025-12-04",
+    "included": [
+      "Resort",
+      "Breakfast",
+      "Wellness sessions"
+    ],
+    "excluded": [
+      "Lunch & dinner"
+    ],
+    "amenities": [
+      "Spa",
+      "Wi-Fi"
+    ],
+    "tourPlan": [
+      "Check-in",
+      "Wellness",
+      "Forest walk"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78d58f9a3a286cec0305",
+    "tourType": "6898a85238f53370c180a054"
+  },
+  {
+    "title": "Mymensingh Riverside City Tour",
+    "description": "Shashani Ghat walk, Zainul Abedin Museum and river promenade.",
+    "location": "Mymensingh",
+    "costFrom": 5200,
+    "startDate": "2025-11-26",
+    "endDate": "2025-11-26",
+    "included": [
+      "Transport",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "AC vehicle"
+    ],
+    "tourPlan": [
+      "Museum",
+      "Promenade",
+      "Local snacks"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78d58f9a3a286cec0305",
+    "tourType": "6898a62035903155c225da9c"
+  },
+  {
+    "title": "Dubai Desert Safari (Ex-Dhaka)",
+    "description": "Dune bashing, camel ride and BBQ dinner under the stars.",
+    "location": "Dubai, UAE",
+    "costFrom": 38500,
+    "startDate": "2026-01-18",
+    "endDate": "2026-01-20",
+    "included": [
+      "Hotel",
+      "Desert tour",
+      "Dinner"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa"
+    ],
+    "amenities": [
+      "4x4 vehicles"
+    ],
+    "tourPlan": [
+      "Arrive Dubai",
+      "Desert safari",
+      "Free time & depart"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a79c35903155c225dab3"
+  },
+  {
+    "title": "Thar Desert Safari Rajasthan (Ex-Dhaka)",
+    "description": "Jaisalmer dunes with camel safari and desert camp.",
+    "location": "Jaisalmer, India",
+    "costFrom": 34800,
+    "startDate": "2026-02-05",
+    "endDate": "2026-02-08",
+    "included": [
+      "Camp",
+      "Safari",
+      "Meals (camp)"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa"
+    ],
+    "amenities": [
+      "Camel/jeep support"
+    ],
+    "tourPlan": [
+      "Fly to Jaisalmer",
+      "Desert camp",
+      "City fort tour"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a79c35903155c225dab3"
+  },
+  {
+    "title": "Gulmarg Ski Adventure (Ex-Dhaka)",
+    "description": "Beginner-friendly ski lessons and gondola rides in Gulmarg.",
+    "location": "Gulmarg, India",
+    "costFrom": 56500,
+    "startDate": "2026-01-25",
+    "endDate": "2026-01-29",
+    "included": [
+      "Hotel",
+      "Ski lessons",
+      "Lift pass (basic)"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa",
+      "Gear rental"
+    ],
+    "amenities": [
+      "Instructor support"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Ski lessons",
+      "Free ski & depart"
+    ],
+    "maxGuests": 14,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a82738f53370c180a048"
+  },
+  {
+    "title": "Manali Snow & Ski Starter (Ex-Sylhet)",
+    "description": "Snow play with optional ski lesson in Solang/Manali.",
+    "location": "Manali, India",
+    "costFrom": 49800,
+    "startDate": "2026-02-12",
+    "endDate": "2026-02-16",
+    "included": [
+      "Hotel",
+      "Breakfast",
+      "Local transfers"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa",
+      "Ski rental"
+    ],
+    "amenities": [
+      "On-ground support"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Snow & ski",
+      "Leisure & depart"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78878f9a3a286cec02f1",
+    "tourType": "6898a82738f53370c180a048"
+  },
+  {
+    "title": "Norway Northern Lights Expedition (Ex-Dhaka)",
+    "description": "Chase auroras around Tromsø with expert guides.",
+    "location": "Tromsø, Norway",
+    "costFrom": 129000,
+    "startDate": "2026-02-20",
+    "endDate": "2026-02-24",
+    "included": [
+      "Hotel",
+      "Aurora chases",
+      "Transfers"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa",
+      "Meals"
+    ],
+    "amenities": [
+      "Thermal suits (on tour)"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Aurora chase",
+      "Day tours",
+      "Depart"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a83738f53370c180a04c"
+  },
+  {
+    "title": "Iceland Aurora & Golden Circle (Ex-Dhaka)",
+    "description": "Northern Lights nights plus geysers and waterfalls by day.",
+    "location": "Reykjavík, Iceland",
+    "costFrom": 139000,
+    "startDate": "2026-03-05",
+    "endDate": "2026-03-09",
+    "included": [
+      "Hotel",
+      "Aurora tour",
+      "Golden Circle day trip"
+    ],
+    "excluded": [
+      "Flights",
+      "Visa",
+      "Meals"
+    ],
+    "amenities": [
+      "Coach tours"
+    ],
+    "tourPlan": [
+      "Arrival",
+      "Aurora tour",
+      "Golden Circle",
+      "Depart"
+    ],
+    "maxGuests": 18,
+    "minAge": 18,
+    "division": "689a78698f9a3a286cec02e9",
+    "tourType": "6898a83738f53370c180a04c"
+  },
+  {
+    "title": "Rangamati Lake Cruise",
+    "description": "Serene boat ride on Kaptai Lake with tribal craft markets.",
+    "location": "Rangamati",
+    "costFrom": 8800,
+    "startDate": "2025-12-08",
+    "endDate": "2025-12-08",
+    "included": [
+      "Boat",
+      "Guide"
+    ],
+    "excluded": [
+      "Meals"
+    ],
+    "amenities": [
+      "Life jackets"
+    ],
+    "tourPlan": [
+      "Boat loops",
+      "Shuvolong waterfall",
+      "Bazars"
+    ],
+    "maxGuests": 20,
+    "minAge": 18,
+    "division": "689a78798f9a3a286cec02ed",
+    "tourType": "6898a63b35903155c225daa4"
+  },
+  {
+    "title": "Khulna Regional Food Tour",
+    "description": "Taste prawn, fish curries and sweets unique to the south-west.",
+    "location": "Khulna",
+    "costFrom": 5400,
+    "startDate": "2025-11-29",
+    "endDate": "2025-11-29",
+    "included": [
+      "Tastings",
+      "Guide"
+    ],
+    "excluded": [
+      "Transfers"
+    ],
+    "amenities": [
+      "Hygiene kit"
+    ],
+    "tourPlan": [
+      "Market visit",
+      "Food trail",
+      "Dessert stop"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "689a78a38f9a3a286cec02f9",
+    "tourType": "6898a7bc35903155c225dabb"
+  }
+]

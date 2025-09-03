@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
-
 import {Server} from 'http';
 import mongoose from 'mongoose';
 import envConfig from './app/config/envConfig';
 import app from './app';
 import seedSuperAdminFunction from "./app/utils/seedSuperAdminFunction";
+import {consolePrint} from "./app/utils/consolePrintFunction";
 
 
 
@@ -17,17 +16,17 @@ const startServer = async () => {
 
         // Connecting to MongoDB, using the Mongoose package.
         const database = await mongoose.connect(envConfig.mongodb_uri as string);
-        if (database) console.log('✅ Connected to MongoDB successfully!');
-        else console.log('❌ Failed to connect to MongoDB!');
+        if (database) consolePrint('✅ Connected to MongoDB successfully!');
+        else consolePrint('❌ Failed to connect to MongoDB!');
 
         // Starting the server to see the output in the browser.
         server = app.listen(envConfig.port, (): void => {
-            console.log(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig.port}`);
+            consolePrint(`✅ PH Tour Management Project - Server Side, is listening on port ${envConfig.port}`);
         })
 
     }
     catch (error) {
-        console.log(error);
+        consolePrint(error);
     }
 };
 
@@ -55,17 +54,17 @@ with the `UserModel`. */
 process.on('unhandledRejection', (error: unknown) => {
 
     if (error instanceof Error) {
-        console.log('Unhandled Rejection detected! Error: ', error.message)
+        consolePrint('Unhandled Rejection detected! Error: ', error.message)
     } else {
-        console.log('Unhandled Rejection detected! Error: ', error)
+        consolePrint('Unhandled Rejection detected! Error: ', error)
     }
 
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     } else {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 })
@@ -80,17 +79,17 @@ process.on('unhandledRejection', (error: unknown) => {
 process.on('uncaughtException', (error: unknown) => {
 
     if (error instanceof Error) {
-        console.log('Uncaught Exception detected! Error: ', error.message)
+        consolePrint('Uncaught Exception detected! Error: ', error.message)
     } else {
-        console.log('Uncaught Exception detected! Error: ', error)
+        consolePrint('Uncaught Exception detected! Error: ', error)
     }
 
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     } else {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 })
@@ -103,14 +102,14 @@ process.on('uncaughtException', (error: unknown) => {
 
 // SIGTERM Signal Error Handling
 process.on('SIGTERM', () => {
-    console.log('SIGTERM Signal detected!')
+    consolePrint('SIGTERM Signal detected!')
 
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     } else {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 })
@@ -125,17 +124,17 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', (error: unknown) => {
 
     if (error instanceof Error) {
-        console.log('SIGINT Signal detected! Error: ', error.message)
+        consolePrint('SIGINT Signal detected! Error: ', error.message)
     } else {
-        console.log('SIGINT Signal detected! Error: ', error)
+        consolePrint('SIGINT Signal detected! Error: ', error)
     }
 
     // Graceful shutdown.
     if (server) {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         server.close(() => process.exit(1));
     } else {
-        console.log('⚠️ Server closed gracefully!');
+        consolePrint('⚠️ Server closed gracefully!');
         process.exit(1);
     }
 })

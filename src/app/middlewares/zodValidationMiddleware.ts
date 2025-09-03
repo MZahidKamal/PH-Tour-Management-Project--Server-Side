@@ -1,5 +1,6 @@
 import {ZodObject} from "zod";
 import {NextFunction, Request, Response} from "express";
+import {consolePrint} from "../utils/consolePrintFunction";
 
 
 
@@ -21,8 +22,7 @@ const zodValidationMiddleware = (zodSchema: ZodObject) => async (req: Request, r
 
     }
     catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('Zod Validation Error: ', error);
+        consolePrint('Zod Validation Error: ', error);
         next(error);
     }
 

@@ -6,6 +6,7 @@ import {RoleEnum, UserInterface} from "../modules/user/user.interface";
 import {Types} from "mongoose";
 import {Strategy as CredentialsStrategy} from "passport-local";
 import bcrypt from "bcryptjs";
+import {consolePrint} from "../utils/consolePrintFunction";
 
 
 
@@ -53,8 +54,7 @@ passport.use(new CredentialsStrategy({
             return doneFunction(null, userFromDatabase, {message: 'User logged in successfully!'});
 
         } catch (error) {
-            /* eslint-disable-next-line no-console */
-            console.log('CredentialsStrategy Error: ', error);
+            consolePrint('CredentialsStrategy Error: ', error);
             return doneFunction(error);
         }
     })
@@ -98,8 +98,7 @@ passport.use(new GoogleStrategy({
             }
         }
         catch (error) {
-            /* eslint-disable-next-line no-console */
-            console.log('Google OAuth Strategy Error: ', error);
+            consolePrint('Google OAuth Strategy Error: ', error);
             return doneFunction(error);
         }
     }
@@ -139,8 +138,7 @@ passport.deserializeUser(async (
         // console.log('userFromDatabase from deserializeUser: ', userFromDatabase);
         done(null, userFromDatabase);
     } catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('Error in Deserializing the User: ', error);
+        consolePrint('Error in Deserializing the User: ', error);
         done(error as Error);
     }
 });

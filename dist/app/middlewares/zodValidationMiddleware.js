@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const consolePrintFunction_1 = require("../utils/consolePrintFunction");
 const zodValidationMiddleware = (zodSchema) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // console.log('Pre Validated Request: ', req.body);
@@ -19,8 +20,7 @@ const zodValidationMiddleware = (zodSchema) => (req, res, next) => __awaiter(voi
         next();
     }
     catch (error) {
-        /* eslint-disable-next-line no-console */
-        console.log('Zod Validation Error: ', error);
+        (0, consolePrintFunction_1.consolePrint)('Zod Validation Error: ', error);
         next(error);
     }
 });
