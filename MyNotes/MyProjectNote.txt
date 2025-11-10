@@ -225,79 +225,9 @@ From now on, after every code update, run [npm run build] and then [vercel --pro
 
 
 
+notun module shuru korar shomoy always age 'development' branch e jabo.
+git checkout development
 
+tarpor ei 'development' branch e thaka obosthay notun branch 'backend-part-2' create korbo sekhane switch korbo.
+git checkout -b "backend-part-2"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Stück | Bezeichnung
-
---- Für das Mäppchen -------------------------------------------
-2 dicke Dreikantbleistifte (HB) ✅
-1 Radiergummi ✅
-1 kleines Lineal ✅
-1 Spitzer mit Gehäuse ✅
-12 dicke Dreikantbuntstifte ✅
-1 Folienstift (non-permanent) ✅
-
---- Deutsch ----------------------------------------------------
-1 roter Schnellhefter (Pappe) ✅
-1 Geschichtenheft 4G (DIN A4) ✅
-1 Schreibheft Lineatur 0 (Din A 5, Querformat, mit Häuschen) ✅
-
--- Mathe -------------------------------------------------------
-1 blauer Schnellhefter (Pappe) ✅
-1 Heft (DIN A4), Lineatur Nr. 7 ✅
-1 Heft (DIN A5), Lineatur Nr. 7 ✅
-
---- Kunst ------------------------------------------------------
-1 Leerer Schuhkarton (passend für die Kunstmaterialien)
-1 DIN A3 Zeichenblock, perforiert ✅
-1 Deckfarbkasten (Markenware) mit 12 Farben, einzeln nachkaufbar ✅
-1 Wasserbecher ✅
-1 Tube Deckweiß ✅
-4 Borstenpinsel (Nr. 4, Nr. 8, Nr. 12, Nr. 16) ✅
-1 DIN A3 Sammelmappe für Bilder ✅
-1 Packung Filzstifte ✅
-
---- Sonstiges -------------------------------------------------
-8 Wachsmalstifte ✅
-2 Kinderscheren ☑️
-2 Klebestifte farblos ✅
-1 Dokumentenmappe (A4), mit Druckknopf verschließbar ✅
-1 gelber Schnellhefter (Pappe) als Hausaufgabenordner ✅
-1 grüner Schnellhefter (Pappe) für Sachunterricht ✅
-1 weißer Schnellhefter (Pappe) für Musik ✅
-1 lila Schnellhefter (Pappe) für Religion / Ethik ✅
-1 Postmappe gelb Eckspannmappe DIN A4 ✅
-1 Brotdose ☑️
-1 Trinkflasche (kein Glas) ☑️
-1 Sportbeutel mit Sportsachen (Turnhose, T-Shirt, Schuhe mit fester, heller Sohle), Haargummi bei Bedarf ☑️
-1 Mäppchen ☑️

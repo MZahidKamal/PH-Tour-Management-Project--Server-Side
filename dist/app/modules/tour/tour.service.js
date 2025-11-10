@@ -82,7 +82,6 @@ const deleteATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, fu
 });
 /*============================== Tour Services ==============================*/
 const createATourService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, consolePrintFunction_1.consolePrint)(payload);
     // First we'll check if we have the tour title already in the database'
     const isTourTitleExist = yield tour_model_1.TourModel.findOne({ title: payload.title });
     if (isTourTitleExist !== null) {
@@ -95,6 +94,8 @@ const createATourService = (payload) => __awaiter(void 0, void 0, void 0, functi
         description: payload.description,
         location: payload.location,
         costFrom: payload.costFrom,
+        departureLocation: payload.departureLocation,
+        arrivalLocation: payload.arrivalLocation,
         startDate: payload.startDate,
         endDate: payload.endDate,
         included: payload.included,

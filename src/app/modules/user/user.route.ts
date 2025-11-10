@@ -30,6 +30,8 @@ router.patch("/:userId",
     jwtRoleVerificationMiddleware(...Object.values(RoleEnum)),
     UserControllers.updateUserController
 );
+// These types of routes, where : is used, are called parameterized routes.
+// These parameterized routes need to be positioned after the non-parameterized routes.
 
 
 

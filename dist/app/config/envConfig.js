@@ -29,6 +29,18 @@ const loadEnvVariables = () => {
         'GOOGLE_CALLBACK_URL',
         'EXPRESS_SESSION_SECRET',
         'FRONTEND_URL',
+        'SSLCOMMERZ_STORE_ID',
+        'SSLCOMMERZ_STORE_PASSWORD',
+        'SSLCOMMERZ_PAYMENT_SESSION_API',
+        'SSLCOMMERZ_PAYMENT_VALIDATION_WEBSERVICE_API',
+        'SSLCOMMERZ_PAYMENT_CURRENCY',
+        'SSLCOMMERZ_FRONTEND_SUCCESS_URL_PARTIAL',
+        'SSLCOMMERZ_FRONTEND_FAIL_URL_PARTIAL',
+        'SSLCOMMERZ_FRONTEND_CANCEL_URL_PARTIAL',
+        'SSLCOMMERZ_BACKEND_SUCCESS_URL_PARTIAL',
+        'SSLCOMMERZ_BACKEND_FAIL_URL_PARTIAL',
+        'SSLCOMMERZ_BACKEND_CANCEL_URL_PARTIAL',
+        'SSLCOMMERZ_IPN_URL',
     ];
     const missingEnvVariables = envVariables.filter(envVariable => !process.env[envVariable]);
     if (missingEnvVariables.length > 0) {
@@ -50,7 +62,19 @@ const loadEnvVariables = () => {
         google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
         google_callback_url: process.env.GOOGLE_CALLBACK_URL,
         express_session_secret: process.env.EXPRESS_SESSION_SECRET,
-        frontend_url: process.env.FRONTEND_URL
+        frontend_url: process.env.FRONTEND_URL,
+        sslcommerz_store_id: process.env.SSLCOMMERZ_STORE_ID,
+        sslcommerz_store_password: process.env.SSLCOMMERZ_STORE_PASSWORD,
+        sslcommerz_payment_session_api: process.env.SSLCOMMERZ_PAYMENT_SESSION_API,
+        sslcommerz_payment_validation_webservice_api: process.env.SSLCOMMERZ_PAYMENT_VALIDATION_WEBSERVICE_API,
+        sslcommerz_payment_currency: process.env.SSLCOMMERZ_PAYMENT_CURRENCY,
+        sslcommerz_frontend_success_url_partial: process.env.SSLCOMMERZ_FRONTEND_SUCCESS_URL_PARTIAL,
+        sslcommerz_frontend_fail_url_partial: process.env.SSLCOMMERZ_FRONTEND_FAIL_URL_PARTIAL,
+        sslcommerz_frontend_cancel_url_partial: process.env.SSLCOMMERZ_FRONTEND_CANCEL_URL_PARTIAL,
+        sslcommerz_backend_success_url_partial: process.env.SSLCOMMERZ_BACKEND_SUCCESS_URL_PARTIAL,
+        sslcommerz_backend_fail_url_partial: process.env.SSLCOMMERZ_BACKEND_FAIL_URL_PARTIAL,
+        sslcommerz_backend_cancel_url_partial: process.env.SSLCOMMERZ_BACKEND_CANCEL_URL_PARTIAL,
+        sslcommerz_ipn_url: process.env.SSLCOMMERZ_IPN_URL,
     };
 };
 /**
