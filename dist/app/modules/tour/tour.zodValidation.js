@@ -86,6 +86,16 @@ exports.updateATourValidationZodSchema = zod_1.z.object({
         .number({ error: "Tour constFrom must be a number" })
         .min(10, { message: "Tour constFrom must be at least 10" })
         .optional(),
+    departureLocation: zod_1.z
+        .string({ error: "Tour departureLocation must be a string" })
+        .min(3, { message: "Tour departureLocation must be at least 3 characters long" })
+        .max(50, { message: "Tour departureLocation must be at most 100 characters long" })
+        .optional(),
+    arrivalLocation: zod_1.z
+        .string({ error: "Tour arrivalLocation must be a string" })
+        .min(3, { message: "Tour arrivalLocation must be at least 3 characters long" })
+        .max(50, { message: "Tour arrivalLocation must be at most 100 characters long" })
+        .optional(),
     startDate: zod_1.z
         // .date({error: "Tour startDate must be a date"})
         .string({ error: "Tour startDate must be a string" })
