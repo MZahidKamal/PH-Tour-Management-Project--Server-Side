@@ -214,20 +214,3 @@ From now on, after every code update, run [npm run build] and then [vercel --pro
 
 "email": "super_admin@email.com",
 "password": "SuperAdmin@123"
-
-
-
-
-
-
-
-
-
-
-
-notun module shuru korar shomoy always age 'development' branch e jabo.
-git checkout development
-
-tarpor ei 'development' branch e thaka obosthay notun branch 'backend-part-2' create korbo sekhane switch korbo.
-git checkout -b "backend-part-2"
-
