@@ -4,6 +4,8 @@ import {createADivisionValidationZodSchema, updateADivisionValidationZodSchema} 
 import {DivisionControllers} from "./division.controller";
 import JwtRoleVerificationMiddleware from "../../middlewares/jwtRoleVerificationMiddleware";
 import {RoleEnum} from "../user/user.interface";
+import {multerUpload} from "../../config/multer.config";
+import parseMultipartJsonMiddleware from "../../middlewares/parseMultipartJsonMiddleware";
 
 
 
@@ -17,6 +19,8 @@ const router = Router();
 
 router.post("/create",
     JwtRoleVerificationMiddleware(RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN),
+    multerUpload.single("file"),
+    parseMultipartJsonMiddleware,
     zodValidationMiddleware(createADivisionValidationZodSchema),
     DivisionControllers.createADivisionController,
 );
@@ -39,6 +43,8 @@ router.get("/:slug",
 
 router.patch("/:divisionId",
     JwtRoleVerificationMiddleware(RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN),
+    multerUpload.single("file"),
+    parseMultipartJsonMiddleware,
     zodValidationMiddleware(updateADivisionValidationZodSchema),
     DivisionControllers.updateADivisionController
 );

@@ -4,6 +4,7 @@ import envConfig from './app/config/envConfig';
 import app from './app';
 import seedSuperAdminFunction from "./app/utils/seedSuperAdminFunction";
 import {consolePrint} from "./app/utils/consolePrintFunction";
+import {connectRedisDatabase} from "./app/config/redis.config";
 
 
 
@@ -33,6 +34,7 @@ const startServer = async () => {
 
 
 (async ()=>{
+    await connectRedisDatabase();
     await startServer();
     await seedSuperAdminFunction();
 })()

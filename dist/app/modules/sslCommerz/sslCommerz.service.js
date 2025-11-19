@@ -18,6 +18,7 @@ const axios_1 = __importDefault(require("axios"));
 const consolePrintFunction_1 = require("../../utils/consolePrintFunction");
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
+const payment_model_1 = require("../payment/payment.model");
 const paymentInitiation = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const constructedPaymentDataObject = {
@@ -31,7 +32,7 @@ const paymentInitiation = (payload) => __awaiter(void 0, void 0, void 0, functio
             fail_url: `${envConfig_1.default.sslcommerz_backend_fail_url_partial}?transactionId=${payload === null || payload === void 0 ? void 0 : payload.transactionId}&amount=${payload === null || payload === void 0 ? void 0 : payload.amount}&status=400&success=false&message=Payment%20failed!`,
             cancel_url: `${envConfig_1.default.sslcommerz_backend_cancel_url_partial}?transactionId=${payload === null || payload === void 0 ? void 0 : payload.transactionId}&amount=${payload === null || payload === void 0 ? void 0 : payload.amount}&status=400&success=false&message=Payment%20cancelled!`,
             product_category: 'Tour',
-            ipn_url: 'Not Yet provided',
+            ipn_url: envConfig_1.default.sslcommerz_ipn_url,
             /*Parameters to Handle EMI Transaction*/
             emi_option: 'N/A',
             emi_max_inst_option: 'N/A',
@@ -98,13 +99,34 @@ const paymentInitiation = (payload) => __awaiter(void 0, void 0, void 0, functio
         });
         return response.data;
     }
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     catch (error) {
         (0, consolePrintFunction_1.consolePrint)(error);
         throw new AppError_1.default(http_status_codes_1.default.BAD_REQUEST, error.message);
     }
 });
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+const paymentVerification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield (0, axios_1.default)({
+            method: 'GET',
+            url: `${envConfig_1.default.sslcommerz_payment_validation_webservice_api}?val_id=${payload.val_id}&store_id=${envConfig_1.default.sslcommerz_store_id}&store_passwd=${envConfig_1.default.sslcommerz_store_password}`,
+        });
+        (0, consolePrintFunction_1.consolePrint)(response.data);
+        yield payment_model_1.PaymentModel.updateOne({ transactionId: payload.transactionId }, { paymentGatewayData: response.data }, {
+            runValidators: true,
+            new: true
+        });
+    }
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    catch (error) {
+        (0, consolePrintFunction_1.consolePrint)(error);
+        throw new AppError_1.default(http_status_codes_1.default.BAD_REQUEST, `Payment verification failed! ${error.message}`);
+    }
+});
 exports.SSLCommerzServices = {
-    paymentInitiation
+    paymentInitiation,
+    paymentVerification
 };
 /*
 Payment workflow with SSLCOMMERZ.

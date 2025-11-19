@@ -21,7 +21,7 @@ export default tseslint.config(
 
 
             // ERROR: Do not use explicit any
-            // "@typescript-eslint/no-explicit-any": "off",
+            //"@typescript-eslint/no-explicit-any": "off",
 
 
             // This rules says not to allow any unused variables or arguments or parameters,

@@ -4,6 +4,7 @@ import AppError from "../../errorHelpers/AppError";
 import httpStatus from "http-status-codes";
 import {TourTypeInterface} from "./tour.interface";
 import {TourQueryBuilderClass} from "../../classes/QueryBuilderClass";
+import {deleteAnImageFromCloudinary} from "../../config/cloudinary.config";
 
 
 
@@ -49,6 +50,7 @@ const getAllTourTypesService = async () => {
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const updateATourTypeService = async (payload: any) => {
     // First, we'll destructure the payload
     const tourTypeId = payload.params.tourTypeId
@@ -78,6 +80,7 @@ const updateATourTypeService = async (payload: any) => {
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const deleteATourTypeService = async (payload: any) => {
     // First, we'll extract the tour type id from the payload
     const tourTypeId = payload.params.tourTypeId
@@ -102,33 +105,41 @@ const deleteATourTypeService = async (payload: any) => {
 
 /*============================== Tour Services ==============================*/
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const createATourService = async (payload: any) => {
 
-    // First we'll check if we have the tour title already in the database'
-    const isTourTitleExist = await TourModel.findOne({title: payload.title});
+    // First, we'll extract the tour data from the payload.body and the tour images from the payload.files'
+    const tourObj = payload.body;
+    const tourImages = payload.files.map((file: Express.Multer.File) => {
+        return file.path;
+    });
+
+    // Then, we'll check if we have the tour title already in the database'
+    const isTourTitleExist = await TourModel.findOne({title: tourObj?.title});
     if (isTourTitleExist !== null) {
         throw new AppError(httpStatus.CONFLICT, "Tour title already exists!");
     }
 
     // If the tour title is not exist, then create a new tour object for the database'
     const newTourObj = {
-        title: payload.title,
-        slug: payload.title.toLowerCase().split(' ').join('-').concat('-tour-in-' + payload.location.toLowerCase().split(' ').join('-')),
-        description: payload.description,
-        location: payload.location,
-        costFrom: payload.costFrom,
-        departureLocation: payload.departureLocation,
-        arrivalLocation: payload.arrivalLocation,
-        startDate: payload.startDate,
-        endDate: payload.endDate,
-        included: payload.included,
-        excluded: payload.excluded,
-        amenities: payload.amenities,
-        tourPlan: payload.tourPlan,
-        maxGuests: payload.maxGuests,
-        minAge: payload.minAge,
-        division: payload.division,
-        tourType: payload.tourType,
+        title: tourObj?.title,
+        slug: tourObj?.title.toLowerCase().split(' ').join('-').concat('-tour-in-' + tourObj?.location.toLowerCase().split(' ').join('-')),
+        description: tourObj?.description,
+        images: tourImages,
+        location: tourObj?.location,
+        costFrom: tourObj?.costFrom,
+        departureLocation: tourObj?.departureLocation,
+        arrivalLocation: tourObj?.arrivalLocation,
+        startDate: tourObj?.startDate,
+        endDate: tourObj?.endDate,
+        included: tourObj?.included,
+        excluded: tourObj?.excluded,
+        amenities: tourObj?.amenities,
+        tourPlan: tourObj?.tourPlan,
+        maxGuests: tourObj?.maxGuests,
+        minAge: tourObj?.minAge,
+        division: tourObj?.division,
+        tourType: tourObj?.tourType,
     }
 
     // Then we'll save the new tour object in the database'
@@ -222,6 +233,7 @@ const createATourService = async (payload: any) => {
         data: allTours
     };
 }*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const getAllToursService = async (payload: any) => {
 
     const queryBuilder = new TourQueryBuilderClass(TourModel, payload.query)
@@ -251,6 +263,7 @@ const getAllToursService = async (payload: any) => {
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const getSingleTourService = async (payload: any) => {
 
     // First, we'll extract the tour slug from the payload'
@@ -271,11 +284,15 @@ const getSingleTourService = async (payload: any) => {
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const updateATourService = async (payload: any) => {
 
-    // First, we'll extract the tour id and the updated tour data from the payload
+    // First, we'll extract the tour id from params, the updated tour data from the payload.body and the updated tour images from the payload.files'
     const tourId = payload.params.tourId;
     const updatedTourData = payload.body;
+    const updatedTourImages = payload.files?.map((file: Express.Multer.File) => {
+        return file.path;
+    }) || [];
 
     // Then we'll check if we really have this tour id in the database
     const isTourIdExists = await TourModel.findById(tourId);
@@ -295,8 +312,11 @@ const updateATourService = async (payload: any) => {
     // Then we'll create a updated tour object for the database, with updated data
     const updatedTourObj = {
         title: updatedTourData.title? updatedTourData.title : isTourIdExists.title,
-        slug: updatedTourData.title? updatedTourData.title?.toLowerCase().split(' ').join('-').concat('-tour-in-' + payload.location?.toLowerCase().split(' ').join('-')) : isTourIdExists.slug,
+        slug: updatedTourData.title? updatedTourData.title?.toLowerCase().split(' ').join('-').concat('-tour-in-' + (updatedTourData.location || isTourIdExists.location)?.toLowerCase().split(' ').join('-')) : isTourIdExists.slug,
         description: updatedTourData.description? updatedTourData.description : isTourIdExists.description,
+        images: updatedTourImages.length > 0
+            ? [...(isTourIdExists.images || []).filter((img: string) => !updatedTourData.deleteImages?.includes(img)), ...updatedTourImages]
+            : (isTourIdExists.images || []).filter((img: string) => !updatedTourData.deleteImages?.includes(img)),
         location: updatedTourData.location? updatedTourData.location : isTourIdExists.location,
         costFrom: updatedTourData.costFrom? updatedTourData.costFrom : isTourIdExists.costFrom,
         startDate: updatedTourData.startDate? updatedTourData.startDate : isTourIdExists.startDate,
@@ -314,12 +334,22 @@ const updateATourService = async (payload: any) => {
     // Then we'll update the tour in the database
     const updatedTour = await TourModel.findByIdAndUpdate(tourId, updatedTourObj, {new: true, runValidators: true});
 
+    // If the tour images are provided in the payload, then we'll delete the old tour images from the server'
+    if (updatedTourData.deleteImages && updatedTourData.deleteImages.length > 0) {
+        await Promise.all(
+            updatedTourData.deleteImages.map((imageUrl: string) => {
+                return deleteAnImageFromCloudinary(imageUrl);
+            })
+        )
+    }
+
     // Finally, we'll return the updatedTour
     return updatedTour
 }
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const deleteATourService = async (payload: any) => {
 
     // First, we'll extract the tour id from the payload

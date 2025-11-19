@@ -42,6 +42,28 @@ const getAllUsersController = (0, catchAsyncFunction_1.default)((req, res, _next
         }
     });
 }));
+const getThisSingleUserController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    // TO get this single user from the database now go to the service layer and get a single user
+    const thisSingleUserResult = yield user_service_1.UserServices.getThisSingleUserService(req);
+    // And then send the response with the user's data
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "This single user data fetched successfully!",
+        data: thisSingleUserResult,
+    });
+}));
+const getASingleUserController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    // TO get a single user from the database now go to the service layer and get a single user
+    const aSingleUserResult = yield user_service_1.UserServices.getASingleUserService(req);
+    // And then send the response with the user's data
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "A single user data fetched successfully!",
+        data: aSingleUserResult,
+    });
+}));
 const updateUserController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     // Get the userId from the params, the updated data from the request body, and the bearer token from the headers
     const userId = req.params.userId;
@@ -65,6 +87,8 @@ const updateUserController = (0, catchAsyncFunction_1.default)((req, res, _next)
 exports.UserControllers = {
     createUserController,
     getAllUsersController,
+    getThisSingleUserController,
+    getASingleUserController,
     updateUserController
 };
 /*

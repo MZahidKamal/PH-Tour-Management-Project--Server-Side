@@ -53,6 +53,46 @@ const getAllUsersController = catchAsyncFunction(
 
 
 
+const getThisSingleUserController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        // TO get this single user from the database now go to the service layer and get a single user
+        const thisSingleUserResult = await UserServices.getThisSingleUserService(req);
+
+        // And then send the response with the user's data
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "This single user data fetched successfully!",
+            data: thisSingleUserResult,
+        })
+    }
+)
+
+
+
+
+
+const getASingleUserController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        // TO get a single user from the database now go to the service layer and get a single user
+        const aSingleUserResult = await UserServices.getASingleUserService(req);
+
+        // And then send the response with the user's data
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "A single user data fetched successfully!",
+            data: aSingleUserResult,
+        })
+    }
+)
+
+
+
+
+
 const updateUserController = catchAsyncFunction(
     async (req: Request, res: Response, _next: NextFunction) => {
 
@@ -87,6 +127,8 @@ const updateUserController = catchAsyncFunction(
 export const UserControllers = {
     createUserController,
     getAllUsersController,
+    getThisSingleUserController,
+    getASingleUserController,
     updateUserController
 };
 

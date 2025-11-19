@@ -3,6 +3,8 @@ import {AuthControllers} from "./auth.controller";
 import JwtRoleVerificationMiddleware from "../../middlewares/jwtRoleVerificationMiddleware";
 import {RoleEnum} from "../user/user.interface";
 import passport from "passport";
+import zodValidationMiddleware from "../../middlewares/zodValidationMiddleware";
+import {resetPasswordFinalizationZodSchema, resetPasswordRequestZodSchema} from "./auth.zodValidation";
 
 
 
@@ -29,10 +31,31 @@ router.post("/logout",
 
 
 
-router.post("/reset-password",
+router.post("/change-password",
     JwtRoleVerificationMiddleware(...Object.values(RoleEnum)),
-    AuthControllers.resetPasswordController
+    AuthControllers.changePasswordController
 );
+/*
+TODO: Will implement these features
+A route to 'reset-password' in case of forgot password
+And a route to 'set-password' in case of users who previously registered with Google
+And a route to get 'current-user-profile' in case of the currently logged in user
+*/
+
+
+
+router.post("/reset-password-request",
+    zodValidationMiddleware(resetPasswordRequestZodSchema),
+    AuthControllers.resetPasswordRequestController
+)
+
+
+
+router.post("/reset-password-finalization",
+    zodValidationMiddleware(resetPasswordFinalizationZodSchema),
+    JwtRoleVerificationMiddleware(...Object.values(RoleEnum)),
+    AuthControllers.resetPasswordFinalizationController
+)
 
 
 

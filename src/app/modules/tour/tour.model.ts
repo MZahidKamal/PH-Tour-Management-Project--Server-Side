@@ -18,9 +18,8 @@ const tourTypeSchema = new Schema<TourTypeInterface>({
     {
         timestamps: true,
         versionKey: false,
-    })
-
-
+    }
+)
 
 export const TourTypeModel = model<TourTypeInterface>('TourTypeModel', tourTypeSchema);
 
@@ -112,8 +111,8 @@ const tourSchema = new Schema<TourInterface>({
     {
         timestamps: true,
         versionKey: false,
-    })
-
+    }
+)
 
 
 export const TourModel = model<TourInterface>('TourModel', tourSchema);

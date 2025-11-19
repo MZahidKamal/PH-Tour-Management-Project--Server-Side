@@ -143,6 +143,11 @@ const createBookingService = (payload) => __awaiter(void 0, void 0, void 0, func
         };
         // Then we'll initialize the SSLCommerz payment'
         const sslPaymentInitialized = yield sslCommerz_service_1.SSLCommerzServices.paymentInitiation(sslPaymentInitializationPayload);
+        // Then we'll save the booking id into the user profile's bookings array'
+        const userUpdateResult = yield user_model_1.default.findOneAndUpdate({ _id: userId }, { $push: { bookings: newlyCreatedBooking[0]._id } }, { new: true, runValidators: true, session });
+        if (!userUpdateResult) {
+            throw new AppError_1.default(http_status_codes_1.default.INTERNAL_SERVER_ERROR, "Failed to update user profile's bookings array!");
+        }
         // Then we'll commit whatever we have done so far in this transaction roller back session, and will end the session
         yield session.commitTransaction();
         yield session.endSession();
@@ -165,19 +170,24 @@ const createBookingService = (payload) => __awaiter(void 0, void 0, void 0, func
 // Same function but 1st one is without transaction roller back
 // Same function but 2nd one is with transaction roller back
 const getAllBookingsService = () => __awaiter(void 0, void 0, void 0, function* () {
-    (0, consolePrintFunction_1.consolePrint)('getAllBookingsService');
-    return true;
+    // We'll get all the bookings from the database'
+    const allBookingsFromDatabase = yield booking_model_1.BookingModel.find({})
+        .populate('userId', 'name email phone address -_id')
+        .populate('tourId', 'name image location costFrom startDate endDate -_id')
+        .populate('paymentId', 'transactionId amount status -_id')
+        .lean();
+    return allBookingsFromDatabase;
 });
 const getUserBookingsService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, consolePrintFunction_1.consolePrint)('getUserBookingsService');
+    (0, consolePrintFunction_1.consolePrint)('getUserBookingsService', payload.body);
     return true;
 });
 const getSingleBookingService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, consolePrintFunction_1.consolePrint)('getSingleBookingService');
+    (0, consolePrintFunction_1.consolePrint)('getSingleBookingService', payload.body);
     return true;
 });
 const updateBookingStatusService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, consolePrintFunction_1.consolePrint)('updateBookingStatusService');
+    (0, consolePrintFunction_1.consolePrint)('updateBookingStatusService', payload.body);
     return true;
 });
 exports.BookingServices = {

@@ -214,3 +214,150 @@ From now on, after every code update, run [npm run build] and then [vercel --pro
 
 "email": "super_admin@email.com",
 "password": "SuperAdmin@123"
+
+============================================== GIT WORKFLOW AND COMMANDS ===============================================
+
+currently ami 'backend-part-1' branch e asi, full module er code complete korlam.
+
+tarpor full module er code 'backend-part-1' branch er add korbo.
+git add .
+
+tarpor full module er code 'backend-part-1' branch er add je korsi, setar jonno ekta commit message add korbo.
+git commit -m "Backend part-1 completed"
+
+tarpor 'backend-part-1' e add kora code ar commit, repository te push korbo.
+git push
+tarpor eita run korar jonno github nijei suggest korbe, tokhon eita run korte hobe.
+git push --set-upstream origin backend-part-6
+
+eibar repository te giye dekhbo je, notun branch create hoye, code ar commit soho chole ashche.
+tarpor 'Pull Request' tar e giye eivabe [development <-- backend-part-1] ekta pull request create korbo.
+tarpor 'Merge pull request' e click kore 'Confirm' kore dile ei 'backend-part-1' er code shob 'development' branch e marge hoye jabe.
+
+tarpor notun module shuru korar shomoy always age 'development' branch e jabo.
+git checkout development
+
+tarpor repository theke 'development' branch e thaka newly updated code pull kore working IDE te niye ashbo.
+git pull origin development
+
+tarpor ei 'development' branch e thaka obosthay notun branch 'backend-part-2' create korbo sekhane switch korbo.
+git checkout -b "backend-part-2"
+
+currently ami 'backend-part-2' branch e asi, ar full module er code eikhanei korte thakbo.
+
+========================================================================================================================
+
+
+Install all three given below...
+npm i multer
+npm i @types/multer
+npm i multer-storage-cloudinary
+npm i cloudinary
+and then create multer.config.ts and cloudinary.config.ts both inside /app/config directory.
+
+===================================================
+
+{
+    "title": "Khulna Regional Food Tour XYZ",
+    "description": "Taste prawn, fish curries and sweets unique to the south-west.",
+    "location": "Khulna",
+    "costFrom": 5400,
+    "departureLocation": "Dhaka",
+    "arrivalLocation": "Khulna",
+    "startDate": "2025-11-29",
+    "endDate": "2025-11-29",
+    "included": [
+        "Tastings",
+        "Guide"
+    ],
+    "excluded": [
+        "Transfers"
+    ],
+    "amenities": [
+        "Hygiene kit"
+    ],
+    "tourPlan": [
+        "Market visit",
+        "Food trail",
+        "Dessert stop"
+    ],
+    "maxGuests": 16,
+    "minAge": 18,
+    "division": "69125ea67b3556172c592a9a",
+    "tourType": "6898a7bc35903155c225dabb"
+}
+
+
+
+
+
+
+When I create a division, it uploads the thumbnail image to the cloudinary and give me the link. At that time I get a response from cloudinary, and it looks like this:
+{
+  fieldname: 'file',
+  originalname: 'maymensingh_division_image.jpg',
+  encoding: '7bit',
+  mimetype: 'image/jpeg',
+  path: 'https://res.cloudinary.com/zahids-cloudinary/image/upload/v1762935517/PHNLB5_M32_PH_Tour_Mng_Proj/maymensingh-division-image-2mnjvvn455h-1762935517259.jpg.jpg',
+  size: 12080,
+  filename: 'PHNLB5_M32_PH_Tour_Mng_Proj/maymensingh-division-image-2mnjvvn455h-1762935517259.jpg'
+}
+From this, which one is public_id? how should I know? Help me understand first. Only brief answer, No code please.
+
+
+
+public_id is the filename, but without the extension.
+
+
+
+M 32-6 @ 3:52
+
+
+user frontend theke select korbe je kon kon image delete korte chay, ar sei sathe kon kon image upload korte chay.
+backend e zod level e edit tour er khetre 'deleteImages' nam er ekta notun field add kora hobe.
+ei notun field kintu mongoDB er model level e add kora hobe na.
+delete korte chaowa image gulor image url gulo ekta array te rakha hobe, zod level e eshe 'deleteImages' er moddhe array ta save hobe.
+tarpor service level e eshe ager image gulor sathe prothome notun image gulo add hobe.
+tarpor 'deleteImages' array te thaka images gulor image url niye deleteAnImageFromCloudinary er maddhome delete kora hobe.
+ei feature ta implement korte hobe.
+
+The user will select from the frontend which images they want to delete and which images they want to upload. 
+In the backend, for the zod level edit tour, a new field named 'deleteImages' will be added. 
+This new field will not be added to the MongoDB model level. 
+The image URLs of the images to be deleted will be stored in an array, and this array will be saved within 'deleteImages' at the zod level. 
+Then, at the service level, the new images will first be added to the existing images. 
+After that, the images in the 'deleteImages' array will be deleted using deleteAnImageFromCloudinary. 
+This feature needs to be implemented.
+
+
+
+------------------------------------------------------------
+First name: PH Tour
+Last name:
+Gender: Rather not to say
+Date of Birth: 13-Nov-2000
+Email: ph.tour.info@gmail.com
+Password: 1234qweasy.
+Recovery email: kamal.md.zahid@gmail.com
+***Activate 2-Factor-Authentication System.
+Search for 'App Password'.
+Created App name: PH Tour
+***Generated App Password: lwxo vryk eoqj epbr
+***Web & App Activity: Turned On
+------------------------------------------------------------
+
+
+
+
+
+Vercel e server side deployment er jonno vercel.json file add korte hobe.
+vercel.json er file path, dist er path er sathe patch korte hobe.
+html template er .ejs file gulo rakha full folder ta dist er vetore same location e rakhte hobe.
+[npm run lint] command run kore shob error+warning remove korte hobe. 
+[npm run build] command use kore shob typescript code compile korte hobe.
+[npm run start] ta package.json file e add korte hobe.
+[npm run dev] command run kore final check korte hobe.
+
+ager global vercel installation uninstall korte chaile [npm uninstall -g vercel] command run korte hobe.
+notun korte globally vercel install korte chaile [npm i -g vercel] command run korte hobe.
+

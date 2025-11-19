@@ -32,6 +32,18 @@ passport_1.default.use(new passport_local_1.Strategy({
             // If the user is not found in the database, then return null and redirect to sign up
             return doneFunction(null, false, { message: 'User not found! Please sign up.' });
         }
+        if (userFromDatabase.isDeleted) {
+            // If the user is deleted, then return null and redirect to sign up
+            return doneFunction(null, false, { message: 'User is deleted! Please sign up.' });
+        }
+        if (userFromDatabase.isActive === user_interface_1.IsActiveEnum.INACTIVE || userFromDatabase.isActive === user_interface_1.IsActiveEnum.BLOCKED) {
+            // If the user is inactive or blocked, then return null and redirect to sign up
+            return doneFunction(null, false, { message: 'User is inactive or blocked! Contact support.' });
+        }
+        if (!userFromDatabase.isVerified) {
+            // If the user is not verified, then return null and redirect to sign up
+            return doneFunction(null, false, { message: 'User is not verified! Please verify your email.' });
+        }
         // The user is found in the database, so check if the user is authenticated by credentials or not
         const isUserCredentialsAuthenticated = (_a = userFromDatabase.auths) === null || _a === void 0 ? void 0 : _a.some(authObj => authObj.provider === 'credentials');
         if (!isUserCredentialsAuthenticated && !userFromDatabase.password) {

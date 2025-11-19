@@ -41,13 +41,15 @@ export const updateUserZodSchema = z.object({
         .min(3, {message: "Name must be at least 3 characters long"})
         .max(20, {message: "Name must be at most 20 characters long"})
         .optional(),
+
+    /* Now we have separate api endpoints for updating password, so we don't need to do anything related to the password here.'
     password: z
         .string({error: "Password must be a string"})
         .min(8, {message: "Password must be at least 8 characters long"})
         .regex(/[a-z]/, {message: "Password must contain at least one lowercase letter!"})
         .regex(/[A-Z]/, {message: "Password must contain at least one uppercase letter!"})
         .regex(/[@$!%*?&]/, {message: "Password must contain at least one special character!"})
-        .optional(),
+        .optional(),*/
     phone: z
         .string({error: "Phone must be a string"})
         .regex(/^(?:\+49|0)(?:1[5-7]\d|[2-9]\d{1,4})(?:[ -]?\d{3,12})$/, {message: "Phone must be a valid German phone number, e.g. +49 151 2345678 or 030 1234567"})

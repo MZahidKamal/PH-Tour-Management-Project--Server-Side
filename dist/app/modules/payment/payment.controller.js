@@ -39,6 +39,15 @@ const cancelPaymentController = (0, catchAsyncFunction_1.default)((req, res, _ne
         res.redirect(`${envConfig_1.default.sslcommerz_frontend_cancel_url_partial}?transactionId=${transactionId}&amount=${amount}&status=${status}&success=${success}&message=${message}`);
     }
 }));
+const paymentVerificationIPSListenerController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield payment_service_1.PaymentServices.paymentVerificationIPSListenerService(req);
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "Payment verification successful!",
+        data: result
+    });
+}));
 const initializePaymentForABookingController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield payment_service_1.PaymentServices.initializePaymentForABookingService(req);
     (0, sendResponseFunction_1.default)(res, {
@@ -48,9 +57,20 @@ const initializePaymentForABookingController = (0, catchAsyncFunction_1.default)
         data: result
     });
 }));
+const getInvoiceDownloadUrlController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield payment_service_1.PaymentServices.getInvoiceDownloadUrlService(req);
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "Invoice download URL fetched successfully!",
+        data: result
+    });
+}));
 exports.PaymentControllers = {
     successPaymentController,
     failPaymentController,
     cancelPaymentController,
+    paymentVerificationIPSListenerController,
     initializePaymentForABookingController,
+    getInvoiceDownloadUrlController
 };

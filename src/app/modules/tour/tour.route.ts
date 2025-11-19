@@ -8,6 +8,8 @@ import {
     updateATourTypeValidationZodSchema, updateATourValidationZodSchema
 } from "./tour.zodValidation";
 import {TourControllers} from "./tour.controller";
+import {multerUpload} from "../../config/multer.config";
+import parseMultipartJsonMiddleware from "../../middlewares/parseMultipartJsonMiddleware";
 
 
 
@@ -60,12 +62,16 @@ router.get("/:slug",
 
 router.post("/create",
     JwtRoleVerificationMiddleware(RoleEnum.SUPER_ADMIN, RoleEnum.ADMIN),
+    multerUpload.array("files", 3),
+    parseMultipartJsonMiddleware,
     zodValidationMiddleware(createATourValidationZodSchema),
     TourControllers.createATourController
 );
 
 router.patch("/:tourId",
     JwtRoleVerificationMiddleware(RoleEnum.SUPER_ADMIN, RoleEnum.ADMIN),
+    multerUpload.array("files", 3),
+    parseMultipartJsonMiddleware,
     zodValidationMiddleware(updateATourValidationZodSchema),
     TourControllers.updateATourController
 );

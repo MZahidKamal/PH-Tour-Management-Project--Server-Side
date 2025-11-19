@@ -24,6 +24,21 @@ router.get("/all-users",
 );
 
 
+router.get("/this_user/:thisUserId",
+    jwtRoleVerificationMiddleware(...Object.values(RoleEnum)),
+    UserControllers.getThisSingleUserController
+);
+
+
+
+
+router.get("/:userId",
+    jwtRoleVerificationMiddleware(RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN),
+    UserControllers.getASingleUserController
+);
+
+
+
 
 router.patch("/:userId",
     zodValidationMiddleware(updateUserZodSchema),

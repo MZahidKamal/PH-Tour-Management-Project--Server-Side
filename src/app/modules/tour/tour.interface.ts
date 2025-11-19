@@ -31,4 +31,5 @@ export interface TourInterface {
     minAge?: number;
     division: Types.ObjectId;
     tourType: TourTypeInterface;
+    createdAt?: Date;
 }

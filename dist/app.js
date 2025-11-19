@@ -16,7 +16,11 @@ require("./app/config/passportConfig");
 const envConfig_1 = __importDefault(require("./app/config/envConfig"));
 const app = (0, express_1.default)();
 // Common Middlewares
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: [envConfig_1.default.frontend_url],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+}));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());

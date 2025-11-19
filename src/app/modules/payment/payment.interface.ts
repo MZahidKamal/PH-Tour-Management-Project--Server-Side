@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Types} from "mongoose";
 
 
@@ -23,4 +24,5 @@ export interface PaymentInterface {
     paymentGatewayData?: any;
     invoiceUrl?: string;
     status: PaymentStatusEnum;
+    createdAt?: Date;
 }

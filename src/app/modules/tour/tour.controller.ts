@@ -77,7 +77,7 @@ const deleteATourTypeController = catchAsyncFunction(
 const createATourController = catchAsyncFunction(
     async (req: Request, res: Response, _next: NextFunction) => {
 
-        const result = await TourService.createATourService(req.body);
+        const result = await TourService.createATourService(req);
 
         sendResponseFunction(res, {
             statusCode: httpStatus.CREATED,

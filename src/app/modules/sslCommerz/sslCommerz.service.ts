@@ -4,6 +4,9 @@ import axios from "axios";
 import {consolePrint} from "../../utils/consolePrintFunction";
 import AppError from "../../errorHelpers/AppError";
 import httpStatus from "http-status-codes";
+import {PaymentModel} from "../payment/payment.model";
+
+
 
 
 
@@ -21,7 +24,7 @@ const paymentInitiation = async (payload: SSLCommerzInterface) => {
             fail_url: `${envConfig.sslcommerz_backend_fail_url_partial}?transactionId=${payload?.transactionId}&amount=${payload?.amount}&status=400&success=false&message=Payment%20failed!`,
             cancel_url: `${envConfig.sslcommerz_backend_cancel_url_partial}?transactionId=${payload?.transactionId}&amount=${payload?.amount}&status=400&success=false&message=Payment%20cancelled!`,
             product_category: 'Tour',
-            ipn_url: 'Not Yet provided',
+            ipn_url: envConfig.sslcommerz_ipn_url,
 
             /*Parameters to Handle EMI Transaction*/
             emi_option: 'N/A',
@@ -95,6 +98,7 @@ const paymentInitiation = async (payload: SSLCommerzInterface) => {
 
         return response.data;
     }
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     catch (error: any) {
         consolePrint(error);
         throw new AppError(httpStatus.BAD_REQUEST, error.message);
@@ -103,8 +107,41 @@ const paymentInitiation = async (payload: SSLCommerzInterface) => {
 
 
 
+
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+const paymentVerification = async (payload: any) => {
+    try {
+        const response = await axios({
+            method: 'GET',
+            url: `${envConfig.sslcommerz_payment_validation_webservice_api}?val_id=${payload.val_id}&store_id=${envConfig.sslcommerz_store_id}&store_passwd=${envConfig.sslcommerz_store_password}`,
+        })
+
+        consolePrint(response.data);
+
+        await PaymentModel.updateOne(
+            {transactionId: payload.transactionId},
+            {paymentGatewayData: response.data},
+            {
+                runValidators: true,
+                new: true
+            }
+        )
+    }
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    catch (error: any) {
+        consolePrint(error);
+        throw new AppError(httpStatus.BAD_REQUEST, `Payment verification failed! ${error.message}`);
+    }
+};
+
+
+
+
+
 export const SSLCommerzServices = {
-    paymentInitiation
+    paymentInitiation,
+    paymentVerification
 };
 
 

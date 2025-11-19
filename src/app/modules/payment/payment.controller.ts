@@ -4,7 +4,6 @@ import {PaymentServices} from "./payment.service";
 import envConfig from "../../config/envConfig";
 import sendResponseFunction from "../../utils/sendResponseFunction";
 import httpStatus from "http-status-codes";
-import {consolePrint} from "../../utils/consolePrintFunction";
 
 
 
@@ -53,6 +52,22 @@ const cancelPaymentController = catchAsyncFunction(
 
 
 
+const paymentVerificationIPSListenerController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        const result = await PaymentServices.paymentVerificationIPSListenerService(req);
+
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Payment verification successful!",
+            data: result
+        })
+    }
+)
+
+
+
 const initializePaymentForABookingController = catchAsyncFunction(
     async (req: Request, res: Response, _next: NextFunction) => {
 
@@ -69,9 +84,27 @@ const initializePaymentForABookingController = catchAsyncFunction(
 
 
 
+const getInvoiceDownloadUrlController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        const result = await PaymentServices.getInvoiceDownloadUrlService(req);
+
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Invoice download URL fetched successfully!",
+            data: result
+        })
+    }
+)
+
+
+
 export const PaymentControllers = {
     successPaymentController,
     failPaymentController,
     cancelPaymentController,
+    paymentVerificationIPSListenerController,
     initializePaymentForABookingController,
+    getInvoiceDownloadUrlController
 };

@@ -13,6 +13,8 @@ const jwtRoleVerificationMiddleware_1 = __importDefault(require("../../middlewar
 const router = (0, express_1.Router)();
 router.post("/register", (0, zodValidationMiddleware_1.default)(user_zodValidation_1.createUserZodSchema), user_controller_1.UserControllers.createUserController);
 router.get("/all-users", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.ADMIN, user_interface_1.RoleEnum.SUPER_ADMIN), user_controller_1.UserControllers.getAllUsersController);
+router.get("/this_user/:thisUserId", (0, jwtRoleVerificationMiddleware_1.default)(...Object.values(user_interface_1.RoleEnum)), user_controller_1.UserControllers.getThisSingleUserController);
+router.get("/:userId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.ADMIN, user_interface_1.RoleEnum.SUPER_ADMIN), user_controller_1.UserControllers.getASingleUserController);
 router.patch("/:userId", (0, zodValidationMiddleware_1.default)(user_zodValidation_1.updateUserZodSchema), (0, jwtRoleVerificationMiddleware_1.default)(...Object.values(user_interface_1.RoleEnum)), user_controller_1.UserControllers.updateUserController);
 // These types of routes, where : is used, are called parameterized routes.
 // These parameterized routes need to be positioned after the non-parameterized routes.

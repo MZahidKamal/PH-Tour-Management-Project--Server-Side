@@ -17,6 +17,7 @@ const envConfig_1 = __importDefault(require("./app/config/envConfig"));
 const app_1 = __importDefault(require("./app"));
 const seedSuperAdminFunction_1 = __importDefault(require("./app/utils/seedSuperAdminFunction"));
 const consolePrintFunction_1 = require("./app/utils/consolePrintFunction");
+const redis_config_1 = require("./app/config/redis.config");
 let server;
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -36,6 +37,7 @@ const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, redis_config_1.connectRedisDatabase)();
     yield startServer();
     yield (0, seedSuperAdminFunction_1.default)();
 }))();

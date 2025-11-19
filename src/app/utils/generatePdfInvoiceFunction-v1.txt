@@ -1,0 +1,64 @@
+import {consolePrint} from "./consolePrintFunction";
+import AppError from "../errorHelpers/AppError";
+import httpStatus from "http-status-codes";
+import PDFDocument from "pdfkit";
+
+
+
+
+
+export interface InvoiceDataInterface {
+    transactionId: string;
+    bookingDate: Date;
+    customerName: string;
+    tourTitle: string;
+    guestsCount: number;
+    totalAmount: number;
+}
+
+
+
+
+
+export const generatePdfInvoice = async (invoiceData: InvoiceDataInterface): Promise<Buffer> => {
+    try {
+        return await new Promise<Buffer>((resolve, reject) => {
+
+            // First, create a new PDFDocument
+            const document = new PDFDocument({
+                size: "A4",
+                margin: 20,
+            });
+
+            // Then, listen for the 'data' and 'end' events to collect the PDF content
+            const buffer: Buffer[] = [];
+            document.on("data", (chunk) => buffer.push(chunk as Buffer));
+            document.on("end", () => resolve(Buffer.concat(buffer)));
+            document.on("error", (error) => reject(error));
+
+            // Then, add the PDF content here
+            document.fontSize(20).text("Invoice", {align: "center"});
+            document.moveDown();
+            document.fontSize(12).text(`Transaction ID: ${invoiceData.transactionId}`);
+            document.moveDown();
+            document.fontSize(12).text(`Booking Date: ${invoiceData.bookingDate.toLocaleDateString()}`);
+            document.moveDown();
+            document.fontSize(12).text(`Customer Name: ${invoiceData.customerName}`);
+            document.moveDown();
+            document.fontSize(12).text(`Tour Title: ${invoiceData.tourTitle}`);
+            document.moveDown();
+            document.fontSize(12).text(`Guests Count: ${invoiceData.guestsCount}`);
+            document.moveDown();
+            document.fontSize(12).text(`Total Amount: ${invoiceData.totalAmount.toFixed(2)}`);
+            document.moveDown();
+            document.fontSize(12).text("Invoice Footer: This is a sample invoice footer");
+
+            // Finally, end the PDF document
+            document.end();
+        });
+    }
+    catch (error) {
+        consolePrint(error);
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Failed to generate invoice PDF");
+    }
+};
