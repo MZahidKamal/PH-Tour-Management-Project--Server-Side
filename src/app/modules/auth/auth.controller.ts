@@ -137,24 +137,68 @@ const logoutController = catchAsyncFunction(
 
 
 
-const resetPasswordController = catchAsyncFunction(
+const changePasswordController = catchAsyncFunction(
     async (req: Request, res: Response, _next: NextFunction) => {
 
         const decodedToken = req.userToken as JwtPayload;
         const givenOldPassword = req.body.oldPassword as string;
         const givenNewPassword = req.body.newPassword as string;
 
-        const newPasswordSuccessful = await AuthServices.resetPasswordService(decodedToken, givenOldPassword, givenNewPassword) as boolean;
+        const changePasswordResult = await AuthServices.changePasswordService(decodedToken, givenOldPassword, givenNewPassword) as boolean;
 
-        if (!newPasswordSuccessful) {
+        if (!changePasswordResult) {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Password reset failed!");
         }
 
         sendResponseFunction(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: "Password reset successfully!",
+            message: "Password changed successfully!",
             data: null
+        })
+    }
+)
+
+
+
+
+
+const resetPasswordRequestController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        const result = await AuthServices.resetPasswordRequestService(req) as boolean;
+
+        if (!result) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Password reset request failed!");
+        }
+
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Password reset request submitted successfully!",
+            data: result
+        })
+    }
+)
+
+
+
+
+
+const resetPasswordFinalizationController = catchAsyncFunction(
+    async (req: Request, res: Response, _next: NextFunction) => {
+
+        const result = await AuthServices.resetPasswordFinalizationService(req) as boolean;
+
+        if (!result) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Password reset failed!");
+        }
+
+        sendResponseFunction(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Password reset completed successfully!",
+            data: result
         })
     }
 )
@@ -188,6 +232,8 @@ export const AuthControllers = {
     loginWithPassportCredentialsController,
     getNewAccessTokenController,
     logoutController,
-    resetPasswordController,
+    changePasswordController,
+    resetPasswordRequestController,
+    resetPasswordFinalizationController,
     googleCallbackController
 };

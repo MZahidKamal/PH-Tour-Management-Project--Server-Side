@@ -18,6 +18,7 @@ const tour_model_1 = require("./tour.model");
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const QueryBuilderClass_1 = require("../../classes/QueryBuilderClass");
+const cloudinary_config_1 = require("../../config/cloudinary.config");
 /*============================== Tour Type Services ==============================*/
 const createATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // First, we'll destructure the payload
@@ -44,6 +45,7 @@ const getAllTourTypesService = () => __awaiter(void 0, void 0, void 0, function*
         }
     };
 });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const updateATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // First, we'll destructure the payload
     const tourTypeId = payload.params.tourTypeId;
@@ -66,6 +68,7 @@ const updateATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, fu
     // Finally, we'll return the updatedTourTypeObj
     return updatedTourTypeObj;
 });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const deleteATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // First, we'll extract the tour type id from the payload
     const tourTypeId = payload.params.tourTypeId;
@@ -81,31 +84,38 @@ const deleteATourTypeService = (payload) => __awaiter(void 0, void 0, void 0, fu
     return deletedTourType;
 });
 /*============================== Tour Services ==============================*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const createATourService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // First we'll check if we have the tour title already in the database'
-    const isTourTitleExist = yield tour_model_1.TourModel.findOne({ title: payload.title });
+    // First, we'll extract the tour data from the payload.body and the tour images from the payload.files'
+    const tourObj = payload.body;
+    const tourImages = payload.files.map((file) => {
+        return file.path;
+    });
+    // Then, we'll check if we have the tour title already in the database'
+    const isTourTitleExist = yield tour_model_1.TourModel.findOne({ title: tourObj === null || tourObj === void 0 ? void 0 : tourObj.title });
     if (isTourTitleExist !== null) {
         throw new AppError_1.default(http_status_codes_1.default.CONFLICT, "Tour title already exists!");
     }
     // If the tour title is not exist, then create a new tour object for the database'
     const newTourObj = {
-        title: payload.title,
-        slug: payload.title.toLowerCase().split(' ').join('-').concat('-tour-in-' + payload.location.toLowerCase().split(' ').join('-')),
-        description: payload.description,
-        location: payload.location,
-        costFrom: payload.costFrom,
-        departureLocation: payload.departureLocation,
-        arrivalLocation: payload.arrivalLocation,
-        startDate: payload.startDate,
-        endDate: payload.endDate,
-        included: payload.included,
-        excluded: payload.excluded,
-        amenities: payload.amenities,
-        tourPlan: payload.tourPlan,
-        maxGuests: payload.maxGuests,
-        minAge: payload.minAge,
-        division: payload.division,
-        tourType: payload.tourType,
+        title: tourObj === null || tourObj === void 0 ? void 0 : tourObj.title,
+        slug: tourObj === null || tourObj === void 0 ? void 0 : tourObj.title.toLowerCase().split(' ').join('-').concat('-tour-in-' + (tourObj === null || tourObj === void 0 ? void 0 : tourObj.location.toLowerCase().split(' ').join('-'))),
+        description: tourObj === null || tourObj === void 0 ? void 0 : tourObj.description,
+        images: tourImages,
+        location: tourObj === null || tourObj === void 0 ? void 0 : tourObj.location,
+        costFrom: tourObj === null || tourObj === void 0 ? void 0 : tourObj.costFrom,
+        departureLocation: tourObj === null || tourObj === void 0 ? void 0 : tourObj.departureLocation,
+        arrivalLocation: tourObj === null || tourObj === void 0 ? void 0 : tourObj.arrivalLocation,
+        startDate: tourObj === null || tourObj === void 0 ? void 0 : tourObj.startDate,
+        endDate: tourObj === null || tourObj === void 0 ? void 0 : tourObj.endDate,
+        included: tourObj === null || tourObj === void 0 ? void 0 : tourObj.included,
+        excluded: tourObj === null || tourObj === void 0 ? void 0 : tourObj.excluded,
+        amenities: tourObj === null || tourObj === void 0 ? void 0 : tourObj.amenities,
+        tourPlan: tourObj === null || tourObj === void 0 ? void 0 : tourObj.tourPlan,
+        maxGuests: tourObj === null || tourObj === void 0 ? void 0 : tourObj.maxGuests,
+        minAge: tourObj === null || tourObj === void 0 ? void 0 : tourObj.minAge,
+        division: tourObj === null || tourObj === void 0 ? void 0 : tourObj.division,
+        tourType: tourObj === null || tourObj === void 0 ? void 0 : tourObj.tourType,
     };
     // Then we'll save the new tour object in the database'
     const newTour = yield tour_model_1.TourModel.create(newTourObj);
@@ -194,6 +204,7 @@ const createATourService = (payload) => __awaiter(void 0, void 0, void 0, functi
         data: allTours
     };
 }*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const getAllToursService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const queryBuilder = new QueryBuilderClass_1.TourQueryBuilderClass(tour_model_1.TourModel, payload.query);
     const allToursMethodChain = queryBuilder
@@ -217,6 +228,7 @@ const getAllToursService = (payload) => __awaiter(void 0, void 0, void 0, functi
 // The same function, 1st version, which is commented out, is not using the query builder class.
 // The 2nd version, which is commented out, is using the query builder class.
 // The 3rd version, which is active, is using the query builder class with method chain sequence and promises maintained properly.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const getSingleTourService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // First, we'll extract the tour slug from the payload'
     const slug = payload.params.slug;
@@ -230,11 +242,15 @@ const getSingleTourService = (payload) => __awaiter(void 0, void 0, void 0, func
     // Then we'll return the tour document'
     return tourDocument;
 });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const updateATourService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    // First, we'll extract the tour id and the updated tour data from the payload
+    var _a, _b, _c;
+    // First, we'll extract the tour id from params, the updated tour data from the payload.body and the updated tour images from the payload.files'
     const tourId = payload.params.tourId;
     const updatedTourData = payload.body;
+    const updatedTourImages = ((_a = payload.files) === null || _a === void 0 ? void 0 : _a.map((file) => {
+        return file.path;
+    })) || [];
     // Then we'll check if we really have this tour id in the database
     const isTourIdExists = yield tour_model_1.TourModel.findById(tourId);
     if (!isTourIdExists) {
@@ -251,8 +267,11 @@ const updateATourService = (payload) => __awaiter(void 0, void 0, void 0, functi
     // Then we'll create a updated tour object for the database, with updated data
     const updatedTourObj = {
         title: updatedTourData.title ? updatedTourData.title : isTourIdExists.title,
-        slug: updatedTourData.title ? (_a = updatedTourData.title) === null || _a === void 0 ? void 0 : _a.toLowerCase().split(' ').join('-').concat('-tour-in-' + ((_b = payload.location) === null || _b === void 0 ? void 0 : _b.toLowerCase().split(' ').join('-'))) : isTourIdExists.slug,
+        slug: updatedTourData.title ? (_b = updatedTourData.title) === null || _b === void 0 ? void 0 : _b.toLowerCase().split(' ').join('-').concat('-tour-in-' + ((_c = (updatedTourData.location || isTourIdExists.location)) === null || _c === void 0 ? void 0 : _c.toLowerCase().split(' ').join('-'))) : isTourIdExists.slug,
         description: updatedTourData.description ? updatedTourData.description : isTourIdExists.description,
+        images: updatedTourImages.length > 0
+            ? [...(isTourIdExists.images || []).filter((img) => { var _a; return !((_a = updatedTourData.deleteImages) === null || _a === void 0 ? void 0 : _a.includes(img)); }), ...updatedTourImages]
+            : (isTourIdExists.images || []).filter((img) => { var _a; return !((_a = updatedTourData.deleteImages) === null || _a === void 0 ? void 0 : _a.includes(img)); }),
         location: updatedTourData.location ? updatedTourData.location : isTourIdExists.location,
         costFrom: updatedTourData.costFrom ? updatedTourData.costFrom : isTourIdExists.costFrom,
         startDate: updatedTourData.startDate ? updatedTourData.startDate : isTourIdExists.startDate,
@@ -268,9 +287,16 @@ const updateATourService = (payload) => __awaiter(void 0, void 0, void 0, functi
     };
     // Then we'll update the tour in the database
     const updatedTour = yield tour_model_1.TourModel.findByIdAndUpdate(tourId, updatedTourObj, { new: true, runValidators: true });
+    // If the tour images are provided in the payload, then we'll delete the old tour images from the server'
+    if (updatedTourData.deleteImages && updatedTourData.deleteImages.length > 0) {
+        yield Promise.all(updatedTourData.deleteImages.map((imageUrl) => {
+            return (0, cloudinary_config_1.deleteAnImageFromCloudinary)(imageUrl);
+        }));
+    }
     // Finally, we'll return the updatedTour
     return updatedTour;
 });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const deleteATourService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // First, we'll extract the tour id from the payload
     const tourId = payload.params.tourId;

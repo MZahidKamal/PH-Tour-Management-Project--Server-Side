@@ -4,6 +4,9 @@ import {Response} from "express";
 
 interface MetaInterface {
     total: number
+    totalPages?: number
+    currentPage?: number
+    limit?: number
 }
 
 

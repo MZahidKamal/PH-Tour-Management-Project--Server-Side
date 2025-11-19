@@ -62,6 +62,61 @@ const getAllUsersService = async () => {
 
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const getThisSingleUserService = async (payload: any) => {
+
+    // First, we'll get the userId from the request parameters'
+    const thisUserId = payload?.params?.thisUserId as string;
+
+    const loggedInUserToken = payload.userToken as JwtPayload;
+    const loggedInUserId = loggedInUserToken.userId as string;
+
+    if (loggedInUserId !== thisUserId) {
+        throw new AppError(httpStatus.FORBIDDEN, "You are not authorized to access this user's profile!");
+    }
+
+    // Then find the user from the database
+    const thisUserFromDatabase = await UserModel.findById(thisUserId)
+        .select('-password')
+        .lean();
+    if (!thisUserFromDatabase) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+    }
+
+    if (loggedInUserToken.role !== thisUserFromDatabase.role) {
+        throw new AppError(httpStatus.FORBIDDEN, "You are not authorized to access this user's profile!");
+    }
+
+    // Then return this user object
+    return thisUserFromDatabase;
+}
+
+
+
+
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const getASingleUserService = async (payload: any) => {
+
+    // First, we'll get the userId from the request parameters'
+    const userId = payload?.params?.userId as string;
+
+    // Then find the user from the database
+    const userFromDatabase = await UserModel.findById(userId)
+        .select('-password')
+        .lean();
+    if (!userFromDatabase) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+    }
+
+    // Then return the user object
+    return userFromDatabase;
+}
+
+
+
+
+
 const updateUserService = async (userId: string, payload: Partial<UserInterface>, decodedToken: JwtPayload) => {
 
     /* These are the rules:-------------------------------------------------------------------
@@ -71,6 +126,12 @@ const updateUserService = async (userId: string, payload: Partial<UserInterface>
     * the role, isDeleted, isActive and isVerified can only be updated by admin or super admin
     * promoting to admin or super admin can only be done by super admin
     * */
+
+    if (decodedToken.role === RoleEnum.USER || decodedToken.role === RoleEnum.GUIDE) {
+        if (userId !== decodedToken.userId) {
+            throw new AppError(httpStatus.FORBIDDEN, "You are not authorized to update this user!");
+        }
+    }
 
     if (payload.role){
         if (decodedToken.role === RoleEnum.USER || decodedToken.role === RoleEnum.GUIDE) {
@@ -87,10 +148,11 @@ const updateUserService = async (userId: string, payload: Partial<UserInterface>
         }
     }
 
+    /* Now we have separate api endpoints for updating password, so we don't need to do anything related to the password here.'
     if (payload.password) {
         const hashedPassword = await bcrypt.hash(payload.password as string, Number(envConfig.bcrypt_salt_rounds as string));
         payload.password = hashedPassword;
-    }
+    }*/
 
     const isUserExists = await UserModel.findById(userId);
     if (!isUserExists) {
@@ -118,5 +180,7 @@ const updateUserService = async (userId: string, payload: Partial<UserInterface>
 export const UserServices = {
     createUserService,
     getAllUsersService,
+    getThisSingleUserService,
+    getASingleUserService,
     updateUserService
 }

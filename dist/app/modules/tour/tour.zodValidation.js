@@ -132,4 +132,7 @@ exports.updateATourValidationZodSchema = zod_1.z.object({
     tourType: zod_1.z
         .string({ error: "Tour tourType must be a string" })
         .optional(),
+    deleteImages: zod_1.z
+        .array(zod_1.z.string())
+        .optional(),
 });

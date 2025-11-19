@@ -13,15 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DivisionServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const division_model_1 = __importDefault(require("./division.model"));
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const generateDivisionSlugFunction_1 = require("../../utils/generateDivisionSlugFunction");
 const generateDivisionThumbnailFunction_1 = require("../../utils/generateDivisionThumbnailFunction");
 const consolePrintFunction_1 = require("../../utils/consolePrintFunction");
+const cloudinary_config_1 = require("../../config/cloudinary.config");
 const createADivisionService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // Destructuring the payload
-    const { name, description } = payload;
+    // Now data is already parsed, no need to parse again, only need to destruct the data'
+    (0, consolePrintFunction_1.consolePrint)(payload.body);
+    (0, consolePrintFunction_1.consolePrint)(payload.file);
+    const { name, description } = payload.body; // Changed from payload.body.data to payload.body
+    const { path: thumbnailImageUrl } = payload === null || payload === void 0 ? void 0 : payload.file;
     // First we'll check if we have this division already in the database'
     const isDivisionExist = yield division_model_1.default.findOne({ name: name });
     if (isDivisionExist) {
@@ -31,7 +36,7 @@ const createADivisionService = (payload) => __awaiter(void 0, void 0, void 0, fu
     const newDivisionObj = {
         name: name,
         slug: (0, generateDivisionSlugFunction_1.generateDivisionSlugFunction)(name),
-        thumbnail: (0, generateDivisionThumbnailFunction_1.generateDivisionThumbnailFunction)(name),
+        thumbnail: thumbnailImageUrl ? thumbnailImageUrl : (0, generateDivisionThumbnailFunction_1.generateDivisionThumbnailFunction)(name),
         description: description,
     };
     // Then save the new division object in the database'
@@ -68,6 +73,7 @@ const updateADivisionService = (payload) => __awaiter(void 0, void 0, void 0, fu
     // Destructuring the payload
     const divisionId = (payload.params.divisionId);
     const { name, description } = (payload.body);
+    const { path: thumbnailImageUrl } = payload.file;
     // First we'll check if we really have this division id in the database'
     const isDivisionIdExists = yield division_model_1.default.findById(divisionId);
     if (!isDivisionIdExists) {
@@ -85,11 +91,17 @@ const updateADivisionService = (payload) => __awaiter(void 0, void 0, void 0, fu
     const updatedDivisionObj = {
         name: name ? name : isDivisionIdExists.name,
         slug: name ? (0, generateDivisionSlugFunction_1.generateDivisionSlugFunction)(name) : isDivisionIdExists.slug,
-        thumbnail: name ? (0, generateDivisionThumbnailFunction_1.generateDivisionThumbnailFunction)(name) : isDivisionIdExists.thumbnail,
+        // thumbnail: name? generateDivisionThumbnailFunction(name) : isDivisionIdExists.thumbnail,
+        thumbnail: thumbnailImageUrl ? thumbnailImageUrl : (0, generateDivisionThumbnailFunction_1.generateDivisionThumbnailFunction)(name),
         description: description ? description : isDivisionIdExists.description,
     };
     // Then we'll update the division in the database'
     const updatedDivision = yield division_model_1.default.findByIdAndUpdate(divisionId, updatedDivisionObj, { new: true, runValidators: true });
+    // If the thumbnail image is provided, then we'll delete the old thumbnail image of the division from the database'
+    if (thumbnailImageUrl && isDivisionIdExists.thumbnail) {
+        (0, consolePrintFunction_1.consolePrint)("Deleting old thumbnail image from cloudinary:", isDivisionIdExists.thumbnail);
+        yield (0, cloudinary_config_1.deleteAnImageFromCloudinary)(isDivisionIdExists.thumbnail);
+    }
     // Finally we'll return the updatedDivision'
     return updatedDivision;
 });

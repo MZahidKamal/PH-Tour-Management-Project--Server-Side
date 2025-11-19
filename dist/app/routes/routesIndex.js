@@ -7,6 +7,8 @@ const division_route_1 = require("../modules/division/division.route");
 const tour_route_1 = require("../modules/tour/tour.route");
 const booking_routes_1 = require("../modules/booking/booking.routes");
 const payment_routes_1 = require("../modules/payment/payment.routes");
+const otp_route_1 = require("../modules/otp/otp.route");
+const stat_route_1 = require("../modules/stat/stat.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -32,6 +34,14 @@ const moduleRoutes = [
     {
         path: '/payment',
         route: payment_routes_1.PaymentRoutes
+    },
+    {
+        path: '/otp',
+        route: otp_route_1.OTPRoutes
+    },
+    {
+        path: '/stats',
+        route: stat_route_1.StatRoutes
     },
 ];
 moduleRoutes.forEach(route => {

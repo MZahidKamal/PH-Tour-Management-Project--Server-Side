@@ -97,19 +97,43 @@ const logoutController = (0, catchAsyncFunction_1.default)((_req, res, _next) =>
         data: null
     });
 }));
-const resetPasswordController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+const changePasswordController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     const decodedToken = req.userToken;
     const givenOldPassword = req.body.oldPassword;
     const givenNewPassword = req.body.newPassword;
-    const newPasswordSuccessful = yield auth_service_1.AuthServices.resetPasswordService(decodedToken, givenOldPassword, givenNewPassword);
-    if (!newPasswordSuccessful) {
+    const changePasswordResult = yield auth_service_1.AuthServices.changePasswordService(decodedToken, givenOldPassword, givenNewPassword);
+    if (!changePasswordResult) {
         throw new AppError_1.default(http_status_codes_1.default.INTERNAL_SERVER_ERROR, "Password reset failed!");
     }
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.OK,
         success: true,
-        message: "Password reset successfully!",
+        message: "Password changed successfully!",
         data: null
+    });
+}));
+const resetPasswordRequestController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.AuthServices.resetPasswordRequestService(req);
+    if (!result) {
+        throw new AppError_1.default(http_status_codes_1.default.INTERNAL_SERVER_ERROR, "Password reset request failed!");
+    }
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "Password reset request submitted successfully!",
+        data: result
+    });
+}));
+const resetPasswordFinalizationController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_service_1.AuthServices.resetPasswordFinalizationService(req);
+    if (!result) {
+        throw new AppError_1.default(http_status_codes_1.default.INTERNAL_SERVER_ERROR, "Password reset failed!");
+    }
+    (0, sendResponseFunction_1.default)(res, {
+        statusCode: http_status_codes_1.default.OK,
+        success: true,
+        message: "Password reset completed successfully!",
+        data: result
     });
 }));
 const googleCallbackController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -128,6 +152,8 @@ exports.AuthControllers = {
     loginWithPassportCredentialsController,
     getNewAccessTokenController,
     logoutController,
-    resetPasswordController,
+    changePasswordController,
+    resetPasswordRequestController,
+    resetPasswordFinalizationController,
     googleCallbackController
 };

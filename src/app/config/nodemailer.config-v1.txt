@@ -1,0 +1,67 @@
+import * as nodemailer from 'nodemailer';
+import envConfig from "./envConfig";
+import {consolePrint} from "../utils/consolePrintFunction";
+import AppError from "../errorHelpers/AppError";
+import httpStatus from "http-status-codes";
+
+
+
+const nodemailerTransporter = nodemailer.createTransport({
+    host: envConfig.nodemailer_smtp_host as string,
+    port: Number(envConfig.nodemailer_smtp_port),
+    secure: envConfig.nodemailer_smtp_port === "465",       // True for 465, false for other ports
+    auth: {
+        user: envConfig.gmail_address,
+        pass: envConfig.gmail_app_password
+    }
+});
+
+
+
+interface EmailPayloadInterface {
+    targetEmail: string;
+    emailSubject: string;
+    htmlBody: string;
+    attachments?: {
+        filename: string;
+        content: Buffer | string;
+        contentType?: string;
+    }[];
+}
+
+
+
+const sendAnEmailToTheUser = async (payload: EmailPayloadInterface) => {
+    try {
+        const info = await nodemailerTransporter.sendMail({
+            from: envConfig.gmail_address,
+            to: payload.targetEmail,
+            subject: payload.emailSubject,
+            html: payload.htmlBody,
+            attachments: payload.attachments || []
+        });
+        if (info?.messageId){
+            consolePrint('Email sent successfully to: ', payload.targetEmail, 'Subject: ', payload.emailSubject);
+            return info;
+        }
+    }
+    catch (error) {
+        consolePrint('Failed to send email to:', payload.targetEmail, 'Error:', error);
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, `Failed to send email to ${payload.targetEmail}. Please try again later.`);
+    }
+}
+
+
+
+export default sendAnEmailToTheUser;
+
+
+
+/*
+await sendAnEmailToTheUser({
+    targetEmail: 'kamal.md.zahid@gmail.com',
+    emailSubject: "Welcome to PH Tour Management Project",
+    htmlBody: `<h1>Welcome to PH Tour Management Project</h1>`,
+    attachments: []
+})
+*/

@@ -1,13 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {BookingModel} from "../booking/booking.model";
 import {PaymentModel} from "./payment.model";
 import {PaymentStatusEnum} from "./payment.interface";
 import AppError from "../../errorHelpers/AppError";
 import httpStatus from "http-status-codes";
-import {BookingStatusEnum} from "../booking/booking.interface";
+import {BookingInterface, BookingStatusEnum} from "../booking/booking.interface";
 import {consolePrint} from "../../utils/consolePrintFunction";
 import {SSLCommerzServices} from "../sslCommerz/sslCommerz.service";
 import UserModel from "../user/user.model";
 import {SSLCommerzInterface} from "../sslCommerz/sslCommerz.interface";
+import {UserInterface} from "../user/user.interface";
+import {TourInterface} from "../tour/tour.interface";
+import {generatePdfInvoice, InvoiceDataInterface} from "../../utils/generatePdfInvoiceFunction";
+import sendAnEmailToTheUser from "../../config/nodemailer.config";
+import {uploadAPDFBufferToCloudinary} from "../../config/cloudinary.config";
+import {UploadApiResponse} from "cloudinary";
 
 
 
@@ -42,7 +49,21 @@ const successPaymentService = async (payload: any) => {
         const bookingDocument = await BookingModel.findByIdAndUpdate(
             paymentDocument.bookingId,
             {status: BookingStatusEnum.COMPLETED},
-            {new: true, runValidators: true, session}
+            {
+                new: true,
+                runValidators: true,
+                populate: [
+                    {
+                        path: 'userId',
+                        select: 'name email', // include only these fields
+                    },
+                    {
+                        path: 'tourId',
+                        select: 'title costFrom', // include only these fields
+                    },
+                ],
+                session
+            }
         )
 
         // Then we'll check if the booking document is updated or not'
@@ -52,6 +73,52 @@ const successPaymentService = async (payload: any) => {
 
         // consolePrint('bookingDocument', bookingDocument);
         // consolePrint('paymentDocument', paymentDocument);
+
+        // Then we'll generate the invoice data for this booking'
+        const invoiceData = {
+            transactionId: transactionId,
+            bookingDate: (bookingDocument as BookingInterface)?.createdAt,
+            customerName: ((bookingDocument as BookingInterface)?.userId as UserInterface)?.name,
+            tourTitle: ((bookingDocument as BookingInterface)?.tourId as TourInterface)?.title,
+            guestsCount: bookingDocument?.guestCount,
+            totalAmount: paymentDocument?.amount,
+        };
+
+        // Then we'll create the invoice PDF buffered file using the invoice data'
+        const pdfBuffer = await generatePdfInvoice(invoiceData as InvoiceDataInterface);
+
+        // Then we'll upload the invoice PDF to Cloudinary'
+        const cloudinaryResult: UploadApiResponse = await uploadAPDFBufferToCloudinary(pdfBuffer, 'invoice');
+
+        // Then we'll update the invoiceUrl field in the payment document with the Cloudinary URL'
+        const paymentDocumentUpdated = await PaymentModel.findByIdAndUpdate(
+            paymentDocument._id,
+            {invoiceUrl: cloudinaryResult?.secure_url},
+            {
+                runValidators: true,
+                new: true,
+                session
+            }
+        )
+        if (!paymentDocumentUpdated){
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Failed to update invoice URL in payment document!");
+        }
+
+        // Then we'll send the invoice PDF to the user's email'
+        const emailResult = await sendAnEmailToTheUser({
+            targetEmail: ((bookingDocument as BookingInterface)?.userId as UserInterface)?.email,
+            emailSubject: "Tour Booking Confirmation and Invoice",
+            emailTemplateName: 'tourBookingConfirmationAndInvoiceEmail.template.ejs',
+            emailTemplateData: invoiceData,
+            attachments: [
+                {
+                    filename: 'invoice.pdf',
+                    content: pdfBuffer,
+                    contentType: 'application/pdf',
+                }
+            ]
+        })
+        consolePrint('emailResult', emailResult?.accepted);
 
         // Then we'll commit whatever we have done so far in this transaction roller back session, and will end the session'
         await session.commitTransaction();
@@ -207,6 +274,20 @@ const  cancelPaymentService = async (payload: any) => {
 
 
 
+const  paymentVerificationIPSListenerService = async (payload: any) => {
+    consolePrint('payload', payload.body);
+
+    const result = await SSLCommerzServices.paymentVerification(payload.body);
+
+    consolePrint('result', result);
+
+    return {}
+};
+
+
+
+
+
 const  initializePaymentForABookingService = async (payload: any) => {
     // Update booking status to cancel
     // Update payment status to cancel
@@ -269,9 +350,36 @@ const  initializePaymentForABookingService = async (payload: any) => {
 
 
 
+const getInvoiceDownloadUrlService = async (payload: any): Promise<{ invoiceDownloadUrl: string }> => {
+
+    // First we'll get the paymentId from the request params'
+    const { paymentId } = payload.params;
+
+    // Then, we'll get the payment document from the database'
+    const paymentDocument = await PaymentModel.findById(paymentId)
+        .select("invoiceUrl")
+        .orFail(() => new AppError(httpStatus.NOT_FOUND, "Payment not found!"))
+        .lean<{ invoiceUrl?: string }>();
+
+    if (!paymentDocument.invoiceUrl) {
+        throw new AppError(httpStatus.BAD_REQUEST, "Invoice URL not found! Check if the payment is completed or not.");
+    }
+
+    // Finally, we'll retrieve the invoiceUrl from the payment document and return it to the client'
+    return {
+        invoiceDownloadUrl: paymentDocument.invoiceUrl,
+    };
+};
+
+
+
+
+
 export const PaymentServices = {
     successPaymentService,
     failPaymentService,
     cancelPaymentService,
-    initializePaymentForABookingService
+    paymentVerificationIPSListenerService,
+    initializePaymentForABookingService,
+    getInvoiceDownloadUrlService
 };

@@ -52,6 +52,7 @@ export interface UserInterface {
     isDeleted?: boolean;
     isActive?: IsActiveEnum;
     isVerified?: boolean;
+    createdAt?: Date;
 }
 
 

@@ -17,7 +17,11 @@ const app: Application = express();
 
 
 // Common Middlewares
-app.use(cors());
+app.use(cors({
+    origin: [envConfig.frontend_url as string],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());

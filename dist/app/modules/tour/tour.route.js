@@ -10,6 +10,8 @@ const user_interface_1 = require("../user/user.interface");
 const zodValidationMiddleware_1 = __importDefault(require("../../middlewares/zodValidationMiddleware"));
 const tour_zodValidation_1 = require("./tour.zodValidation");
 const tour_controller_1 = require("./tour.controller");
+const multer_config_1 = require("../../config/multer.config");
+const parseMultipartJsonMiddleware_1 = __importDefault(require("../../middlewares/parseMultipartJsonMiddleware"));
 const router = (0, express_1.Router)();
 /*============ Tour Type Routes ============*/
 router.get("/tour-types", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), tour_controller_1.TourControllers.getAllTourTypeController);
@@ -19,7 +21,7 @@ router.delete("/tour-types/:tourTypeId", (0, jwtRoleVerificationMiddleware_1.def
 /*============== Tour Routes ==============*/
 router.get("/", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), tour_controller_1.TourControllers.getAllToursController);
 router.get("/:slug", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), tour_controller_1.TourControllers.getSingleTourController);
-router.post("/create", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), (0, zodValidationMiddleware_1.default)(tour_zodValidation_1.createATourValidationZodSchema), tour_controller_1.TourControllers.createATourController);
-router.patch("/:tourId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), (0, zodValidationMiddleware_1.default)(tour_zodValidation_1.updateATourValidationZodSchema), tour_controller_1.TourControllers.updateATourController);
+router.post("/create", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), multer_config_1.multerUpload.array("files", 3), parseMultipartJsonMiddleware_1.default, (0, zodValidationMiddleware_1.default)(tour_zodValidation_1.createATourValidationZodSchema), tour_controller_1.TourControllers.createATourController);
+router.patch("/:tourId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), multer_config_1.multerUpload.array("files", 3), parseMultipartJsonMiddleware_1.default, (0, zodValidationMiddleware_1.default)(tour_zodValidation_1.updateATourValidationZodSchema), tour_controller_1.TourControllers.updateATourController);
 router.delete("/:tourId", (0, jwtRoleVerificationMiddleware_1.default)(user_interface_1.RoleEnum.SUPER_ADMIN, user_interface_1.RoleEnum.ADMIN), tour_controller_1.TourControllers.deleteATourController);
 exports.TourRoutes = router;

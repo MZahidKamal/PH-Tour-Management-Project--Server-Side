@@ -1,4 +1,4 @@
-import {optional, z} from "zod";
+import {z} from "zod";
 
 
 
@@ -141,5 +141,8 @@ export const updateATourValidationZodSchema = z.object({
         .optional(),
     tourType: z
         .string({error: "Tour tourType must be a string"})
+        .optional(),
+    deleteImages: z
+        .array(z.string())
         .optional(),
 });

@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DivisionModel from "./division.model";
 import AppError from "../../errorHelpers/AppError";
 import httpStatus from "http-status-codes";
 import {generateDivisionSlugFunction} from "../../utils/generateDivisionSlugFunction";
 import {generateDivisionThumbnailFunction} from "../../utils/generateDivisionThumbnailFunction";
 import {consolePrint} from "../../utils/consolePrintFunction";
+import {deleteAnImageFromCloudinary} from "../../config/cloudinary.config";
 
 
 
@@ -11,8 +13,11 @@ import {consolePrint} from "../../utils/consolePrintFunction";
 
 const createADivisionService = async (payload: any) => {
 
-    // Destructuring the payload
-    const {name, description} = payload;
+    // Now data is already parsed, no need to parse again, only need to destruct the data'
+    consolePrint(payload.body);
+    consolePrint(payload.file);
+    const {name, description} = payload.body;  // Changed from payload.body.data to payload.body
+    const {path: thumbnailImageUrl} = payload?.file as {path: string};
 
     // First we'll check if we have this division already in the database'
     const isDivisionExist = await DivisionModel.findOne({name: name});
@@ -24,7 +29,7 @@ const createADivisionService = async (payload: any) => {
     const newDivisionObj = {
         name: name,
         slug: generateDivisionSlugFunction(name),
-        thumbnail: generateDivisionThumbnailFunction(name),
+        thumbnail: thumbnailImageUrl? thumbnailImageUrl : generateDivisionThumbnailFunction(name),
         description: description,
     }
 
@@ -86,6 +91,7 @@ const updateADivisionService = async (payload: any) => {
     // Destructuring the payload
     const divisionId = (payload.params.divisionId);
     const {name, description} = (payload.body);
+    const {path: thumbnailImageUrl} = payload.file as {path: string};
 
     // First we'll check if we really have this division id in the database'
     const isDivisionIdExists = await DivisionModel.findById(divisionId);
@@ -106,12 +112,19 @@ const updateADivisionService = async (payload: any) => {
     const updatedDivisionObj = {
         name: name? name : isDivisionIdExists.name,
         slug: name? generateDivisionSlugFunction(name) : isDivisionIdExists.slug,
-        thumbnail: name? generateDivisionThumbnailFunction(name) : isDivisionIdExists.thumbnail,
+        // thumbnail: name? generateDivisionThumbnailFunction(name) : isDivisionIdExists.thumbnail,
+        thumbnail: thumbnailImageUrl? thumbnailImageUrl : generateDivisionThumbnailFunction(name),
         description: description? description : isDivisionIdExists.description,
     }
 
     // Then we'll update the division in the database'
     const updatedDivision = await DivisionModel.findByIdAndUpdate(divisionId, updatedDivisionObj, {new: true, runValidators: true});
+
+    // If the thumbnail image is provided, then we'll delete the old thumbnail image of the division from the database'
+    if (thumbnailImageUrl && isDivisionIdExists.thumbnail){
+        consolePrint("Deleting old thumbnail image from cloudinary:", isDivisionIdExists.thumbnail);
+        await deleteAnImageFromCloudinary(isDivisionIdExists.thumbnail)
+    }
 
     // Finally we'll return the updatedDivision'
     return updatedDivision;

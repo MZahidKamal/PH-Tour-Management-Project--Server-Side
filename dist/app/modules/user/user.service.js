@@ -58,6 +58,44 @@ const getAllUsersService = () => __awaiter(void 0, void 0, void 0, function* () 
     // Then return the users
     return users;
 });
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const getThisSingleUserService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    // First, we'll get the userId from the request parameters'
+    const thisUserId = (_a = payload === null || payload === void 0 ? void 0 : payload.params) === null || _a === void 0 ? void 0 : _a.thisUserId;
+    const loggedInUserToken = payload.userToken;
+    const loggedInUserId = loggedInUserToken.userId;
+    if (loggedInUserId !== thisUserId) {
+        throw new AppError_1.default(http_status_codes_1.default.FORBIDDEN, "You are not authorized to access this user's profile!");
+    }
+    // Then find the user from the database
+    const thisUserFromDatabase = yield user_model_1.default.findById(thisUserId)
+        .select('-password')
+        .lean();
+    if (!thisUserFromDatabase) {
+        throw new AppError_1.default(http_status_codes_1.default.NOT_FOUND, "User not found!");
+    }
+    if (loggedInUserToken.role !== thisUserFromDatabase.role) {
+        throw new AppError_1.default(http_status_codes_1.default.FORBIDDEN, "You are not authorized to access this user's profile!");
+    }
+    // Then return this user object
+    return thisUserFromDatabase;
+});
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const getASingleUserService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    // First, we'll get the userId from the request parameters'
+    const userId = (_a = payload === null || payload === void 0 ? void 0 : payload.params) === null || _a === void 0 ? void 0 : _a.userId;
+    // Then find the user from the database
+    const userFromDatabase = yield user_model_1.default.findById(userId)
+        .select('-password')
+        .lean();
+    if (!userFromDatabase) {
+        throw new AppError_1.default(http_status_codes_1.default.NOT_FOUND, "User not found!");
+    }
+    // Then return the user object
+    return userFromDatabase;
+});
 const updateUserService = (userId, payload, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
     /* These are the rules:-------------------------------------------------------------------
     * email can't be updated
@@ -66,6 +104,11 @@ const updateUserService = (userId, payload, decodedToken) => __awaiter(void 0, v
     * the role, isDeleted, isActive and isVerified can only be updated by admin or super admin
     * promoting to admin or super admin can only be done by super admin
     * */
+    if (decodedToken.role === user_interface_1.RoleEnum.USER || decodedToken.role === user_interface_1.RoleEnum.GUIDE) {
+        if (userId !== decodedToken.userId) {
+            throw new AppError_1.default(http_status_codes_1.default.FORBIDDEN, "You are not authorized to update this user!");
+        }
+    }
     if (payload.role) {
         if (decodedToken.role === user_interface_1.RoleEnum.USER || decodedToken.role === user_interface_1.RoleEnum.GUIDE) {
             throw new AppError_1.default(http_status_codes_1.default.FORBIDDEN, "You are not authorized to update the role field!");
@@ -79,10 +122,11 @@ const updateUserService = (userId, payload, decodedToken) => __awaiter(void 0, v
             throw new AppError_1.default(http_status_codes_1.default.FORBIDDEN, "You are not authorized to update these fields!");
         }
     }
+    /* Now we have separate api endpoints for updating password, so we don't need to do anything related to the password here.'
     if (payload.password) {
-        const hashedPassword = yield bcryptjs_1.default.hash(payload.password, Number(envConfig_1.default.bcrypt_salt_rounds));
+        const hashedPassword = await bcrypt.hash(payload.password as string, Number(envConfig.bcrypt_salt_rounds as string));
         payload.password = hashedPassword;
-    }
+    }*/
     const isUserExists = yield user_model_1.default.findById(userId);
     if (!isUserExists) {
         throw new AppError_1.default(http_status_codes_1.default.NOT_FOUND, "User not found!");
@@ -99,5 +143,7 @@ const updateUserService = (userId, payload, decodedToken) => __awaiter(void 0, v
 exports.UserServices = {
     createUserService,
     getAllUsersService,
+    getThisSingleUserService,
+    getASingleUserService,
     updateUserService
 };

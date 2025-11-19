@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Request} from "express";
 import {consolePrint} from "../../utils/consolePrintFunction";
 import {JwtPayload} from "jsonwebtoken";
@@ -163,6 +164,16 @@ const createBookingService = async (payload: Request) => {
         // Then we'll initialize the SSLCommerz payment'
         const sslPaymentInitialized = await SSLCommerzServices.paymentInitiation(sslPaymentInitializationPayload);
 
+        // Then we'll save the booking id into the user profile's bookings array'
+        const userUpdateResult = await UserModel.findOneAndUpdate(
+            { _id: userId },
+            { $push: { bookings: newlyCreatedBooking[0]._id } },
+            { new: true, runValidators: true, session }
+        );
+        if (!userUpdateResult){
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Failed to update user profile's bookings array!");
+        }
+
         // Then we'll commit whatever we have done so far in this transaction roller back session, and will end the session
         await session.commitTransaction();
         await session.endSession();
@@ -203,7 +214,7 @@ const getAllBookingsService = async () => {
 
 
 const getUserBookingsService = async (payload: any) => {
-    consolePrint('getUserBookingsService');
+    consolePrint('getUserBookingsService', payload.body);
     return true;
 }
 
@@ -212,7 +223,7 @@ const getUserBookingsService = async (payload: any) => {
 
 
 const getSingleBookingService = async (payload: any) => {
-    consolePrint('getSingleBookingService');
+    consolePrint('getSingleBookingService', payload.body);
     return true;
 }
 
@@ -221,7 +232,7 @@ const getSingleBookingService = async (payload: any) => {
 
 
 const updateBookingStatusService = async (payload: any) => {
-    consolePrint('updateBookingStatusService');
+    consolePrint('updateBookingStatusService', payload.body);
     return true;
 }
 

@@ -54,7 +54,7 @@ const deleteATourTypeController = (0, catchAsyncFunction_1.default)((req, res, _
     });
 }));
 const createATourController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield tour_service_1.TourService.createATourService(req.body);
+    const result = yield tour_service_1.TourService.createATourService(req);
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.CREATED,
         success: true,

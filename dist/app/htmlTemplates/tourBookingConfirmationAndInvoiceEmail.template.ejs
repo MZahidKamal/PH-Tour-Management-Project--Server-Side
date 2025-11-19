@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" style="margin:0; padding:0;">
+<head>
+    <meta charset="UTF-8" />
+    <title>PH Tour – Booking Confirmation & Invoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        /* Base styles (light default) */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f7;
+        }
+
+        .email-body {
+            background-color: #eef2f7;
+        }
+
+        .card {
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+
+        .muted {
+            color: #6b7280;
+        }
+
+        .divider {
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .brand-gradient {
+            background: radial-gradient(
+                    circle at 0% 0%,
+                    #0ea5e9 0,
+                    #22c55e 40%,
+                    #0f172a 100%
+            );
+        }
+
+        .label-chip {
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+        }
+
+        .pill-badge {
+            background: rgba(15, 23, 42, 0.06);
+            color: #111827;
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            "Liberation Mono", "Courier New", monospace;
+        }
+
+        .amount {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Dark mode overrides */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #020617;
+            }
+
+            .email-body {
+                background-color: #020617 !important;
+            }
+
+            .card {
+                background-color: #020617 !important;
+                color: #e5e7eb !important;
+            }
+
+            .muted {
+                color: #9ca3af !important;
+            }
+
+            .divider {
+                border-top: 1px solid #1f2933 !important;
+            }
+
+            .pill-badge {
+                background: rgba(15, 23, 42, 0.8) !important;
+                color: #e5e7eb !important;
+            }
+
+            .label-chip {
+                border-color: rgba(148, 163, 184, 0.8);
+                color: #e5e7eb;
+            }
+
+            .link-text {
+                color: #38bdf8 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="email-body"
+      style="
+      margin: 0;
+      padding: 0;
+      background-color: #eef2f7;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+        'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    "
+>
+<table
+        width="100%"
+        border="0"
+        cellspacing="0"
+        cellpadding="0"
+        style="padding: 32px 16px;"
+        role="presentation"
+>
+    <tr>
+        <td align="center">
+            <!-- Outer max-width container -->
+            <table
+                    width="100%"
+                    cellpadding="0"
+                    cellspacing="0"
+                    border="0"
+                    style="max-width: 640px; width: 100%;"
+                    role="presentation"
+            >
+                <!-- Brand / top label -->
+                <tr>
+                    <td style="padding-bottom: 16px;" align="center">
+                        <div
+                                style="
+                    font-size: 11px;
+                    letter-spacing: 0.18em;
+                    text-transform: uppercase;
+                    color: #9ca3af;
+                  "
+                        >
+                            PH TOUR BOOKING CONFIRMATION
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Main card -->
+                <tr>
+                    <td>
+                        <table
+                                width="100%"
+                                cellpadding="0"
+                                cellspacing="0"
+                                border="0"
+                                class="card"
+                                style="
+                    border-radius: 20px;
+                    overflow: hidden;
+                    background-color: #ffffff;
+                    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+                  "
+                                role="presentation"
+                        >
+                            <!-- Card top with gradient -->
+                            <tr>
+                                <td
+                                        class="brand-gradient"
+                                        style="
+                        padding: 24px 24px 26px;
+                        color: #f9fafb;
+                      "
+                                >
+                                    <table
+                                            width="100%"
+                                            cellpadding="0"
+                                            cellspacing="0"
+                                            border="0"
+                                            role="presentation"
+                                    >
+                                        <tr>
+                                            <td align="left" style="vertical-align: top;">
+                                                <div
+                                                        style="
+                                font-size: 22px;
+                                font-weight: 700;
+                                letter-spacing: 0.12em;
+                                text-transform: uppercase;
+                              "
+                                                >
+                                                    PH TOUR
+                                                </div>
+                                                <div
+                                                        style="
+                                margin-top: 6px;
+                                font-size: 12px;
+                                opacity: 0.9;
+                                letter-spacing: 0.12em;
+                                text-transform: uppercase;
+                              "
+                                                >
+                                                    Discover • Explore • Enjoy
+                                                </div>
+                                            </td>
+                                            <td align="right" style="vertical-align: top;">
+                                                <div
+                                                        style="
+                                display: inline-block;
+                                padding: 6px 12px;
+                                border-radius: 999px;
+                                font-size: 11px;
+                                text-transform: uppercase;
+                                letter-spacing: 0.14em;
+                                background: rgba(15, 23, 42, 0.22);
+                                color: #e5e7eb;
+                              "
+                                                >
+                                                    Booking Confirmed
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 18px;">
+                                                <div
+                                                        style="
+                                font-size: 18px;
+                                font-weight: 600;
+                                margin-bottom: 4px;
+                              "
+                                                >
+                                                    Hi <span><%= customerName %></span>,
+                                                </div>
+                                                <div
+                                                        style="
+                                font-size: 13px;
+                                max-width: 420px;
+                                line-height: 1.6;
+                                opacity: 0.92;
+                              "
+                                                >
+                                                    Thank you for choosing <strong>PH Tour</strong>! Your booking and payment
+                                                    for
+                                                    <strong><%= tourTitle %></strong>
+                                                    have been successfully completed. Below is a summary of your booking,
+                                                    and your detailed invoice is attached to this email as a PDF.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <!-- Booking summary -->
+                            <tr>
+                                <td
+                                        style="
+                        padding: 20px 24px 8px;
+                        font-size: 14px;
+                        line-height: 1.7;
+                        color: #0f172a;
+                      "
+                                >
+                                    <p style="margin: 0 0 10px;">
+                                        Here’s a quick overview of your booking:
+                                    </p>
+
+                                    <table
+                                            width="100%"
+                                            cellpadding="0"
+                                            cellspacing="0"
+                                            border="0"
+                                            role="presentation"
+                                            style="
+                          border-radius: 16px;
+                          border: 1px solid rgba(148, 163, 184, 0.6);
+                          background: rgba(248, 250, 252, 0.7);
+                          padding: 14px 14px;
+                        "
+                                    >
+                                        <tr>
+                                            <td
+                                                    style="
+                              padding: 6px 8px;
+                              vertical-align: top;
+                              width: 50%;
+                            "
+                                            >
+                                                <div class="label-chip mono" style="margin-bottom: 4px;">
+                                                    TRANSACTION ID
+                                                </div>
+                                                <div class="mono" style="font-size: 12px;">
+                                                    <%= transactionId %>
+                                                </div>
+                                            </td>
+                                            <td
+                                                    style="
+                              padding: 6px 8px;
+                              vertical-align: top;
+                              width: 50%;
+                            "
+                                            >
+                                                <div class="label-chip mono" style="margin-bottom: 4px;">
+                                                    BOOKING DATE
+                                                </div>
+                                                <div class="mono" style="font-size: 12px;">
+                                                    <%= bookingDate %>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td
+                                                    style="
+                              padding: 6px 8px;
+                              vertical-align: top;
+                              width: 50%;
+                            "
+                                            >
+                                                <div class="label-chip mono" style="margin-bottom: 4px;">
+                                                    TOUR
+                                                </div>
+                                                <div style="font-size: 13px; font-weight: 500;">
+                                                    <%= tourTitle %>
+                                                </div>
+                                            </td>
+                                            <td
+                                                    style="
+                              padding: 6px 8px;
+                              vertical-align: top;
+                              width: 50%;
+                            "
+                                            >
+                                                <div class="label-chip mono" style="margin-bottom: 4px;">
+                                                    GUESTS
+                                                </div>
+                                                <div class="mono" style="font-size: 13px;">
+                                                    <%= guestsCount %> guest(s)
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td
+                                                    style="
+                              padding: 10px 8px 4px;
+                              vertical-align: top;
+                            "
+                                                    colspan="2"
+                                            >
+                                                <div class="label-chip mono" style="margin-bottom: 4px;">
+                                                    TOTAL AMOUNT PAID
+                                                </div>
+                                                <div class="amount mono">
+                                                    <%= totalAmount %>
+                                                </div>
+                                                <div class="muted" style="font-size: 11px; margin-top: 2px;">
+                                                    (See attached invoice for a complete price breakdown.)
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p class="muted" style="margin: 14px 0 10px; font-size: 13px;">
+                                        Your official invoice (PDF) is attached to this email. You can download or save it
+                                        for your records and for any future reference.
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <!-- Helpful info -->
+                            <tr>
+                                <td
+                                        style="
+                        padding: 0 24px 20px;
+                        font-size: 12px;
+                        line-height: 1.7;
+                      "
+                                >
+                                    <div
+                                            class="pill-badge"
+                                            style="
+                          display: inline-block;
+                          padding: 4px 10px;
+                          border-radius: 999px;
+                          font-size: 11px;
+                          text-transform: uppercase;
+                          letter-spacing: 0.14em;
+                        "
+                                    >
+                                        Before you travel
+                                    </div>
+
+                                    <p class="muted" style="margin: 8px 0 8px; font-size: 12px;">
+                                        You may be asked to show your booking confirmation or invoice at check-in
+                                        or during the tour. We recommend keeping this email and the attached invoice
+                                        accessible on your phone or printed out.
+                                    </p>
+
+                                    <p class="muted" style="margin: 0 0 6px; font-size: 12px;">
+                                        If you need any changes to your booking or have special requirements, please
+                                        contact our support team with your transaction ID:
+                                        <span class="mono"><%= transactionId %></span>.
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <!-- Divider -->
+                            <tr>
+                                <td style="padding: 0 24px;">
+                                    <hr
+                                            class="divider"
+                                            style="
+                          border: none;
+                          border-top: 1px solid #e5e7eb;
+                          margin: 0 0 12px;
+                        "
+                                    />
+                                </td>
+                            </tr>
+
+                            <!-- Footer -->
+                            <tr>
+                                <td
+                                        style="
+                        padding: 0 24px 22px;
+                        font-size: 11px;
+                        line-height: 1.7;
+                      "
+                                >
+                                    <p class="muted" style="margin: 0 0 6px;">
+                                        You’re receiving this email because a booking was made on PH Tour
+                                        using your account and payment was successfully processed.
+                                    </p>
+                                    <p class="muted" style="margin: 0 0 8px;">
+                                        If you believe this booking was made in error, please contact our support
+                                        team immediately with your transaction ID so we can review it together.
+                                    </p>
+                                    <p class="muted" style="margin: 6px 0 0;">
+                                        &copy; <%= new Date().getFullYear() %> PH Tour. All
+                                        rights reserved.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Tiny footer -->
+                <tr>
+                    <td align="center" style="padding-top: 16px;">
+                        <p
+                                style="
+                    margin: 0;
+                    font-size: 11px;
+                    color: #9ca3af;
+                    line-height: 1.6;
+                  "
+                        >
+                            Sent by PH Tour – wishing you an unforgettable journey ahead.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

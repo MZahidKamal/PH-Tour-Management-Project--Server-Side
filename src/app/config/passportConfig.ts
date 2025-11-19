@@ -2,14 +2,11 @@ import passport from 'passport';
 import {Profile, Strategy as GoogleStrategy, VerifyCallback} from 'passport-google-oauth20';
 import envConfig from "./envConfig";
 import UserModel from "../modules/user/user.model";
-import {RoleEnum, UserInterface} from "../modules/user/user.interface";
+import {IsActiveEnum, RoleEnum, UserInterface} from "../modules/user/user.interface";
 import {Types} from "mongoose";
 import {Strategy as CredentialsStrategy} from "passport-local";
 import bcrypt from "bcryptjs";
 import {consolePrint} from "../utils/consolePrintFunction";
-
-
-
 
 
 passport.use(new CredentialsStrategy({
@@ -24,6 +21,19 @@ passport.use(new CredentialsStrategy({
             if (!userFromDatabase) {
                 // If the user is not found in the database, then return null and redirect to sign up
                 return doneFunction(null, false, {message: 'User not found! Please sign up.'});
+            }
+
+            if (userFromDatabase.isDeleted) {
+                // If the user is deleted, then return null and redirect to sign up
+                return doneFunction(null, false, {message: 'User is deleted! Please sign up.'});
+            }
+            if(userFromDatabase.isActive === IsActiveEnum.INACTIVE || userFromDatabase.isActive === IsActiveEnum.BLOCKED){
+                // If the user is inactive or blocked, then return null and redirect to sign up
+                return doneFunction(null, false, {message: 'User is inactive or blocked! Contact support.'});
+            }
+            if (!userFromDatabase.isVerified) {
+                // If the user is not verified, then return null and redirect to sign up
+                return doneFunction(null, false, {message: 'User is not verified! Please verify your email.'});
             }
 
             // The user is found in the database, so check if the user is authenticated by credentials or not

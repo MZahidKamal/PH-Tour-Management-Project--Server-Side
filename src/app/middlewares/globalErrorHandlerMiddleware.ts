@@ -7,17 +7,31 @@ import {mongooseDuplicateErrorHandlerFunction} from "../errorHelpers/mongooseDup
 import {mongooseCastErrorHandlerFunction} from "../errorHelpers/mongooseCastErrorHandlerFunction";
 import {mongooseValidationErrorHandlerFunction} from "../errorHelpers/mongooseValidationErrorHandlerFunction";
 import {consolePrint} from "../utils/consolePrintFunction";
+import {deleteAnImageFromCloudinary} from "../config/cloudinary.config";
 
 
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const globalErrorHandlerMiddleware = (error: any, req: Request, res: Response, _next: NextFunction) => {
+const globalErrorHandlerMiddleware = async (error: any, req: Request, res: Response, _next: NextFunction) => {
 
     consolePrint('Researching Error: ', error)
 
     let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
     let message = `Something went wrong!`;
+
+    // If any problem happens while uploading image/images into cloudinary, then we will get error in req
+    // And therefore, if the req.file or req.files consists any image url from cloudinary, then delete it
+    if (req.file) {
+        await deleteAnImageFromCloudinary(req.file.path);
+    }
+    if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+        await Promise.all(
+            req.files.map((file: Express.Multer.File) =>
+                deleteAnImageFromCloudinary(file.path)
+            )
+        );
+    }
 
     // Zod validation error from Zod handled properly
     if(error?.name === 'ZodError'){

@@ -18,7 +18,14 @@ const sendResponseFunction_1 = __importDefault(require("../../utils/sendResponse
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const division_service_1 = require("./division.service");
 const createADivisionController = (0, catchAsyncFunction_1.default)((req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield division_service_1.DivisionServices.createADivisionService(req.body);
+    // const result = await DivisionServices.createADivisionService(req.body);
+    // Before using multer+multer-storage-cloudinary, we had to use req.body to get the division object.
+    // Now because we are using multer+multer-storage-cloudinary, we can use req.body.data to get the division object.
+    // And req.file to get the image file object.
+    // Therefore...
+    const result = yield division_service_1.DivisionServices.createADivisionService(req);
+    // consolePrint(req.body.data)
+    // consolePrint(req.file)
     (0, sendResponseFunction_1.default)(res, {
         statusCode: http_status_codes_1.default.CREATED,
         success: true,
