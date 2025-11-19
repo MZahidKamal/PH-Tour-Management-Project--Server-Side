@@ -228,7 +228,7 @@ git commit -m "Backend part-1 completed"
 tarpor 'backend-part-1' e add kora code ar commit, repository te push korbo.
 git push
 tarpor eita run korar jonno github nijei suggest korbe, tokhon eita run korte hobe.
-git push --set-upstream origin backend-part-6
+git push --set-upstream origin backend-part-1
 
 eibar repository te giye dekhbo je, notun branch create hoye, code ar commit soho chole ashche.
 tarpor 'Pull Request' tar e giye eivabe [development <-- backend-part-1] ekta pull request create korbo.
