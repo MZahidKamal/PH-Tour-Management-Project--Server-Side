@@ -23,6 +23,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 }));
 app.use(express.json());
+app.set('trust proxy', 1);
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 

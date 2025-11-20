@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import envConfig from "../config/envConfig";
 
 
 
@@ -21,7 +22,8 @@ export const storeJwtAccessAndRefreshTokensInCookie = (res: Response, authTokens
         const accessToken = authTokens.accessToken as string;
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            secure: false,
+            secure: envConfig.node_environment === 'production',
+            sameSite: 'none',
         });
     }
 
@@ -31,7 +33,8 @@ export const storeJwtAccessAndRefreshTokensInCookie = (res: Response, authTokens
         const refreshToken = authTokens.refreshToken as string;
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: envConfig.node_environment === 'production',
+            sameSite: 'none',
         });
     }
 };

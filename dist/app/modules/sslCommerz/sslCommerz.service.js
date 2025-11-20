@@ -108,13 +108,18 @@ const paymentInitiation = (payload) => __awaiter(void 0, void 0, void 0, functio
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const paymentVerification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        (0, consolePrintFunction_1.consolePrint)(payload);
+        // This is the response from SSLCOMMERZ after a successful payment.
+        // There is a sample response given below for reference.
         const response = yield (0, axios_1.default)({
             method: 'GET',
             url: `${envConfig_1.default.sslcommerz_payment_validation_webservice_api}?val_id=${payload.val_id}&store_id=${envConfig_1.default.sslcommerz_store_id}&store_passwd=${envConfig_1.default.sslcommerz_store_password}`,
         });
         (0, consolePrintFunction_1.consolePrint)(response.data);
-        yield payment_model_1.PaymentModel.updateOne({ transactionId: payload.transactionId }, { paymentGatewayData: response.data }, {
-            runValidators: true,
+        // This is the response from SSLCOMMERZ after verifying the payment.
+        // There is a sample response given below for reference.
+        yield payment_model_1.PaymentModel.updateOne({ transactionId: payload.tran_id }, { $set: { paymentGatewayData: response.data } }, {
+            // runValidators: true,
             new: true
         });
     }
@@ -128,6 +133,89 @@ exports.SSLCommerzServices = {
     paymentInitiation,
     paymentVerification
 };
+/*
+===== The response from SSLCOMMERZ after a successful payment =====
+
+2025-11-20 02:46:48.499 [info] {
+  amount: '13600.00',
+  bank_tran_id: '25112084647Z8KDfxAO0C2zvDa',
+  base_fair: '0.00',
+  card_brand: 'VISA',
+  card_issuer: 'EASTERN BANK, LTD.',
+  card_issuer_country: 'Bangladesh',
+  card_issuer_country_code: 'BD',
+  card_no: '434977******9753',
+  card_type: 'VISA-Dutch Bangla',
+  currency: 'BDT',
+  currency_amount: '13600.00',
+  currency_rate: '1.0000',
+  currency_type: 'BDT',
+  risk_level: '0',
+  risk_title: 'Safe',
+  status: 'VALID',
+  store_amount: '13260.00',
+  store_id: 'phtou68b942aa7aef0',
+  tran_date: '2025-11-20 08:46:01',
+  tran_id: 'tran_1763606759349_718',
+  val_id: '251120846470lv6H4IZKzXLeM3',
+  value_a: 'N/A',
+  value_b: 'N/A',
+  value_c: 'N/A',
+  value_d: 'N/A',
+  verify_sign: '6ddbcb3aac6d5c2f4fe11556509861dd',
+  verify_sign_sha2: '309bdb58e2d9c2f895ad5fc8862c06c2ee125ad727c34cb9987b1c1aac13d5cb',
+  verify_key: 'amount,bank_tran_id,base_fair,card_brand,card_issuer,card_issuer_country,card_issuer_country_code,card_no,card_type,currency,currency_amount,currency_rate,currency_type,risk_level,risk_title,status,store_amount,store_id,tran_date,tran_id,val_id,value_a,value_b,value_c,value_d'
+}
+
+
+
+
+===== The response from SSLCOMMERZ after verifying the payment =====
+
+2025-11-20 02:46:50.016 [info] {
+  status: 'VALID',
+  tran_date: '2025-11-20 08:46:01',
+  tran_id: 'tran_1763606759349_718',
+  val_id: '251120846470lv6H4IZKzXLeM3',
+  amount: '13600.00',
+  store_amount: '13260',
+  currency: 'BDT',
+  bank_tran_id: '25112084647Z8KDfxAO0C2zvDa',
+  card_type: 'VISA-Dutch Bangla',
+  card_no: '434977******9753',
+  card_issuer: 'EASTERN BANK, LTD.',
+  card_brand: 'VISA',
+  card_category: 'CREDIT',
+  card_sub_brand: '',
+  card_issuer_country: 'Bangladesh',
+  card_issuer_country_code: 'BD',
+  currency_type: 'BDT',
+  currency_amount: '13600.00',
+  currency_rate: '1.0000',
+  base_fair: '0.00',
+  value_a: 'N/A',
+  value_b: 'N/A',
+  value_c: 'N/A',
+  value_d: 'N/A',
+  emi_instalment: '0',
+  emi_amount: '0.00',
+  emi_description: '',
+  emi_issuer: 'EASTERN BANK, LTD.',
+  account_details: '',
+  risk_title: 'Safe',
+  risk_level: '0',
+  discount_percentage: '0',
+  discount_amount: '0.00',
+  discount_remarks: '',
+  APIConnect: 'DONE',
+  validated_on: '2025-11-20 08:46:49',
+  gw_version: '',
+  offer_avail: 1,
+  card_ref_id: 'dc1da4f52669828139e81ef5eb0f48a5a99ea054a131e00a562887d455417dd908',
+  isTokeizeSuccess: 0,
+  campaign_code: ''
+}
+*/
 /*
 Payment workflow with SSLCOMMERZ.
 

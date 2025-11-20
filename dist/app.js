@@ -22,6 +22,7 @@ app.use((0, cors_1.default)({
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 }));
 app.use(express_1.default.json());
+app.set('trust proxy', 1);
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 // Passport Middlewares (***the order is important)
